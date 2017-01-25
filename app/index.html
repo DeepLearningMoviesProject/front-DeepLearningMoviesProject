@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Movies Deep Learning App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="frontMoviesDeepLearningApp" layout="row" ng-controller="PrimaryCtrl">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <!-- SideNav -->
+    <md-sidenav id="navigation_drawer" layout="column" class="md-sidenav-left md-whiteframe-z2 md-navigation-drawer" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-cloak>
+
+      <!-- Sidenav toolbar -->
+      <md-toolbar class="md-hue-2 md-tall">
+        <span flex></span>
+        <div layout="row" layout-align="start center">
+          <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
+          <span flex></span>
+        </div>
+        <span flex></span>
+        <div class="md-body-2">Edwin NIOGRET</div>
+        <div class="md-body-1">edwin@gmail.com</div>
+      </md-toolbar>
+      <md-list class="slideLeftToRight">
+        <md-list-item ng-repeat="item in menu" role="link" md-ink-ripple ng-click="showLoadingBar(); go(item.link); toggleSidenav('left')">
+          <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
+          <p>{{item.title}}</p>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-subheader class="md-no-sticky">Management</md-subheader>
+        <md-list-item ng-repeat="item in admin" role="link" md-ink-ripple>
+          <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
+          <p class="md-body-2">{{item.title}}</p>
+        </md-list-item>
+        <md-list-item role="link" md-ink-ripple ng-click=" toggleSidenav('left'); logOut()">
+          <md-icon md-svg-icon="action:ic_exit_to_app_24px" aria-label="Déconnexion"></md-icon>
+          <p class="md-body-2">Déconnexion</p>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+
+    <!-- Main Layout -->
+    <div layout="row" class="relative" layout-fill role="main">
+      <md-progress-linear class="loadingBar md-warn" md-mode="indeterminate" ng-show="loadingBar"></md-progress-linear>
+
+      <div layout="row" layout-fill ng-view></div>
+
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/primary.js"></script>
+        <script src="scripts/controllers/improveaccuracy.js"></script>
+        <script src="scripts/services/tmdbfactories.js"></script>
+        <script src="scripts/services/webservices.js"></script>
+        <script src="scripts/services/environments.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

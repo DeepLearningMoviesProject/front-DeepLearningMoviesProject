@@ -1,0 +1,11 @@
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+.editorconfig
+.sublime-project.sublime-workspace
+.sublime-project
+.tern-project
+.tern-port
+/app/material-design-icons
