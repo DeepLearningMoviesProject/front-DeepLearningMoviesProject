@@ -10,6 +10,8 @@
 angular.module('frontMoviesDeepLearningApp')
   .controller('ImproveaccuracyCtrl', ['$scope', 'SearchMoviesFactory', function ($scope, SearchMoviesFactory) {
 
+    $scope.moviesEvaluation = new Map();
+
     /**
      * Search a movie by its name
      */
@@ -25,4 +27,14 @@ angular.module('frontMoviesDeepLearningApp')
         });
       });
     };
+
+    $scope.evaluateMovies = function(movieId, note){
+      if ($scope.moviesEvaluation.get(movieId) == note) {
+        $scope.moviesEvaluation.delete(movieId);
+      } else {
+        $scope.moviesEvaluation.set(movieId,note);
+      }
+      console.log($scope.moviesEvaluation);
+    };
+
   }]);

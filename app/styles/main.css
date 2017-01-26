@@ -59,6 +59,11 @@ body {
   margin-top: 28px;
 }
 
+.searchMoviesPosterPath {
+  width: 75px;
+  margin: 10px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

@@ -28,26 +28,39 @@
     <md-card>
       <h1>Améliorer mes prédictions</h1>
       <p>Ameliorez vos prédictions notant d'autre films !</p>
+    
+
+      <form ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
+        <md-input-container layout-fill class="md-icon-float md-block">
+          <!-- Use floating label instead of placeholder -->
+          <label>Rechercher un film</label>
+          <md-icon md-svg-icon="action:ic_search_24px"></md-icon>
+          <input ng-model="nameSearchMovie" type="text">
+        </md-input-container>
+        <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
+      </form>
     </md-card>
-
-    <md-input-container class="md-icon-float md-block">
-      <!-- Use floating label instead of placeholder -->
-      <label>Rechercher un film</label>
-      <md-icon md-svg-icon="action:ic_search_24px"></md-icon>
-      <input ng-model="nameSearchMovie" type="text">
-    </md-input-container>
-
-    <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button>
 
     <md-card ng-show="moviesSearched">
     	<!-- <img class="md-card-image" src="card-image.png" alt="image caption"> -->
     	<md-list>
 				<md-list-item class="md-2-line" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
-					<md-icon class="taskNotOk" md-svg-icon="alert:ic_error_24px" aria-label="task not ok icon"></md-icon>
+					<!-- <md-icon class="taskNotOk" md-svg-icon="alert:ic_error_24px" aria-label="task not ok icon"></md-icon> -->
+          <img class="searchMoviesPosterPath" ng-if="movieSearched.poster_path" ng-src="https://image.tmdb.org/t/p/w92/{{movieSearched.poster_path}}"/>
+          <img class="searchMoviesPosterPath" ng-if="!movieSearched.poster_path" ng-src="http://school4schools.com/blog/wp-content/plugins/lightbox/images/No-image-found.jpg"/>
 					<div class="md-list-item-text compact">
 						<h3>{{movieSearched.title}}</h3>
-						<p>{{movieSearched.overview}}</p>
+						<p>{{movieSearched.vote_average}}/10</p>
 					</div>
+          <div layout="column">
+            <md-button ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id) === 1 ? 'md-primary' : ''">
+              <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+            </md-button>
+            <span flex="grow"></span>
+            <md-button ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id) === 0 ? 'md-primary' : ''">
+              <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+            </md-button>
+          </div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
     	</md-list>
