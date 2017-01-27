@@ -39,6 +39,15 @@
         </md-input-container>
         <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
       </form>
+
+      <md-input-container>
+        <label>Uploader vos films déja annotés</label>
+        <input type="file" id="preferences">
+      </md-input-container>
+      <md-button ng-click="uploadFiles()" class="md-raised" aria-label="description" md-ripple-size="auto">Importez vos préférences</md-button>
+
+      <md-button ng-click="saveToPc(moviesEvaluation, 'moviesEvaluated.json')" class="md-raised" aria-label="description" md-ripple-size="auto">Enregistrer le fichier</md-button>
+      <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">Afficher des films aléatoires</md-button>
     </md-card>
 
     <md-card ng-show="moviesSearched">
@@ -53,11 +62,11 @@
 						<p>{{movieSearched.vote_average}}/10</p>
 					</div>
           <div layout="column">
-            <md-button ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id) === 1 ? 'md-primary' : ''">
+            <md-button ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 1 ? 'md-primary' : ''">
               <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
             </md-button>
             <span flex="grow"></span>
-            <md-button ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id) === 0 ? 'md-primary' : ''">
+            <md-button ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 0 ? 'md-primary' : ''">
               <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
             </md-button>
           </div>

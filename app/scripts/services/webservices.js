@@ -26,6 +26,9 @@ angular.module('frontMoviesDeepLearningApp')
           keywords:'/search/keyword',
           multi:'/search/multi'
         },
+        discover: {
+          movies:'/discover/movie'
+        },
         levelTechnos: {
           add:'/levelTechnos'
         },
