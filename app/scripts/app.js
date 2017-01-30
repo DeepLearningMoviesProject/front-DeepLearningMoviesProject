@@ -36,6 +36,11 @@ angular
         controller: 'ImproveaccuracyCtrl',
         controllerAs: 'improveAccuracy'
       })
+      .when('/annotatedMovies', {
+        templateUrl: 'views/annotatedmovies.html',
+        controller: 'AnnotatedmoviesCtrl',
+        controllerAs: 'annotatedMovies'
+      })
       .otherwise({
         redirectTo: '/'
       });

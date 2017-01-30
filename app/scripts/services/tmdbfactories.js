@@ -34,4 +34,18 @@ angular.module('frontMoviesDeepLearningApp')
         // ,isArray: true
       }
     });
+  }])
+
+  .factory('MoviesDetailsFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.movies.getDetails, //urls
+      {id:'@id'},                    //params
+      { getMoviesDetailsById : {                    //actions
+        method: 'JSONP',
+        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", language:"fr-FR"},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
   }]);

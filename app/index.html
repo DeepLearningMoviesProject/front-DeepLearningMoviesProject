@@ -36,7 +36,7 @@
         <div class="md-body-1">edwin@gmail.com</div>
       </md-toolbar>
       <md-list class="slideLeftToRight">
-        <md-list-item ng-repeat="item in menu" role="link" md-ink-ripple ng-click="showLoadingBar(); go(item.link); toggleSidenav('left')">
+        <md-list-item ng-repeat="item in menu" role="link" md-ink-ripple ng-click="go(item.link); toggleSidenav('left')">
           <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
           <p>{{item.title}}</p>
         </md-list-item>
@@ -84,6 +84,7 @@
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -96,6 +97,7 @@
         <script src="scripts/services/tmdbfactories.js"></script>
         <script src="scripts/services/webservices.js"></script>
         <script src="scripts/services/environments.js"></script>
+        <script src="scripts/controllers/annotatedmovies.js"></script>
         <!-- endbuild -->
 </body>
 </html>

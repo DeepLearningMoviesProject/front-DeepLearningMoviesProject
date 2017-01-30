@@ -8,9 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('ImproveaccuracyCtrl', ['$scope', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($scope, SearchMoviesFactory, DiscoverMoviesFactory) {
-
-    $scope.moviesEvaluation = new Map();
+  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, SearchMoviesFactory, DiscoverMoviesFactory) {
 
     /**
      * Search a movie by its name
@@ -44,12 +42,12 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
     $scope.evaluateMovies = function(movieId, note){
-      if ($scope.moviesEvaluation.get(movieId.toString()) === note) {
-        $scope.moviesEvaluation.delete(movieId.toString());
+      if ($rootScope.moviesEvaluation.get(movieId.toString()) === note) {
+        $rootScope.moviesEvaluation.delete(movieId.toString());
       } else {
-        $scope.moviesEvaluation.set(movieId.toString(),note);
+        $rootScope.moviesEvaluation.set(movieId.toString(),note);
       }
-      console.log($scope.moviesEvaluation);
+      console.log($rootScope.moviesEvaluation);
     };
 
 
@@ -93,7 +91,8 @@ angular.module('frontMoviesDeepLearningApp')
       
       fr.onload = function(e) { 
         var result = JSON.parse(e.target.result);
-        $scope.moviesEvaluation = objToStrMap(result);
+        $rootScope.moviesEvaluation = objToStrMap(result);
+        console.log($rootScope.moviesEvaluation);
       };
       
       fr.readAsText(files.item(0));
