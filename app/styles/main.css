@@ -65,6 +65,36 @@ body {
   margin: 10px;
 }
 
+.searchMoviesBackdropPath {
+  max-height: 254px;
+}
+
+.searchedMoviesCard {
+  width: 450px;
+  min-width: 450px;
+  max-width: 450px;
+}
+
+.searchedMoviesCardContainer {
+  /*justify-content: space-around;*/
+  align-content: center;
+  margin: 0 auto;
+  /*margin-top: 50px;
+  margin-bottom: 50px;*/
+}
+
+.headline {
+  font-size: 1.1em;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subline {
+  font-size: 0.9em;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

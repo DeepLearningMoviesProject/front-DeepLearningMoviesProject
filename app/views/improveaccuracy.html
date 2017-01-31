@@ -26,8 +26,8 @@
   <md-content layout-padding>
 
     <md-card>
-      <h1>Améliorer mes prédictions</h1>
-      <p>Ameliorez vos prédictions notant d'autre films !</p>
+      <!-- <h1>Améliorer mes prédictions</h1>
+      <p>Ameliorez vos prédictions notant d'autre films !</p> -->
     
 
       <form ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
@@ -40,15 +40,33 @@
         <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
       </form>
 
-      <md-input-container>
-        <label>Uploader vos films déja annotés</label>
-        <input type="file" id="preferences">
-      </md-input-container>
-      <md-button ng-click="uploadFiles()" class="md-raised" aria-label="description" md-ripple-size="auto">Importez vos préférences</md-button>
-
-      <md-button ng-click="saveToPc(moviesEvaluation, 'moviesEvaluated.json')" class="md-raised" aria-label="description" md-ripple-size="auto">Enregistrer le fichier</md-button>
       <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">Afficher des films aléatoires</md-button>
     </md-card>
+
+
+
+
+    <div class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center">
+      <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
+        <img class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
+        <img class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+        <md-card-actions layout="row" layout-align="start center">
+          <div layout="column" flex="70">
+            <span class="headline">{{movieSearched.title}}</span>
+            <span class="subline">{{movieSearched.vote_average}} <span style="font-size: 16px">★</span></span>
+          </div>
+          <span flex></span>
+          <md-button flex="none" ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 1 ? 'md-primary' : ''">
+            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+          </md-button>
+          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 0 ? 'md-primary' : ''">
+            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+
+
 
     <md-card ng-show="moviesSearched">
     	<!-- <img class="md-card-image" src="card-image.png" alt="image caption"> -->
