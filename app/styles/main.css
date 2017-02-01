@@ -95,6 +95,33 @@ body {
   font-size: 0.9em;
 }
 
+.loadingBar {
+  position: fixed;
+  z-index: 10;
+}
+
+/*searchMovieCard > md-input-container, input, md-input-container:not(.md-input-invalid).md-input-focused .md-input, .md-input-focused, .md-input, md-input-container:not(.md-input-has-value) input:not(:focus) {
+    border: none;
+}
+
+searchMovieCard > md-input-container textarea, md-input-container input[type="text"], md-input-container input[type="password"], md-input-container input[type="datetime"], md-input-container input[type="datetime-local"], md-input-container input[type="date"], md-input-container input[type="month"], md-input-container input[type="time"], md-input-container input[type="week"], md-input-container input[type="number"], md-input-container input[type="email"], md-input-container input[type="url"], md-input-container input[type="search"], md-input-container input[type="tel"], md-input-container input[type="color"] {
+  border: none;
+}*/
+
+/*#searchMovieCard {
+  border : none !important;
+}*/
+
+/*
+md-input-container:not(.md-input-has-value) input:not(:focus) {
+  border: none;
+}*/
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

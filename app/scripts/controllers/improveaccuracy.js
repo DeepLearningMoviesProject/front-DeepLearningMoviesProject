@@ -8,12 +8,15 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, SearchMoviesFactory, DiscoverMoviesFactory) {
+  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, $timeout, SearchMoviesFactory, DiscoverMoviesFactory) {
+
+    $scope.showLoadingBar();
 
     /**
      * Search a movie by its name
      */
     $scope.searchMovieByName = function(name) {
+      $scope.showLoadingBar();
       SearchMoviesFactory.getMoviesByName({query: name}, function (movies){
         movies.$promise.then(function(movies) {
           $scope.moviesSearched = movies;
@@ -27,6 +30,7 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
     $scope.discoverMovies = function() {
+      $scope.showLoadingBar();
       //Pick a random page between the first and the 1000th
       var page = Math.floor(Math.random() * 1000) + 1;
       DiscoverMoviesFactory.getDiscoveredMoviesByName({page: page}, function (movies){
@@ -49,5 +53,22 @@ angular.module('frontMoviesDeepLearningApp')
       }
       console.log($rootScope.moviesEvaluation);
     };
+
+
+    $scope.discoverMovies();
+
+
+    $scope.$on('SUCCESS', function() {
+      console.log('ALL PICTURES LOADED SUCCESSFULLY');
+    });
+
+    $scope.$on('FAIL', function() {
+      console.log('ALL PICTURES LOADED WITH ATLEAST ONE FAILED');
+    });
+
+    $scope.$on('ALWAYS', function() {
+      $scope.hideLoadingBar();
+      // console.log('ALL DONE ALWAYS');        
+    });
 
   }]);

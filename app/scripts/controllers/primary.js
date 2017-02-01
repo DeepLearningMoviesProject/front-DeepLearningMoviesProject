@@ -12,6 +12,21 @@ angular.module('frontMoviesDeepLearningApp')
 
     $rootScope.moviesEvaluation = new Map();
 
+    $scope.loadingBar = false;
+
+    //loading bar display functions
+    $scope.loadingBarToggle = function() {
+      $scope.loadingBar = !$scope.loadingBar;
+    };
+
+    $scope.hideLoadingBar = function() {
+      $scope.loadingBar = false;
+    };
+
+    $scope.showLoadingBar = function() {
+      $scope.loadingBar = true;
+    };
+
      // Menu items
     $scope.menu = [
       {

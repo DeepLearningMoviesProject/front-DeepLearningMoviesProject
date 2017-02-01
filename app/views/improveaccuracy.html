@@ -23,30 +23,35 @@
 
 
   <!-- Content -->
-  <md-content layout-padding>
+  <md-content layout-padding ng-cloak>
 
-    <md-card>
-      <!-- <h1>Améliorer mes prédictions</h1>
-      <p>Ameliorez vos prédictions notant d'autre films !</p> -->
+    <div layout="row"> 
+      <span flex></span>   
+      <!-- <md-card id="searchMovieCard" flex="50" layout="row">
+      </md-card> -->
+        <form flex="50" ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
+          <md-input-container layout-fill class="md-icon-float md-block">
+            <!-- Use floating label instead of placeholder -->
+            <label>&nbsp;</label>
+            <md-icon md-svg-icon="action:ic_search_24px" aria-label="movie search"></md-icon>
+            <input style="font-size:22px; margin-bottom: -15px; margin-top: 5px" ng-model="nameSearchMovie" type="search" placeholder="Rechercher un film">
+          </md-input-container>
+          <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
+        </form>
+        <md-button flex="none" ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
+          <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
+        </md-button>
+      <span flex></span>
+    </div>
+    <!-- <md-card>
+      <h1>Améliorer mes prédictions</h1>
+      <p>Ameliorez vos prédictions notant d'autre films !</p>
     
 
-      <form ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
-        <md-input-container layout-fill class="md-icon-float md-block">
-          <!-- Use floating label instead of placeholder -->
-          <label>Rechercher un film</label>
-          <md-icon md-svg-icon="action:ic_search_24px"></md-icon>
-          <input ng-model="nameSearchMovie" type="text">
-        </md-input-container>
-        <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
-      </form>
 
-      <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">Afficher des films aléatoires</md-button>
-    </md-card>
+    </md-card> -->
 
-
-
-
-    <div class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center">
+    <div ng-show="!loadingBar" class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
       <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
         <img class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
         <img class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
@@ -68,7 +73,7 @@
 
 
 
-    <md-card ng-show="moviesSearched">
+    <md-card ng-show="moviesSearched && false">
     	<!-- <img class="md-card-image" src="card-image.png" alt="image caption"> -->
     	<md-list>
 				<md-list-item class="md-2-line" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
