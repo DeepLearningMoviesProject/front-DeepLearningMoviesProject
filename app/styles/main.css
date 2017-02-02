@@ -100,6 +100,10 @@ body {
   z-index: 10;
 }
 
+cl-paging div {
+  margin: 10px;
+}
+
 /*searchMovieCard > md-input-container, input, md-input-container:not(.md-input-invalid).md-input-focused .md-input, .md-input-focused, .md-input, md-input-container:not(.md-input-has-value) input:not(:focus) {
     border: none;
 }

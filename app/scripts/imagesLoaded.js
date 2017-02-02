@@ -88,7 +88,7 @@
 					if(_this.imagesLoaded + _this.imagesFailed === _this.imagesCount) {
 						digestPromise(function() {
 							defer.notify(broadcastMessages.progress[3]);
-							defer.resolve((_this.imagesFailed > 0) ? broadcastMessages.complete : broadcastMessages.success);
+							defer.resolve((_this.imagesFailed > 0) ? broadcastMessages.complete : broadcastMessages.successful);
 						});
 					}
 

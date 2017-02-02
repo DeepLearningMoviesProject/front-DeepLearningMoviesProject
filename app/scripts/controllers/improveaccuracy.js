@@ -68,7 +68,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.$on('ALWAYS', function() {
       $scope.hideLoadingBar();
-      // console.log('ALL DONE ALWAYS');        
+      console.log('ALL DONE ALWAYS');        
     });
 
   }]);

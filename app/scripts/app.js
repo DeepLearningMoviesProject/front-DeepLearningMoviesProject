@@ -17,7 +17,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngMaterial',
-    'imagesLoaded'
+    'imagesLoaded',
+    'cl.paging'
   ])
 
   .config(function ($routeProvider) {

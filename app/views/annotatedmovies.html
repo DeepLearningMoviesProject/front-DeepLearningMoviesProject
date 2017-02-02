@@ -25,7 +25,58 @@
   <!-- Content -->
   <md-content layout-padding>
 
-    <md-card ng-show="moviesEvaluation" layout="row">
+  	<md-tabs md-dynamic-height md-border-bottom>
+      <md-tab>
+      	<md-tab-label href="#allmovies">Tous les films</md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Tous mes films</h1>
+          <h2 ng-show="!moviesEvaluation.size">
+          	Vous n'avez annoté aucun film, rendez-vous dans la catégorie "Améliorer mes prédictions" :)
+          </h2>
+          <cl-paging ng-show="moviesEvaluation.size" flex cl-pages="paging.total" cl-steps="6" cl-page-changed="getNextMovies((paging.current-1)*rangeIndex)" cl-align="center center" cl-current-page="paging.current"></cl-paging>
+
+          <div data-images-loaded ng-show="!loadingBar" class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center">
+			      <md-card class="searchedMoviesCard" ng-repeat="movie in allMovies | orderBy:'popularity':true">
+			        <img class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
+			        <img class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+			        <md-card-actions layout="row" layout-align="start center">
+			          <div layout="column" flex="70">
+			            <span class="headline">{{movie.title}}</span>
+			            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span></span>
+			          </div>
+			          <span flex></span>
+			          <md-button flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''">
+			            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+			          </md-button>
+			          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''">
+			            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+			          </md-button>
+			        </md-card-actions>
+			      </md-card>
+			    </div>
+
+			    <cl-paging ng-show="moviesEvaluation.size && !loadingBar" flex cl-pages="paging.total" cl-steps="6" cl-page-changed="getNextMovies((paging.current-1)*rangeIndex)" cl-align="center center" cl-current-page="paging.current"></cl-paging>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+      	<md-tab-label><md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon></md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Films aimés</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+      	<md-tab-label><md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon></md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Films non aimés</h1>
+          <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+
+
+
+    <md-card ng-show="moviesEvaluation && false" layout="row">
     	<!-- <img class="md-card-image" src="card-image.png" alt="image caption"> -->
     	<md-list>
 				<md-list-item class="md-2-line" ng-repeat="likedMovie in likedMovies | orderBy:'popularity':true">
