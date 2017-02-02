@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('MainCtrl', ['$rootScope','$scope', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, SearchMoviesFactory, DiscoverMoviesFactory) {
+  .controller('MainCtrl', ['$rootScope','$scope', function ($rootScope, $scope) {
     
     this.awesomeThings = [
       'HTML5 Boilerplate',
