@@ -295,6 +295,15 @@ module.exports = function (grunt) {
     // concat: {
     //   dist: {}
     // },
+    
+    'gh-pages': {
+      options: {
+        base: 'dist',
+        branch: 'master',
+        repo: 'https://github.com/DeepLearningMoviesProject/deeplearningmoviesproject.github.io.git'
+      },
+      src: '**/*'
+    },
 
     imagemin: {
       dist: {
@@ -384,6 +393,11 @@ module.exports = function (grunt) {
           ]
         }, {
           expand: true,
+          cwd: 'bower_components/material-design-icons/sprites/svg-sprite',
+          dest: '<%= yeoman.dist %>/material-design-icons/sprites/svg-sprite',
+          src: ['**/*']
+        }, {
+          expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
@@ -394,8 +408,17 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      icons: {
+        expand: true,
+        cwd: 'bower_components/material-design-icons/sprites/svg-sprite',
+        dest: '<%= yeoman.app %>/material-design-icons/sprites/svg-sprite',
+        src: ['**/*']
       }
     },
+
+
+
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
@@ -432,6 +455,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'postcss:server',
+      'copy:icons',
       'connect:livereload',
       'watch'
     ]);
@@ -452,6 +476,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'copy:icons',
     'clean:dist',
     'wiredep',
     'useminPrepare',
@@ -468,6 +493,10 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
+
+  grunt.registerTask('deploy', [
+    'gh-pages'
+]);
 
   grunt.registerTask('default', [
     'newer:jshint',

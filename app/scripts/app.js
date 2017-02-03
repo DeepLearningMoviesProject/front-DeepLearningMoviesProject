@@ -98,24 +98,24 @@ angular
       // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
       //
       // .iconSet('action', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24)
-      .iconSet('action', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg', 24)
-      .iconSet('home', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-home.svg', 24)
-      .iconSet('alert', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-alert.svg', 24)
-      .iconSet('av', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-av.svg', 24)
-      .iconSet('communication', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-communication.svg', 24)
-      .iconSet('content', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-content.svg', 24)
-      .iconSet('device', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-device.svg', 24)
-      .iconSet('editor', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-editor.svg', 24)
-      .iconSet('file', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-file.svg', 24)
-      .iconSet('hardware', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
-      .iconSet('image', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-image.svg', 24)
-      .iconSet('maps', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-maps.svg', 24)
-      .iconSet('navigation', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg', 24)
-      .iconSet('notification', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-notification.svg', 24)
-      .iconSet('social', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-social.svg', 24)
-      .iconSet('toggle', '../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
+      .iconSet('action', 'material-design-icons/sprites/svg-sprite/svg-sprite-action.svg', 24)
+      .iconSet('home', 'material-design-icons/sprites/svg-sprite/svg-sprite-home.svg', 24)
+      .iconSet('alert', 'material-design-icons/sprites/svg-sprite/svg-sprite-alert.svg', 24)
+      .iconSet('av', 'material-design-icons/sprites/svg-sprite/svg-sprite-av.svg', 24)
+      .iconSet('communication', 'material-design-icons/sprites/svg-sprite/svg-sprite-communication.svg', 24)
+      .iconSet('content', 'material-design-icons/sprites/svg-sprite/svg-sprite-content.svg', 24)
+      .iconSet('device', 'material-design-icons/sprites/svg-sprite/svg-sprite-device.svg', 24)
+      .iconSet('editor', 'material-design-icons/sprites/svg-sprite/svg-sprite-editor.svg', 24)
+      .iconSet('file', 'material-design-icons/sprites/svg-sprite/svg-sprite-file.svg', 24)
+      .iconSet('hardware', 'material-design-icons/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
+      .iconSet('image', 'material-design-icons/sprites/svg-sprite/svg-sprite-image.svg', 24)
+      .iconSet('maps', 'material-design-icons/sprites/svg-sprite/svg-sprite-maps.svg', 24)
+      .iconSet('navigation', 'material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg', 24)
+      .iconSet('notification', 'material-design-icons/sprites/svg-sprite/svg-sprite-notification.svg', 24)
+      .iconSet('social', 'material-design-icons/sprites/svg-sprite/svg-sprite-social.svg', 24)
+      .iconSet('toggle', 'material-design-icons/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
 
       // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
       .iconSet('avatars', 'https://raw.githubusercontent.com/angular/material/master/docs/app/icons/avatar-icons.svg', 24)
-      .defaultIconSet('../bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg', 24);
+      .defaultIconSet('material-design-icons/sprites/svg-sprite/svg-sprite-action.svg', 24);
   });

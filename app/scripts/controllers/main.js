@@ -20,20 +20,37 @@ angular.module('frontMoviesDeepLearningApp')
     //Whenever a Map only has strings as keys, you can convert it to JSON by encoding it as an object.
     //Converting a string Map to and from an object
     function strMapToObj(strMap) {
-      let obj = Object.create(null);
-      for (let [k,v] of strMap) {
-        // We don’t escape the key '__proto__'
-        // which can cause problems on older engines
-        obj[k] = v;
-      }
+      var obj = Object.create(null);
+
+      // for (let [k,v] of strMap) {
+      //   // We don’t escape the key '__proto__'
+      //   // which can cause problems on older engines
+      //   obj[k] = v;
+      // }
+
+      strMap.forEach(function (element, key) {
+			  obj[key] = element;
+			});
+
+			// console.log(obj);
       return obj;
     }
 
+
+
     function objToStrMap(obj) {
-      let strMap = new Map();
-      for (let k of Object.keys(obj)) {
-        strMap.set(k, obj[k]);
-      }
+      var strMap = new Map();
+
+      // for (let k of Object.keys(obj)) {
+      //   strMap.set(k, obj[k]);
+      // }
+
+
+   		Object.keys(obj).forEach(function(key,index) {
+    		strMap.set(key, obj[key]);
+			});
+
+      // console.log(strMap);
       return strMap;
     }
 

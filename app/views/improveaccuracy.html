@@ -41,6 +41,12 @@
         <md-button flex="none" ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
           <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
         </md-button>
+        <md-button flex="none" ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+          <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
+        </md-button>
+        <md-button flex="none" ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+          <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
+        </md-button>
       <span flex></span>
     </div>
     <!-- <md-card>
