@@ -455,7 +455,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'postcss:server',
-      'copy:icons',
+      // 'copy:icons',
       'connect:livereload',
       'watch'
     ]);

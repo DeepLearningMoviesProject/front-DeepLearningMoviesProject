@@ -1,0 +1,30 @@
+<md-dialog aria-label="Détails du film">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>
+        {{movieDetails.title}}
+      </h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="navigation:ic_close_24px" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+	<md-dialog-content>
+		<div layout="row">
+			<div>
+				<img ng-if="movieDetails.poster_path" ng-src="https://image.tmdb.org/t/p/w342/{{movieDetails.poster_path}}"/>
+				<img ng-if="!movieDetails.poster_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+			</div>
+			<div class="md-padding">
+				<h2>Synopsis</h2>
+				<p>{{movieDetails.overview}}</p>
+			</div>
+		</div>
+	</md-dialog-content>
+	<!-- <md-dialog-actions>
+		<span flex></span>
+		<md-button ng-click="cancel()"> Annuler </md-button>
+		<md-button ng-disabled="addAssignmentForm.$invalid" ng-click="editAssignmentChild(assignInfos)" class="md-primary"> Enregistrer </md-button>
+	</md-dialog-actions> -->
+</md-dialog>

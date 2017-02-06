@@ -59,8 +59,8 @@
 
     <div ng-show="!loadingBar" class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
       <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
-        <img class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
-        <img class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
+        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
         <md-card-actions layout="row" layout-align="start center">
           <div layout="column" flex="70">
             <span class="headline">{{movieSearched.title}}</span>
@@ -75,6 +75,18 @@
           </md-button>
         </md-card-actions>
       </md-card>
+
+    </div>
+    <div ng-show="!loadingBar" id="bottomImproveAccuracyNavigation" layout="center center">
+      <md-button flex="none" ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
+        <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
+      </md-button>
+      <md-button flex="none" ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+        <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
+      </md-button>
+      <md-button flex="none" ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+        <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
+      </md-button>
     </div>
 
 

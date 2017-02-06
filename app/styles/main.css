@@ -104,6 +104,23 @@ cl-paging div {
   margin: 10px;
 }
 
+#bottomImproveAccuracyNavigation {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+md-card img:hover {
+  cursor: pointer;
+  cursor: hand;
+}
+
+md-dialog-content img {
+  width: 100%;
+  min-width: 300px;
+  height: auto;
+}
+
 /*searchMovieCard > md-input-container, input, md-input-container:not(.md-input-invalid).md-input-focused .md-input, .md-input-focused, .md-input, md-input-container:not(.md-input-has-value) input:not(:focus) {
     border: none;
 }

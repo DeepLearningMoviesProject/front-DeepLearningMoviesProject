@@ -8,9 +8,10 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, $timeout, SearchMoviesFactory, DiscoverMoviesFactory) {
+  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
 
     $scope.showLoadingBar();
+    $scope.movieDetails = {};
     $scope.globalPage = 0;
 
     /**
@@ -73,7 +74,7 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
-    $scope.discoverMovies();
+    $scope.discoverMovies(1);
 
 
     $scope.$on('SUCCESS', function() {
@@ -88,5 +89,87 @@ angular.module('frontMoviesDeepLearningApp')
       $scope.hideLoadingBar();
       console.log('ALL DONE ALWAYS');        
     });
+
+
+    /**
+     * Get details of a movie identified by its id
+     */
+    $scope.getMovieDetails = function(movie_id) {
+      MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
+        movie.$promise.then(function(movie) {
+          // console.log(movie);
+          $scope.allMoviesTemp.push(movie);
+          if ($scope.moviesEvaluation.get(movie_id) === 0) {
+            $scope.dislikedMovies.push(movie);
+          } else if ($scope.moviesEvaluation.get(movie_id) === 1) {
+            $scope.likedMovies.push(movie);
+          }
+
+          // console.log("getMovieDetailsById lastIndexToLoad: ", (lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)));
+
+          //When all movies of the page have been added to allMoviesTemp, slice it to allMovie to allow movie display
+          //lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex) = how many movies for the current page have to be loaded
+          if ($scope.allMoviesTemp.length === lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)) {
+            $scope.allMovies = $scope.allMoviesTemp.slice();
+          }
+          return movie;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        });
+      });
+    };
+
+
+
+
+    /**
+     * Show the dialog to view movie details
+     * @param  {[type]} ev [description]
+     * @return {[type]}    [description]
+     */
+    $scope.showMovieDetailsDialog = function(ev, movie_id) {
+      $scope.movieDetails = {};
+      MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
+        movie.$promise.then(function(movie) {
+          console.log(movie);
+          $mdDialog.show({
+            controller: movieDetailsDialogController,
+            templateUrl: 'views/moviedetailsdialog.html',
+            scope: $scope.$new(),
+            targetEvent: ev,
+          })
+          .then(function() {
+            console.log('Show movie details done !');
+          }, function() {
+            console.log('Movie details dialog closed !');
+          });
+          $scope.movieDetails = movie;
+          return movie;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        });
+      });
+    };
+
+
+
+    /**
+     * Controller for the movieDetailsDialog
+     * @param  {[type]}
+     * @param  {[type]}
+     * @return {[type]}
+     */
+    function movieDetailsDialogController($scope, $mdDialog) {
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
+    }
+
 
   }]);
