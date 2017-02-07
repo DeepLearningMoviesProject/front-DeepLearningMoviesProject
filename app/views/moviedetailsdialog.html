@@ -1,5 +1,5 @@
-<md-dialog aria-label="Détails du film">
-  <md-toolbar>
+<md-dialog flex="80" id="movieDetailsDialog" aria-label="Détails du film">
+  <!-- <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>
         {{movieDetails.title}}
@@ -9,16 +9,37 @@
         <md-icon md-svg-src="navigation:ic_close_24px" aria-label="Close dialog"></md-icon>
       </md-button>
     </div>
-  </md-toolbar>
-	<md-dialog-content>
-		<div layout="row">
-			<div>
-				<img ng-if="movieDetails.poster_path" ng-src="https://image.tmdb.org/t/p/w342/{{movieDetails.poster_path}}"/>
-				<img ng-if="!movieDetails.poster_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
-			</div>
-			<div class="md-padding">
-				<h2>Synopsis</h2>
-				<p>{{movieDetails.overview}}</p>
+  </md-toolbar> -->
+  <md-button class="close_button md-icon-button" ng-click="cancel()">
+    <md-icon md-svg-src="navigation:ic_close_24px" aria-label="Close dialog"></md-icon>
+  </md-button>
+  <!-- <img class="movieDetailsBackdropPath" ng-if="movieDetails.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieDetails.backdrop_path}}"/>
+  <img class="movieDetailsBackdropPath" ng-if="!movieDetails.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/> -->
+  <div id="headerimage" ng-style="{'background-image':'url(https://image.tmdb.org/t/p/w780/'+movieDetails.backdrop_path+')'}">
+  </div>
+  <div layout="column" id="movieFloatingInfo">
+		<h2 class="headline" id="movieTitle">
+	    {{movieDetails.title}} <span ng-if="movieDetails.release_date">({{movieDetails.release_date | limitTo:4}})</span>
+	  </h2>
+	  <span ng-if="movieDetails.tagline" class="subline">{{movieDetails.tagline}}</span>
+	  <!-- <span class="subline"><span ng-repeat="genre in movieDetails.genres">{{genre.name}}<span ng-if="!$last">, </span></span></span> -->
+    <span class="subline">{{movieDetails.vote_average}} <span style="font-size: 16px">★</span></span>
+	  <md-chips ng-model="movieDetails.genres" readonly="true" md-removable="false">
+	  	<md-chip-template>
+	  		{{$chip.name}}
+	  	</md-chip-template>
+	  </md-chips>
+  </div>
+	<div id="moviePoster">
+		<img md-whiteframe="8" ng-if="movieDetails.poster_path" ng-src="https://image.tmdb.org/t/p/w185/{{movieDetails.poster_path}}"/>
+		<img style="width: 185px" md-whiteframe="8" ng-if="!movieDetails.poster_path" ng-src="http://school4schools.com/blog/wp-content/plugins/lightbox/images/No-image-found.jpg"/>
+	</div>
+	<md-dialog-content id="movieDialogContent">
+		<div id="wrapper" layout="row">
+			<div id="movieDetails" class="md-padding">
+				<!-- <h2>Synopsis</h2> -->
+				<p ng-if="movieDetails.overview">{{movieDetails.overview}}</p>
+				<p ng-if="!movieDetails.overview">Aucun résumé n'est disponible pour ce film</p>
 			</div>
 		</div>
 	</md-dialog-content>

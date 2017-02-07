@@ -121,6 +121,122 @@ md-dialog-content img {
   height: auto;
 }
 
+#movieDetailsDialog {
+  width: 780px;
+  /*display: block;*/
+  background:rgb(250,250,250);
+  overflow: hidden;
+}
+
+.movieDetailsBackdropPath {
+  /*max-height:100%;
+  min-height:100%;
+  min-width: 780px;*/
+  max-width: 100%;
+  height: auto;
+  position:relative;
+  z-index:-1;
+}
+
+#movieDetailsDialog md-dialog-content {
+  z-index:1;
+  overflow: hidden;
+  display:block;
+  float:left;
+  margin-top:-200px;
+  width:100%;
+  background:rgb(250,250,250);
+  transform:skew(0deg,-5deg);
+  -ms-transform:skew(0deg,-5deg); /* IE 9 */
+  -webkit-transform:skew(0deg,-3deg); /* Safari and Chrome */
+}
+
+#movieFloatingInfo {
+  position: absolute;
+  top: 200px;
+  left: 265px;
+  z-index: 5;
+  color: white;
+}
+
+#moviePoster {
+  position: absolute;
+  top: 200px;
+  left: 40px;
+  z-index: 5;
+}
+
+/*#moviePoster img {
+  max-width: 50%;
+  height: auto;
+}*/
+
+#wrapper {
+  display:block;
+  min-height: 100px;
+  float:left;
+  margin:10px auto 50px;
+  width:100%;
+  padding:0 5%;
+  padding-left: 250px;
+  transform:skew(0deg,3deg);
+  -ms-transform:skew(0deg,5deg);
+  -webkit-transform:skew(0deg,3deg); 
+}
+
+#headerimage {
+  height:439px;
+  width:100%;
+  background-size:cover;
+  position:relative;
+  z-index:-1;
+  margin-top: -50px;
+  margin-bottom: 150px;
+  background-color: rgba(0,0,0,.4)
+}
+
+#headerimage:before {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: inherit;
+  content: ' ';
+}
+
+
+.close_button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.close_button md-icon {
+  color: white;
+}
+
+#movieTitle {
+  margin-bottom: 0px;
+  white-space: initial;
+}
+
+#movieDetailsDialog .md-chips {
+  box-shadow: none;
+}
+
+/*Image preloading*/
+div#preloaded-images {
+  position: absolute;
+  overflow: hidden;
+  left: -9999px; 
+  top: -9999px;
+  height: 1px;
+  width: 1px;
+}
+
+/*#movieDetailsDialog md-dialog-content div {
+  transform-origin: left center;
+  transform: rotate(3deg);
+}*/
+
 /*searchMovieCard > md-input-container, input, md-input-container:not(.md-input-invalid).md-input-focused .md-input, .md-input-focused, .md-input, md-input-container:not(.md-input-has-value) input:not(:focus) {
     border: none;
 }
