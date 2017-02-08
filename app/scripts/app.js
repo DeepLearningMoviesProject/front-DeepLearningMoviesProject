@@ -43,6 +43,11 @@ angular
         controller: 'AnnotatedmoviesCtrl',
         controllerAs: 'annotatedMovies'
       })
+      .when('/stats', {
+        templateUrl: 'views/stats.html',
+        controller: 'StatsCtrl',
+        controllerAs: 'stats'
+      })
       .otherwise({
         redirectTo: '/'
       });

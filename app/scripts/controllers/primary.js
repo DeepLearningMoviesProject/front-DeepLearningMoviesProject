@@ -40,6 +40,11 @@ angular.module('frontMoviesDeepLearningApp')
         icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
       },
       {
+        link : '/stats',
+        title: 'Mes statistiques',
+        icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
+      },
+      {
         link : '/improveAccuracy',
         title: 'Améliorer mes prédictions',
         icon: 'social:ic_group_24px'
