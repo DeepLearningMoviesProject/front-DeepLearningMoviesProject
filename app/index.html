@@ -25,15 +25,15 @@
     <md-sidenav id="navigation_drawer" layout="column" class="md-sidenav-left md-whiteframe-z2 md-navigation-drawer" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-cloak>
 
       <!-- Sidenav toolbar -->
-      <md-toolbar class="md-hue-2 md-tall">
+      <md-toolbar id="sidenav-toolbar" class="md-hue-2 md-tall">
         <span flex></span>
         <div layout="row" layout-align="start center">
           <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
           <span flex></span>
         </div>
         <span flex></span>
-        <div class="md-body-2">Edwin NULENGIT</div>
-        <div class="md-body-1">edwin@NULENGIT.com</div>
+        <div class="md-body-2">John SMITH</div>
+        <div class="md-body-1">john@smith.com</div>
       </md-toolbar>
       <md-list class="slideLeftToRight">
         <md-list-item ng-repeat="item in menu" role="link" md-ink-ripple ng-click="go(item.link); toggleSidenav('left')">

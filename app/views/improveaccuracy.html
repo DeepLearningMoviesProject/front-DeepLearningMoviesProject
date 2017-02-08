@@ -1,6 +1,6 @@
 <div layout-fill layout="column">
   <!-- Main toolbar -->
-  <md-toolbar class="md-whiteframe-z1">
+  <md-toolbar class="md-whiteframe-z1 slideTopToBottom">
     <div class="md-toolbar-tools">
       <!-- Hamburger icon -->
       <md-button class="md-icon-button" ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu">
@@ -25,7 +25,7 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-    <div layout="row"> 
+    <div ng-show="!loadingBar || firstLoad" layout="row" class="slideBottomToTop"> 
       <span flex></span>   
       <!-- <md-card id="searchMovieCard" flex="50" layout="row">
       </md-card> -->
@@ -57,7 +57,7 @@
 
     </md-card> -->
 
-    <div ng-show="!loadingBar" class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
+    <div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
       <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
         <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
         <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>

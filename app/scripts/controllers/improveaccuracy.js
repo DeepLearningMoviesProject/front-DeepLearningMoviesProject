@@ -13,6 +13,7 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.showLoadingBar();
     $scope.movieDetails = {};
     $scope.globalPage = 0;
+    $scope.firstLoad = false;
 
     /**
      * Search a movie by its name
@@ -87,6 +88,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.$on('ALWAYS', function() {
       $scope.hideLoadingBar();
+      $scope.firstLoad = true;
       console.log('ALL DONE ALWAYS');        
     });
 

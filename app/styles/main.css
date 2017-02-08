@@ -232,6 +232,161 @@ div#preloaded-images {
   width: 1px;
 }
 
+
+
+
+/* fade animation */
+.animate-show {
+  transition: 0.75s cubic-bezier(0, 0, 0.2, 1) opacity;
+  opacity: 1;
+}
+.animate-show.ng-hide {
+  height: 0;
+  min-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+
+.animate-show-in {
+  transition: 0.3s cubic-bezier(0, 0, 0.2, 1) all;
+  opacity: 1;
+  transform: translate(0,0px);
+}
+.animate-show-in.ng-hide {
+  opacity: 0;
+  overflow: hidden;
+  transform: translate(0,50px);
+}
+
+#navigation_drawer md-icon{
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+
+.swiftInAnimation.ng-enter {
+  /* standard transition code */
+  /*animation-timing-function: cubic-bezier(0, 0, 0.2, 1);  => Swift-in material animation*/
+  transition: 400ms cubic-bezier(0, 0, 0.2, 1) all;
+  opacity:0;
+  transform: translate(0,50px);
+}
+
+.swiftInAnimation.ng-enter.ng-enter-active {
+  /* standard transition styles */
+  opacity:1;
+  transform: translate(0,0px);
+}
+
+.swiftInAnimation.ng-enter-stagger {
+  transition-delay: 60ms;
+  animation-delay: 60ms;
+  transition-duration: 0s;
+}
+
+@keyframes pulsate {
+  0% {-webkit-transform: scale(0.0, 0.0); opacity: 0.0;}
+  50% {-webkit-transform: scale(1.5, 1.5); opacity: 1.0;}
+  100% {-webkit-transform: scale(1, 1);}
+}
+
+
+/* .pulsateButtons {
+  -webkit-animation: pulsate 0.4s cubic-bezier(0, 0, 0.2, 1);
+} */
+
+.pulsateButtons.ng-enter {
+  /* standard transition code */
+  /*animation-timing-function: cubic-bezier(0, 0, 0.2, 1);  => Swift-in material animation*/
+  -webkit-animation: pulsate 1s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.pulsateButtons.ng-enter-stagger {
+  transition-delay: 60ms;
+  animation-delay: 60ms;
+  transition-duration: 0s;
+}
+
+@keyframes slideLeftToRight {
+  0% {-webkit-transform: translate(-100px,0); opacity: 0.0;}
+  100% {-webkit-transform: translate(0px,0); opacity: 1.0;}
+}
+
+.slideLeftToRight {
+  -webkit-animation: slideLeftToRight 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideTopToBottom {
+  0% {-webkit-transform: translate(0,-50px); opacity: 0.0;}
+  100% {-webkit-transform: translate(0px,0); opacity: 1.0;}
+}
+
+.slideTopToBottom {
+  -webkit-animation: slideTopToBottom 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideBottomToTop {
+  0% {-webkit-transform: translate(0,50px);; opacity: 0.0;}
+  100% {-webkit-transform: translate(0px,0); opacity: 1.0;}
+}
+
+.slideBottomToTop {
+  -webkit-animation: slideBottomToTop 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.arrow_up {
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+  -webkit-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.arrow_down {
+  -ms-transform: rotate(0deg); /* IE 9 */
+  -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+  -webkit-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.menu_hidden {
+  /*Animation remonté*/
+  max-height: 0px;
+  overflow: hidden;
+  -webkit-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.menu_show {
+  /*Animation descente*/
+  max-height: 300px;
+  -webkit-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+  transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.sliderError {
+  color: rgb(221,44,0);
+  margin-top: -43px;
+  padding-right: 5px;
+  font-size: 12px;
+  line-height: 14px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+}
+
+
+
 /*#movieDetailsDialog md-dialog-content div {
   transform-origin: left center;
   transform: rotate(3deg);
@@ -256,6 +411,104 @@ md-input-container:not(.md-input-has-value) input:not(:focus) {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 650px) {
+  md-sidenav.md-sidenav-list {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+md-sidenav.md-sidenav-list md-list {
+  border-right: 1px solid #d5d5d5;
+}
+md-sidenav > md-toolbar.md-tall {
+  padding: 15px;
+  height: auto;
+  max-height: 150px;
+}
+
+/*Navigation drawer pattern: https://www.google.com/design/spec/patterns/navigation-drawer.html#navigation-drawer-specs*/
+md-sidenav md-list-item.md-2-line .md-list-item-text {
+  padding-top: 14px;
+  padding-bottom: 12px;
+}
+md-sidenav md-divider {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+md-sidenav.md-sidenav-list md-list-item.md-2-line .md-list-item-text,
+md-sidenav.md-sidenav-list md-list-item.md-2-line > .md-no-style .md-list-item-text {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+md-sidenav.md-navigation-drawer md-list-item.md-2-line .md-list-item-text,
+md-sidenav.md-navigation-drawer md-list-item.md-2-line > .md-no-style .md-list-item-text {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+md-sidenav.md-navigation-drawer, md-sidenav.md-navigation-drawer.md-locked-open {
+  width: 268px;
+  min-width: 268px;
+  max-width: 268px;
+}
+
+md-backdrop + md-sidenav.md-sidenav-list {
+  z-index: 3;
+}
+
+md-sidenav:not(.md-sidenav-list) md-icon {
+  fill: #737373;
+  position: relative;
+}
+md-sidenav:not(.md-sidenav-list) .md-avatar {
+  height: 64px;
+  width: 64px;
+}
+
+/*White svg icons in toolbar and fab*/
+md-sidenav md-icon {
+  /* fill: #737373; */
+  position: relative;
+}
+md-sidenav .md-avatar {
+  height: 64px;
+  width: 64px;
+}
+
+
+/* More closely matches https://www.google.com/design/spec/components/lists.html#lists-specs */
+md-list-item.md-3-line md-divider[md-inset] {
+  left: 70px;
+}
+
+/*// Round avatar*/
+.md-avatar > svg {
+  border-radius: 50%;
+}
+
+/* Hide backdrop for internal sidenav */
+md-content md-backdrop {
+  display: none;
 }
 
 
