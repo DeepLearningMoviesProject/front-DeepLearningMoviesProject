@@ -29,15 +29,20 @@
       <h1>Bienvenue jeune padawan !</h1>
     </md-card>
 
-    <md-card>
+    <md-card style="padding: 15px;">
       <h1>Importez ou exportez vos préférences</h1>
       <p>Ameliorez vos prédictions notant d'autre films !</p>
- 
 
-      <md-input-container>
-        <label>Uploader vos films déja annotés</label>
-        <input type="file" id="preferences">
-      </md-input-container>
+      <!-- <label for="preferences" class="md-button md-raised md-primary">Uploader vos films déja annotés</label>
+      <input type="file" id="preferences"> -->
+     <!--  <input class="ng-hide" id="input-file-id" multiple type="file" />
+      <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+      <div><b>Uploader vos films déja annotés</b></div>
+      <input id="preferences" type="file">
+      <!-- <md-input-container>
+        <label>&nbsp;</label>
+        <input id="preferences" type="file">
+      </md-input-container> -->
       <md-button ng-click="uploadFiles()" class="md-raised" aria-label="description" md-ripple-size="auto">Importez vos préférences</md-button>
 
       <md-button ng-click="saveToPc(moviesEvaluation, 'moviesEvaluated.json')" class="md-raised" aria-label="description" md-ripple-size="auto">Enregistrer le fichier</md-button>

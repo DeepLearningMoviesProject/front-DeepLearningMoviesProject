@@ -149,6 +149,8 @@ md-dialog-content img {
   transform:skew(0deg,-5deg);
   -ms-transform:skew(0deg,-5deg); /* IE 9 */
   -webkit-transform:skew(0deg,-3deg); /* Safari and Chrome */
+  outline: 1px solid transparent;
+  
 }
 
 #movieFloatingInfo {

@@ -25,7 +25,7 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-  	<md-card ng-show="allMovies.length">
+  <!--<md-card ng-show="allMovies.length">
     	<md-card-content>
     		<h2>Mes Statistiques</h2>
     		<div layout="row">
@@ -39,14 +39,68 @@
     		</div>
     		</div>
     	</md-card-content>
-    </md-card>
+    </md-card> -->
 
-    <md-card ng-show="!allMovies.length">
+    <md-card ng-show="!statsAvailable && moviesEvaluation.size">
     	<md-card-content>
     		<h2>Chargement en cours</h2>
     		<p>Veuillez patientez...</p>
+    		<p>Récupération des données depuis TMDB</p>
+  			<md-progress-linear md-mode="determinate" value="{{loadingTMDB}}"></md-progress-linear>
+  			<p>Traitement des données</p>
+  			<md-progress-linear md-mode="determinate" value="{{loadingProcessing}}"></md-progress-linear>
     	</md-card-content>
     </md-card>
+
+    <md-card ng-show="!moviesEvaluation.size">
+    	<md-card-content>
+    		<h2>Aucune données disponible</h2>
+    		<p>Vous n'avez annoté aucun film, rendez-vous dans la catégorie "Améliorer mes prédictions" :)</p>
+    	</md-card-content>
+    </md-card>
+
+    <md-tabs md-dynamic-height md-border-bottom ng-show="statsAvailable">
+      <md-tab>
+      	<md-tab-label><md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon></md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Films aimés</h1>
+          <p>Durée moyenne: {{runtimeLikedStats.average | number:0}} minutes</p>
+          <p>Durée médiane: {{runtimeLikedStats.median}} minutes</p>
+          <p ng-repeat="genre in genres">
+          	<span ng-if="(genresStatsLiked.get(genre.id)/likedMovies.length)*100 <= (genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100">
+          		{{genre.name}}: {{(genresStatsLiked.get(genre.id)/likedMovies.length)*100 | number:0}}%
+          	</span>
+          	<span class="likedGenres" ng-if="(genresStatsLiked.get(genre.id)/likedMovies.length)*100 > (genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100">
+          		<b>{{genre.name}}: {{(genresStatsLiked.get(genre.id)/likedMovies.length)*100 | number:0}}%</b>
+          	</span>
+          </p>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+      	<md-tab-label><md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon></md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Films non aimés</h1>
+          <p>Durée moyenne: {{runtimeDislikedStats.average | number:0}} minutes</p>
+          <p>Durée médiane: {{runtimeDislikedStats.median}} minutes</p>
+          <p ng-repeat="genre in genres">
+          	<span ng-if="(genresStatsLiked.get(genre.id)/likedMovies.length)*100 >= (genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100">
+          		{{genre.name}}: {{(genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100 | number:0}}%
+          	</span>
+          	<span class="dislikedGenres" ng-if="(genresStatsLiked.get(genre.id)/likedMovies.length)*100 < (genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100">
+          		<b>{{genre.name}}: {{(genresStatsDisliked.get(genre.id)/dislikedMovies.length)*100 | number:0}}%</b>
+          	</span>
+          </p>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+      	<md-tab-label href="#allmovies">Tous les films</md-tab-label>
+        <md-tab-body class="md-padding">
+          <h1 class="md-display-2">Tous mes films</h1>
+          <canvas id="bar" class="chart chart-bar" chart-data="dataBarGraph" chart-labels="labelsBarGraph" chart-series="series"></canvas>
+          <canvas id="radar" class="chart chart-radar" chart-data="dataBarGraph" chart-options="options" chart-labels="labelsBarGraph"> </canvas> 
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
 
   </md-content>
 </div>
