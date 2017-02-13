@@ -84,11 +84,13 @@ angular
       '50': 'ffffff'
     });
     $mdThemingProvider.definePalette('customBlue', customBlueMap);
+    // $mdThemingProvider.theme('default')
+    //   .primaryPalette('customBlue', {
+    //     'default': '500',
+    //     'hue-1': '50'
+    //   })
     $mdThemingProvider.theme('default')
-      .primaryPalette('customBlue', {
-        'default': '500',
-        'hue-1': '50'
-      })
+      .primaryPalette('blue')
       .accentPalette('pink');
     $mdThemingProvider.theme('greenTheme')
       .primaryPalette('green');

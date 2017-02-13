@@ -41,6 +41,8 @@ angular.module('frontMoviesDeepLearningApp')
 
     /**
      * Get details of a movie identified by its id
+     * @param  {[type]} movie_id [description]
+     * @return {[type]}          [description]
      */
     $scope.getMovieDetailsById = function(movie_id) {
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
@@ -76,6 +78,11 @@ angular.module('frontMoviesDeepLearningApp')
 
 
 
+		/**
+		 * Get next page of the annotated movies of an user (get movies informations of a page)
+		 * @param  {[type]} firstIndex [description]
+		 * @return {[type]}            [description]
+		 */
 		$scope.getNextMovies = function(firstIndex) {
 			if ($scope.moviesEvaluation.size === 0) {
 				return;
@@ -103,6 +110,11 @@ angular.module('frontMoviesDeepLearningApp')
 
 		//$scope.getNextMovies(0);
 
+		/**
+		 * Get informations of all annotated movies of an user
+		 * @param  {[type]} firstIndex [description]
+		 * @return {[type]}            [description]
+		 */
 		$scope.getAllMovies = function(firstIndex) {
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 			var lastIndex = firstIndex;

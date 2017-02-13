@@ -17,16 +17,14 @@ angular.module('frontMoviesDeepLearningApp')
     ];
 
 
-    //Whenever a Map only has strings as keys, you can convert it to JSON by encoding it as an object.
-    //Converting a string Map to and from an object
+    /**
+     * Whenever a Map only has strings as keys, you can convert it to JSON by encoding it as an object.
+     * Converting a string Map to and from an object
+     * @param  {[type]} strMap [description]
+     * @return {[type]}        [description]
+     */
     function strMapToObj(strMap) {
       var obj = Object.create(null);
-
-      // for (let [k,v] of strMap) {
-      //   // We don’t escape the key '__proto__'
-      //   // which can cause problems on older engines
-      //   obj[k] = v;
-      // }
 
       strMap.forEach(function (element, key) {
 			  obj[key] = element;
@@ -37,24 +35,27 @@ angular.module('frontMoviesDeepLearningApp')
     }
 
 
-
+    /**
+     * Convert a JavaScript object with key as string to a Map
+     * @param  {[type]} obj [description]
+     * @return {[type]}     [description]
+     */
     function objToStrMap(obj) {
       var strMap = new Map();
-
-      // for (let k of Object.keys(obj)) {
-      //   strMap.set(k, obj[k]);
-      // }
-
 
    		Object.keys(obj).forEach(function(key,index) {
     		strMap.set(key, obj[key]);
 			});
 
-      // console.log(strMap);
       return strMap;
     }
 
-    //The conversion to and from JSON
+
+    /**
+     * Convert a map into a JSON object
+     * @param  {[type]} strMap [description]
+     * @return {[type]}        [description]
+     */
     function strMapToJson(strMap) {
       return JSON.stringify(strMapToObj(strMap));
     }
@@ -63,6 +64,10 @@ angular.module('frontMoviesDeepLearningApp')
     // }
 
 
+    /**
+     * Upload a JSON file to import annotated movies
+     * @return {[type]} [description]
+     */
     $scope.uploadFiles = function() {
       var files = document.getElementById('preferences').files;
       console.log(files);

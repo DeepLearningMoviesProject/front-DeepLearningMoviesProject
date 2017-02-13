@@ -43,6 +43,10 @@ angular.module('frontMoviesDeepLearningApp')
 
 
 
+	  /**
+	   * A Javascript object with every genres availaible on TMDB
+	   * @type {Array}
+	   */
     $scope.genres = [
     {
     	id: 28,
@@ -128,7 +132,11 @@ angular.module('frontMoviesDeepLearningApp')
 
     console.log($scope.genres);
 
-
+    /**
+     * Compute the median of an array
+     * @param  {[type]} values [description]
+     * @return {[type]}        [description]
+     */
     function median(values) {
     	values.sort(function(a,b) {return a - b;} );
     	var half = Math.floor(values.length/2);
@@ -165,6 +173,10 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
+    /**
+     * Init statistics on genres (init importants variables)
+     * @return {[type]} [description]
+     */
     function initGenresStats() {
     	for (var i = 0; i < $scope.genres.length; i++) {
     		$scope.genresStatsDisliked.set($scope.genres[i].id, 0);
@@ -172,6 +184,10 @@ angular.module('frontMoviesDeepLearningApp')
     	}
     }
 
+    /**
+     * Extract statistics from annotated movies
+     * @return {[type]} [description]
+     */
     function extractGenresStats() {
     	//Bar graph variables
     	var likedGenreData = [];
@@ -220,6 +236,11 @@ angular.module('frontMoviesDeepLearningApp')
 			$scope.statsAvailable = true;
     }
 
+    /**
+     * Recover all informations of all annotated movies (recursive function)
+     * @param  {[type]} firstIndex [description]
+     * @return {[type]}            [description]
+     */
     $scope.getAllMovies = function(firstIndex) {
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 			var lastIndex = firstIndex;
@@ -259,9 +280,9 @@ angular.module('frontMoviesDeepLearningApp')
 		// $interval(function() {
 		// 		initCpt++;
 		// 		$scope.loadingTMDB = initCpt/($scope.moviesEvaluation.size-1)*100;
-  // 	}, 5000/$scope.rangeIndex, $scope.rangeIndex, true);
+  	// 	}, 5000/$scope.rangeIndex, $scope.rangeIndex, true);
 		$timeout(function(){
 		  $scope.getAllMovies(0);
-		}, 5000);
+		}, 3000);
 
   }]);
