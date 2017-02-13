@@ -119,7 +119,7 @@
 
     <!-- Image preloading -->
     <div id="preloaded-images">
-      <img ng-repeat="movie in moviesSearched.results" ng-src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}" width="1" height="1" alt="" />
+      <img ng-if="movie.poster_path" ng-repeat="movie in moviesSearched.results" ng-src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}" width="1" height="1" alt="" />
     </div>
 
   </md-content>

@@ -15,8 +15,8 @@
   </md-button>
   <!-- <img class="movieDetailsBackdropPath" ng-if="movieDetails.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieDetails.backdrop_path}}"/>
   <img class="movieDetailsBackdropPath" ng-if="!movieDetails.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/> -->
-  <div id="headerimage" ng-style="{'background-image':'url(https://image.tmdb.org/t/p/w780/'+movieDetails.backdrop_path+')'}">
-  </div>
+  <div ng-if="movieDetails.backdrop_path" id="headerimage" ng-style="{'background-image':'url(https://image.tmdb.org/t/p/w780/'+movieDetails.backdrop_path+')'}"></div>
+  <div ng-if="!movieDetails.backdrop_path" id="headerimage"></div>
   <div layout="column" id="movieFloatingInfo">
 		<h2 class="headline" id="movieTitle">
 	    {{movieDetails.title}} <span ng-if="movieDetails.release_date">({{movieDetails.release_date | limitTo:4}})</span>
