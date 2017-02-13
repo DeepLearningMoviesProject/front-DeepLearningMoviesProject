@@ -15,8 +15,11 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.globalPage = 0;
     $scope.firstLoad = false;
 
+
     /**
      * Search a movie by its name
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
      */
     $scope.searchMovieByName = function(name) {
       if (!name) {
@@ -36,6 +39,11 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
+    /**
+     * Discover random movies
+     * @param  {Function} next [description]
+     * @return {[type]}        [description]
+     */
     $scope.discoverMovies = function(next) {
       $scope.showLoadingBar();
       var requestedPage = 1;
@@ -65,6 +73,12 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
+    /**
+     * Evaluate/annote a movie identified by its id (note == 1 : movie liked, note == 0 : movie disliked)
+     * @param  {[type]} movieId [description]
+     * @param  {[type]} note    [description]
+     * @return {[type]}         [description]
+     */
     $scope.evaluateMovies = function(movieId, note){
       if ($rootScope.moviesEvaluation.get(movieId.toString()) === note) {
         $rootScope.moviesEvaluation.delete(movieId.toString());
@@ -93,8 +107,11 @@ angular.module('frontMoviesDeepLearningApp')
     });
 
 
+
     /**
      * Get details of a movie identified by its id
+     * @param  {[type]} movie_id [description]
+     * @return {[type]}          [description]
      */
     $scope.getMovieDetails = function(movie_id) {
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){

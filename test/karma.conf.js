@@ -30,6 +30,8 @@ module.exports = function(config) {
       'bower_components/angular-messages/angular-messages.js',
       'bower_components/angular-material/angular-material.js',
       'bower_components/material-angular-paging/build/dist.min.js',
+      'bower_components/chart.js/dist/Chart.js',
+      'bower_components/angular-chart.js/dist/angular-chart.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -14,20 +14,31 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.loadingBar = false;
 
-    //loading bar display functions
+    /**
+     * Function to toggle the main loading bar
+     * @return {[type]} [description]
+     */
     $scope.loadingBarToggle = function() {
       $scope.loadingBar = !$scope.loadingBar;
     };
 
+    /**
+     * Function to hide the main loading bar
+     * @return {[type]} [description]
+     */
     $scope.hideLoadingBar = function() {
       $scope.loadingBar = false;
     };
 
+    /**
+     * Function to display the main loading bar
+     * @return {[type]} [description]
+     */
     $scope.showLoadingBar = function() {
       $scope.loadingBar = true;
     };
 
-     // Menu items
+    // Menu items
     $scope.menu = [
       {
         link : '/',
@@ -37,16 +48,25 @@ angular.module('frontMoviesDeepLearningApp')
       {
         link : '/annotatedMovies',
         title: 'Mes films annotés',
-        icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
+        icon: 'av:ic_movie_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
+      },
+      {
+        link : '/stats',
+        title: 'Mes statistiques',
+        icon: 'editor:ic_insert_chart_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
       },
       {
         link : '/improveAccuracy',
         title: 'Améliorer mes prédictions',
-        icon: 'social:ic_group_24px'
+        icon: 'action:ic_thumbs_up_down_24px'
       }
     ];
 
-    //Use this function to change view with ng-click
+    /**
+     * Use this function to change view with ng-click
+     * @param  {[type]} path [description]
+     * @return {[type]}      [description]
+     */
     $scope.go = function (path) {
       if ($location.path() === path) {
         $scope.hideLoadingBar();
@@ -54,6 +74,7 @@ angular.module('frontMoviesDeepLearningApp')
         $location.path(path);
       }
     };
+
 
     /**
      * Allow to toggle a sidenav identified by its id

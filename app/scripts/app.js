@@ -18,7 +18,8 @@ angular
     'ngSanitize',
     'ngMaterial',
     'imagesLoaded',
-    'cl.paging'
+    'cl.paging',
+    'chart.js'
   ])
 
   .config(function ($routeProvider) {
@@ -42,6 +43,11 @@ angular
         templateUrl: 'views/annotatedmovies.html',
         controller: 'AnnotatedmoviesCtrl',
         controllerAs: 'annotatedMovies'
+      })
+      .when('/stats', {
+        templateUrl: 'views/stats.html',
+        controller: 'StatsCtrl',
+        controllerAs: 'stats'
       })
       .otherwise({
         redirectTo: '/'
@@ -78,11 +84,13 @@ angular
       '50': 'ffffff'
     });
     $mdThemingProvider.definePalette('customBlue', customBlueMap);
+    // $mdThemingProvider.theme('default')
+    //   .primaryPalette('customBlue', {
+    //     'default': '500',
+    //     'hue-1': '50'
+    //   })
     $mdThemingProvider.theme('default')
-      .primaryPalette('customBlue', {
-        'default': '500',
-        'hue-1': '50'
-      })
+      .primaryPalette('blue')
       .accentPalette('pink');
     $mdThemingProvider.theme('greenTheme')
       .primaryPalette('green');
