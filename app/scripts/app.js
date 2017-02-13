@@ -19,7 +19,8 @@ angular
     'ngMaterial',
     'imagesLoaded',
     'cl.paging',
-    'chart.js'
+    'chart.js',
+    'ngStorage'
   ])
 
   .config(function ($routeProvider) {
@@ -53,6 +54,10 @@ angular
         redirectTo: '/'
       });
   })
+
+  .config(['$localStorageProvider', function ($localStorageProvider) {
+    $localStorageProvider.setKeyPrefix('deepMovies');
+  }])
 
 
   .config(function ($httpProvider) {

@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('StatsCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', '$interval', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, $interval, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
+  .controller('StatsCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', '$interval', '$localStorage', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, $interval, $localStorage, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
 
     $scope.likedMovies = [];
     $scope.dislikedMovies = [];
@@ -42,6 +42,17 @@ angular.module('frontMoviesDeepLearningApp')
 	  $scope.labelsBarGraph = [];
 
 
+	  //If localStorage variables aren't already created, create them 
+	  if (!$localStorage.allMoviesInfos) {
+	  	$localStorage.allMoviesInfos = {};
+	  }
+
+	  // delete $localStorage.allMoviesInfos;
+	  // 
+	  $scope.deleteLS = function() {
+	  	delete $localStorage.allMoviesInfos;
+	  	console.log($localStorage.allMoviesInfos);
+	  };
 
 	  /**
 	   * A Javascript object with every genres availaible on TMDB
@@ -154,6 +165,7 @@ angular.module('frontMoviesDeepLearningApp')
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
         movie.$promise.then(function(movie) {
         	// console.log(movie);
+        	$localStorage.allMoviesInfos[movie_id] = movie;
         	$scope.allMoviesTemp.push(movie);
         	if ($scope.moviesEvaluation.get(movie_id) === 0) {
         		$scope.dislikedMovies.push(movie);
@@ -171,6 +183,23 @@ angular.module('frontMoviesDeepLearningApp')
           //$scope.hideLoadingBar();
         });
       });
+    };
+
+    $scope.getMovieDetailsByIdFromLS = function(movie_id) {
+    	var movie = $localStorage.allMoviesInfos[movie_id];
+			$scope.allMoviesTemp.push(movie);
+    	if ($scope.moviesEvaluation.get(movie_id) === 0) {
+    		$scope.dislikedMovies.push(movie);
+    	} else if ($scope.moviesEvaluation.get(movie_id) === 1) {
+    		$scope.likedMovies.push(movie);
+    	}
+
+    	//When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
+    	if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
+    		$scope.allMovies = $scope.allMoviesTemp.slice();
+    		extractGenresStats();
+    	}
+      return movie;
     };
 
     /**
@@ -245,6 +274,7 @@ angular.module('frontMoviesDeepLearningApp')
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 			var lastIndex = firstIndex;
 			var cpt = firstIndex + $scope.rangeIndex;
+			var cptMovieInCache = 0;
 
 			if (firstIndex + $scope.rangeIndex > iterArray.length) {
 				lastIndex = iterArray.length;
@@ -253,10 +283,20 @@ angular.module('frontMoviesDeepLearningApp')
 			}
 
 			for (var i = firstIndex; i < lastIndex; i++) {
-				console.log("getAllMovies: ", i/($scope.moviesEvaluation.size-1)*100 + "%");
+				// console.log("getAllMovies: ", i/($scope.moviesEvaluation.size-1)*100 + "%");
 				$scope.loadingTMDB = i/($scope.moviesEvaluation.size-1)*100;
-				$scope.getMovieDetailsById(iterArray[i]);
+				if ($localStorage.allMoviesInfos[iterArray[i]]) {
+					$scope.getMovieDetailsByIdFromLS(iterArray[i]);
+					// console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
+					cptMovieInCache++;
+				} else {
+					$scope.getMovieDetailsById(iterArray[i]);
+				}
 			}
+
+			var timeoutNeeded = 11000-(250*cptMovieInCache);
+			console.log("temps attendu: ", timeoutNeeded);
+			console.log("temps gagné: ", 250*cptMovieInCache);
 
 			// Increase loadingTMDB smoothly
 			// $interval(function() {
@@ -267,8 +307,60 @@ angular.module('frontMoviesDeepLearningApp')
 			if (lastIndex < iterArray.length) {
 				$timeout(function(){
 				  $scope.getAllMovies(lastIndex);
-				}, 11000);
+				}, timeoutNeeded);
 			}
+		};
+
+
+		$scope.getAllMovies2 = function() {
+			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
+
+			var cpt = 0;
+			var loadingCpt = 0;
+
+			for (var i = 0; i < iterArray.length; i++) {
+				// console.log("getAllMovies: ", i/($scope.moviesEvaluation.size-1)*100 + "%");
+				if ($localStorage.allMoviesInfos[iterArray[i]]) {
+					$scope.getMovieDetailsByIdFromLS(iterArray[i]);
+					console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
+					loadingCpt++;
+					$scope.loadingTMDB = loadingCpt/($scope.moviesEvaluation.size-1)*100;
+				} else {
+					// $scope.getMovieDetailsById(iterArray[i]);
+					
+					
+					var waitTime = 275*cpt;
+					(function(iterArray, i){  // i will now become available for the someMethod to call
+			      $timeout(function() {
+			        $scope.getMovieDetailsById(iterArray[i]);
+						  // console.log("waitTime",waitTime);
+						  loadingCpt++;
+							$scope.loadingTMDB = loadingCpt/($scope.moviesEvaluation.size-1)*100;
+			      }, waitTime);
+			    })(iterArray, i);
+			  	cpt++;
+
+
+
+					// (function(cpt){  // i will now become available for the someMethod to call
+			  //     $timeout(function() {
+			  //       $scope.getMovieDetailsById(iterArray[i]);
+					// 	  console.log("cpt",cpt);
+					// 	  cpt++;
+			  //     }, 250*cpt);
+			  //   })(cpt);
+
+				}
+			}
+
+			console.log("temps attendu: ", waitTime);
+
+			// Increase loadingTMDB smoothly
+			// $interval(function() {
+			// 		cpt++;
+			// 		$scope.loadingTMDB = cpt/($scope.moviesEvaluation.size-1)*100;
+   //  	}, 11000/$scope.rangeIndex, lastIndex-firstIndex, true);
+
 		};
 
 
@@ -281,8 +373,13 @@ angular.module('frontMoviesDeepLearningApp')
 		// 		initCpt++;
 		// 		$scope.loadingTMDB = initCpt/($scope.moviesEvaluation.size-1)*100;
   	// 	}, 5000/$scope.rangeIndex, $scope.rangeIndex, true);
-		$timeout(function(){
-		  $scope.getAllMovies(0);
-		}, 3000);
+		
+
+		// $timeout(function(){
+		//   $scope.getAllMovies(0);
+		// }, 3000);
+		// 
+		
+		$scope.getAllMovies2();
 
   }]);
