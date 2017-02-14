@@ -47,7 +47,7 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.discoverMovies = function(next) {
       $scope.showLoadingBar();
       var requestedPage = 1;
-      if (next === null) {
+      if (next == null) {
         //Pick a random page between the first and the 1000th
         requestedPage = Math.floor(Math.random() * 1000) + 1;
         $scope.globalPage = 0;
