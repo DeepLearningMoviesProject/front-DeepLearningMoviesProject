@@ -47,7 +47,7 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.discoverMovies = function(next) {
       $scope.showLoadingBar();
       var requestedPage = 1;
-      if (next == null) {
+      if (next === null) {
         //Pick a random page between the first and the 1000th
         requestedPage = Math.floor(Math.random() * 1000) + 1;
         $scope.globalPage = 0;
@@ -117,20 +117,6 @@ angular.module('frontMoviesDeepLearningApp')
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
         movie.$promise.then(function(movie) {
           // console.log(movie);
-          $scope.allMoviesTemp.push(movie);
-          if ($scope.moviesEvaluation.get(movie_id) === 0) {
-            $scope.dislikedMovies.push(movie);
-          } else if ($scope.moviesEvaluation.get(movie_id) === 1) {
-            $scope.likedMovies.push(movie);
-          }
-
-          // console.log("getMovieDetailsById lastIndexToLoad: ", (lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)));
-
-          //When all movies of the page have been added to allMoviesTemp, slice it to allMovie to allow movie display
-          //lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex) = how many movies for the current page have to be loaded
-          if ($scope.allMoviesTemp.length === lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)) {
-            $scope.allMovies = $scope.allMoviesTemp.slice();
-          }
           return movie;
           //Hide the loading bar when the data are available
           //$scope.hideLoadingBar();

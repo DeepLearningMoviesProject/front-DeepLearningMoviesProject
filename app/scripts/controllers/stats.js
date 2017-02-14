@@ -151,10 +151,12 @@ angular.module('frontMoviesDeepLearningApp')
     function median(values) {
     	values.sort(function(a,b) {return a - b;} );
     	var half = Math.floor(values.length/2);
-    	if(values.length % 2)
+    	if(values.length % 2) {
     		return values[half];
-    	else
+    	}
+    	else {
     		return (values[half-1] + values[half]) / 2.0;
+    	}
     }
 
 
@@ -235,24 +237,24 @@ angular.module('frontMoviesDeepLearningApp')
     	}
 
     	//Disliked movies loop
-    	for (var i = 0; i < $scope.dislikedMovies.length; i++) {
-    		console.log("extractGenresStats: ", (i+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
-    		$scope.loadingProcessing = (i+$scope.likedMovies.length)/($scope.allMovies.length-1)*100;
-    		$scope.runtimeDislikedStats.average += $scope.dislikedMovies[i].runtime;
-    		$scope.runtimeDislikedStats.runtimes.push($scope.dislikedMovies[i].runtime);
-    		for (var j = 0; j < $scope.dislikedMovies[i].genres.length; j++) {
-    			var temp = $scope.genresStatsDisliked.get($scope.dislikedMovies[i].genres[j].id)+1;
-    			$scope.genresStatsDisliked.set($scope.dislikedMovies[i].genres[j].id, temp);	
+    	for (var k = 0; k < $scope.dislikedMovies.length; k++) {
+    		console.log("extractGenresStats: ", (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
+    		$scope.loadingProcessing = (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100;
+    		$scope.runtimeDislikedStats.average += $scope.dislikedMovies[k].runtime;
+    		$scope.runtimeDislikedStats.runtimes.push($scope.dislikedMovies[k].runtime);
+    		for (var l = 0; l < $scope.dislikedMovies[k].genres.length; l++) {
+    			var temp2 = $scope.genresStatsDisliked.get($scope.dislikedMovies[k].genres[l].id)+1;
+    			$scope.genresStatsDisliked.set($scope.dislikedMovies[k].genres[l].id, temp2);	
     		}
     	}
 
     	//Bar graph data processing
-    	for (var i = 0; i < $scope.genres.length; i++) {
-    		//Labels creation: Genres names
-    		$scope.labelsBarGraph[i] = $scope.genres[i].name;
-    		likedGenreData.push(($scope.genresStatsLiked.get($scope.genres[i].id)/$scope.likedMovies.length)*100);
-    		dislikedGenreData.push(($scope.genresStatsDisliked.get($scope.genres[i].id)/$scope.dislikedMovies.length)*100);
-    	}
+      for (var m = 0; m < $scope.genres.length; m++) {
+        //Labels creation: Genres names
+        $scope.labelsBarGraph[m] = $scope.genres[m].name;
+        likedGenreData.push(($scope.genresStatsLiked.get($scope.genres[m].id)/$scope.likedMovies.length)*100);
+        dislikedGenreData.push(($scope.genresStatsDisliked.get($scope.genres[m].id)/$scope.dislikedMovies.length)*100);
+      }
 
     	$scope.dataBarGraph.push(likedGenreData, dislikedGenreData);
 
@@ -267,13 +269,14 @@ angular.module('frontMoviesDeepLearningApp')
 
     /**
      * Recover all informations of all annotated movies (recursive function)
+     * DEPRECATED
      * @param  {[type]} firstIndex [description]
      * @return {[type]}            [description]
      */
-    $scope.getAllMovies = function(firstIndex) {
+    $scope.getAllMovies2 = function(firstIndex) {
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 			var lastIndex = firstIndex;
-			var cpt = firstIndex + $scope.rangeIndex;
+			// var cpt = firstIndex + $scope.rangeIndex;
 			var cptMovieInCache = 0;
 
 			if (firstIndex + $scope.rangeIndex > iterArray.length) {
@@ -312,7 +315,7 @@ angular.module('frontMoviesDeepLearningApp')
 		};
 
 
-		$scope.getAllMovies2 = function() {
+		$scope.getAllMovies = function() {
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 
 			var cpt = 0;
@@ -322,13 +325,11 @@ angular.module('frontMoviesDeepLearningApp')
 				// console.log("getAllMovies: ", i/($scope.moviesEvaluation.size-1)*100 + "%");
 				if ($localStorage.allMoviesInfos[iterArray[i]]) {
 					$scope.getMovieDetailsByIdFromLS(iterArray[i]);
-					console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
+					// console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
 					loadingCpt++;
 					$scope.loadingTMDB = loadingCpt/($scope.moviesEvaluation.size-1)*100;
 				} else {
-					// $scope.getMovieDetailsById(iterArray[i]);
-					
-					
+
 					var waitTime = 275*cpt;
 					(function(iterArray, i){  // i will now become available for the someMethod to call
 			      $timeout(function() {
@@ -339,27 +340,10 @@ angular.module('frontMoviesDeepLearningApp')
 			      }, waitTime);
 			    })(iterArray, i);
 			  	cpt++;
-
-
-
-					// (function(cpt){  // i will now become available for the someMethod to call
-			  //     $timeout(function() {
-			  //       $scope.getMovieDetailsById(iterArray[i]);
-					// 	  console.log("cpt",cpt);
-					// 	  cpt++;
-			  //     }, 250*cpt);
-			  //   })(cpt);
-
 				}
 			}
 
-			console.log("temps attendu: ", waitTime);
-
-			// Increase loadingTMDB smoothly
-			// $interval(function() {
-			// 		cpt++;
-			// 		$scope.loadingTMDB = cpt/($scope.moviesEvaluation.size-1)*100;
-   //  	}, 11000/$scope.rangeIndex, lastIndex-firstIndex, true);
+			// console.log("temps attendu: ", waitTime);
 
 		};
 
@@ -380,6 +364,6 @@ angular.module('frontMoviesDeepLearningApp')
 		// }, 3000);
 		// 
 		
-		$scope.getAllMovies2();
+		$scope.getAllMovies();
 
   }]);

@@ -76,7 +76,7 @@
 
 
 
-    <md-card ng-show="moviesEvaluation && false" layout="row">
+    <md-card ng-if="moviesEvaluation && false" layout="row">
     	<!-- <img class="md-card-image" src="card-image.png" alt="image caption"> -->
     	<md-list>
 				<md-list-item class="md-2-line" ng-repeat="likedMovie in likedMovies | orderBy:'popularity':true">

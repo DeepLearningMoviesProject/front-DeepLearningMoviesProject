@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('AnnotatedmoviesCtrl', ['$rootScope', '$scope', 'MoviesDetailsFactory', function ($rootScope, $scope, MoviesDetailsFactory) {
+  .controller('AnnotatedmoviesCtrl', ['$rootScope', '$scope', '$localStorage', '$timeout', 'MoviesDetailsFactory', function ($rootScope, $scope,$localStorage, $timeout, MoviesDetailsFactory) {
     
     console.log($scope.moviesEvaluation);
 
@@ -48,6 +48,7 @@ angular.module('frontMoviesDeepLearningApp')
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
         movie.$promise.then(function(movie) {
         	// console.log(movie);
+        	$localStorage.allMoviesInfos[movie_id] = movie;
         	$scope.allMoviesTemp.push(movie);
         	if ($scope.moviesEvaluation.get(movie_id) === 0) {
         		$scope.dislikedMovies.push(movie);
@@ -60,6 +61,7 @@ angular.module('frontMoviesDeepLearningApp')
         	//When all movies of the page have been added to allMoviesTemp, slice it to allMovie to allow movie display
         	//lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex) = how many movies for the current page have to be loaded
         	if ($scope.allMoviesTemp.length === lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)) {
+        		console.log($scope.allMoviesTemp);
         		$scope.allMovies = $scope.allMoviesTemp.slice();
         	}
           return movie;
@@ -67,6 +69,27 @@ angular.module('frontMoviesDeepLearningApp')
           //$scope.hideLoadingBar();
         });
       });
+    };
+
+
+    $scope.getMovieDetailsByIdFromLS = function(movie_id) {
+    	var movie = $localStorage.allMoviesInfos[movie_id];
+			$scope.allMoviesTemp.push(movie);
+    	if ($scope.moviesEvaluation.get(movie_id) === 0) {
+    		$scope.dislikedMovies.push(movie);
+    	} else if ($scope.moviesEvaluation.get(movie_id) === 1) {
+    		$scope.likedMovies.push(movie);
+    	}
+
+    	// console.log("getMovieDetailsById lastIndexToLoad: ", (lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)));
+
+    	//When all movies of the page have been added to allMoviesTemp, slice it to allMovie to allow movie display
+    	//lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex) = how many movies for the current page have to be loaded
+    	if ($scope.allMoviesTemp.length === lastIndexToLoad - (($scope.paging.current-1)*$scope.rangeIndex)) {
+    		$scope.allMovies = null;
+    		$scope.allMovies = $scope.allMoviesTemp.slice();
+    	}
+      return movie;
     };
 
     //$scope.getMovieDetailsById("11");
@@ -87,6 +110,9 @@ angular.module('frontMoviesDeepLearningApp')
 			if ($scope.moviesEvaluation.size === 0) {
 				return;
 			}
+
+			var cpt = 0;
+
 			$scope.showLoadingBar();
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 			var lastIndex = firstIndex;
@@ -103,7 +129,21 @@ angular.module('frontMoviesDeepLearningApp')
 			$scope.allMoviesTemp = [];
 			$scope.allMovies = [];
 			for (var i = firstIndex; i < lastIndex; i++) {
-				$scope.getMovieDetailsById(iterArray[i]);
+				if ($localStorage.allMoviesInfos[iterArray[i]]) {
+					$scope.getMovieDetailsByIdFromLS(iterArray[i]);
+					// console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
+				} else {
+					// $scope.getMovieDetailsByIdFromLS(iterArray[i]);
+
+					var waitTime = 275*cpt;
+					(function(iterArray, i){  // i will now become available for the someMethod to call
+			      $timeout(function() {
+			        $scope.getMovieDetailsById(iterArray[i]);
+						  // console.log("waitTime",waitTime);
+			      }, waitTime);
+			    })(iterArray, i);
+			  	cpt++;
+				}
 			}
 
 		};
