@@ -25,11 +25,11 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-    <div ng-show="!loadingBar || firstLoad" layout="row" class="slideBottomToTop"> 
-      <span flex></span>   
+    <div ng-show="!loadingBar || firstLoad" layout="row" layout-align="center center" class="slideBottomToTop" layout-wrap> 
+      <!-- <span hide-xs hide-sm flex></span>    -->
       <!-- <md-card id="searchMovieCard" flex="50" layout="row">
       </md-card> -->
-        <form flex="50" ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
+        <form flex="70" ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
           <md-input-container layout-fill class="md-icon-float md-block">
             <!-- Use floating label instead of placeholder -->
             <label>&nbsp;</label>
@@ -38,16 +38,18 @@
           </md-input-container>
           <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
         </form>
-        <md-button flex="none" ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
-          <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
-        </md-button>
-        <md-button flex="none" ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-          <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
-        </md-button>
-        <md-button flex="none" ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-          <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
-        </md-button>
-      <span flex></span>
+        <div flex="none">
+          <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
+            <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
+          </md-button>
+          <md-button ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+            <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
+          </md-button>
+          <md-button ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
+            <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
+          </md-button>
+        </div>
+      <!-- <span hide-xs hide-sm flex></span> -->
     </div>
     <!-- <md-card>
       <h1>Améliorer mes prédictions</h1>

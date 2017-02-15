@@ -74,6 +74,34 @@
 	          <md-card>
 	          	<md-card-title>
 				        <md-card-title-text>
+				          <span class="md-headline"><b>Note moyenne</b></span>
+				          <span class="md-subhead">Statistiques sur la note moyenne des films que vous avez aimés</span>
+				        </md-card-title-text>
+				      </md-card-title>
+				      <md-card-content>
+			          <div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
+			          	<p flex>Note moyenne: {{voteLikedStats.average | number:1}}</p>
+			          	<p flex>Note médiane: {{voteLikedStats.median | number:1}}</p>
+			          </div>
+			        </md-card-content>
+		        </md-card>
+	          <md-card>
+	          	<md-card-title>
+				        <md-card-title-text>
+				          <span class="md-headline"><b>Année de sortie</b></span>
+				          <span class="md-subhead">Statistiques sur l'année de sortie des films que vous avez aimés</span>
+				        </md-card-title-text>
+				      </md-card-title>
+				      <md-card-content>
+			          <div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
+			          	<p flex>Année de sortie moyenne: {{yearLikedStats.average | limitTo:4}}</p>
+			          	<p flex>Année de sortie médiane: {{yearLikedStats.median | limitTo:4}}</p>
+			          </div>
+			        </md-card-content>
+		        </md-card>
+	          <md-card>
+	          	<md-card-title>
+				        <md-card-title-text>
 				          <span class="md-headline"><b>Durée</b></span>
 				          <span class="md-subhead">Statistiques sur la durée des films que vous avez aimés</span>
 				        </md-card-title-text>
@@ -81,7 +109,7 @@
 				      <md-card-content>
 			          <div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
 			          	<p flex>Durée moyenne: {{runtimeLikedStats.average | number:0}} minutes</p>
-			          	<p flex>Durée médiane: {{runtimeLikedStats.median}} minutes</p>
+			          	<p flex>Durée médiane: {{runtimeLikedStats.median | number:0}} minutes</p>
 			          </div>
 			        </md-card-content>
 		        </md-card>
@@ -116,14 +144,42 @@
           <md-card>
           	<md-card-title>
 			        <md-card-title-text>
+			          <span class="md-headline"><b>Note moyenne</b></span>
+			          <span class="md-subhead">Statistiques sur la note moyenne des films que vous n'avez pas aimés</span>
+			        </md-card-title-text>
+			      </md-card-title>
+			      <md-card-content>
+		          <div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
+		          	<p flex>Note moyenne: {{voteDislikedStats.average | number:1}}</p>
+		          	<p flex>Note médiane: {{voteDislikedStats.median | number:1}}</p>
+		          </div>
+		        </md-card-content>
+	        </md-card>
+          <md-card>
+          	<md-card-title>
+			        <md-card-title-text>
+			          <span class="md-headline"><b>Année de sortie</b></span>
+			          <span class="md-subhead">Statistiques sur l'année de sortie des films que vous n'avez pas aimés</span>
+			        </md-card-title-text>
+			      </md-card-title>
+			      <md-card-content>
+		          <div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
+		          	<p flex>Année de sortie moyenne: {{yearDislikedStats.average | limitTo:4}}</p>
+		          	<p flex>Année de sortie médiane: {{yearDislikedStats.median | limitTo:4}}</p>
+		          </div>
+		        </md-card-content>
+	        </md-card>
+          <md-card>
+          	<md-card-title>
+			        <md-card-title-text>
 			          <span class="md-headline"><b>Durée</b></span>
-			          <span class="md-subhead">Statistiques sur la durée des films que vous n'avez pas aimés. Les genres en <b>gras</b> sont ceux que vous semblez ne pas apprecier.</span>
+			          <span class="md-subhead">Statistiques sur la durée des films que vous n'avez pas aimés</span>
 			        </md-card-title-text>
 			      </md-card-title>
 				    <md-card-content>
 				    	<div class="textCenter" layout="row" layout-wrap layout-align="space-around center">
 		          	<p flex="45">Durée moyenne: {{runtimeDislikedStats.average | number:0}} minutes</p>
-		          	<p flex="45">Durée médiane: {{runtimeDislikedStats.median}} minutes</p>
+		          	<p flex="45">Durée médiane: {{runtimeDislikedStats.median | number:0}} minutes</p>
 		          </div>
 				    </md-card-content>
 		      </md-card>
@@ -132,7 +188,7 @@
 	          <md-card-title>
 			        <md-card-title-text>
 			          <span class="md-headline"><b>Genres</b></span>
-			          <span class="md-subhead">Statistiques sur les genres des films que vous n'avez pas aimés</span>
+			          <span class="md-subhead">Statistiques sur les genres des films que vous n'avez pas aimés. Les genres en <b>gras</b> sont ceux que vous semblez ne pas apprecier.</span>
 			        </md-card-title-text>
 			      </md-card-title>
 			      <md-card-content>

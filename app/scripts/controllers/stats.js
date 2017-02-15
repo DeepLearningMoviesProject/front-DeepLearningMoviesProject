@@ -16,6 +16,7 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.allMovies = [];
     $scope.stats = {};
     $scope.genresStatsLiked = new Map();
+    $scope.genresStatsDisliked = new Map();
     $scope.loadingTMDB = 0;
     $scope.loadingProcessing = 0;
     $scope.statsAvailable = false;
@@ -33,7 +34,34 @@ angular.module('frontMoviesDeepLearningApp')
     	thirdQuart: 0,
     	runtimes: []
     };
-    $scope.genresStatsDisliked = new Map();
+    $scope.yearLikedStats = {
+    	average: 0,
+    	median: 0,
+    	firstQuart: 0,
+    	thirdQuart: 0,
+    	years: []
+    };
+    $scope.yearDislikedStats = {
+    	average: 0,
+    	median: 0,
+    	firstQuart: 0,
+    	thirdQuart: 0,
+    	years: []
+    };
+    $scope.voteLikedStats = {
+    	average: 0,
+    	median: 0,
+    	firstQuart: 0,
+    	thirdQuart: 0,
+    	votes: []
+    };
+    $scope.voteDislikedStats = {
+    	average: 0,
+    	median: 0,
+    	firstQuart: 0,
+    	thirdQuart: 0,
+    	votes: []
+    };
     $scope.rangeIndex = 35;
 
     //Graphe variables
@@ -178,7 +206,7 @@ angular.module('frontMoviesDeepLearningApp')
         	//When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
         	if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
         		$scope.allMovies = $scope.allMoviesTemp.slice();
-        		extractGenresStats();
+        		extractStats();
         	}
           return movie;
           //Hide the loading bar when the data are available
@@ -199,7 +227,7 @@ angular.module('frontMoviesDeepLearningApp')
     	//When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
     	if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
     		$scope.allMovies = $scope.allMoviesTemp.slice();
-    		extractGenresStats();
+    		extractStats();
     	}
       return movie;
     };
@@ -219,17 +247,25 @@ angular.module('frontMoviesDeepLearningApp')
      * Extract statistics from annotated movies
      * @return {[type]} [description]
      */
-    function extractGenresStats() {
+    function extractStats() {
     	//Bar graph variables
     	var likedGenreData = [];
 			var dislikedGenreData = [];
 
     	//Liked movies loop
     	for (var i = 0; i < $scope.likedMovies.length; i++) {
-    		console.log("extractGenresStats: ", i/($scope.allMovies.length-1)*100 + "%");
+    		console.log("extractStats: ", i/($scope.allMovies.length-1)*100 + "%");
     		$scope.loadingProcessing = i/($scope.allMovies.length-1)*100;
+    		//runtime stats
     		$scope.runtimeLikedStats.average += $scope.likedMovies[i].runtime;
     		$scope.runtimeLikedStats.runtimes.push($scope.likedMovies[i].runtime);
+    		//Year stats
+    		$scope.yearLikedStats.average += parseInt($scope.likedMovies[i].release_date);
+    		$scope.yearLikedStats.years.push(parseInt($scope.likedMovies[i].release_date));
+    		//vote stats
+    		$scope.voteLikedStats.average += $scope.likedMovies[i].vote_average;
+    		$scope.voteLikedStats.votes.push($scope.likedMovies[i].vote_average);
+    		//Iterate through genres of a movie
     		for (var j = 0; j < $scope.likedMovies[i].genres.length; j++) {
     			var temp = $scope.genresStatsLiked.get($scope.likedMovies[i].genres[j].id)+1;
     			$scope.genresStatsLiked.set($scope.likedMovies[i].genres[j].id, temp);	
@@ -238,10 +274,18 @@ angular.module('frontMoviesDeepLearningApp')
 
     	//Disliked movies loop
     	for (var k = 0; k < $scope.dislikedMovies.length; k++) {
-    		console.log("extractGenresStats: ", (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
+    		console.log("extractStats: ", (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
     		$scope.loadingProcessing = (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100;
+    		//runtime stats
     		$scope.runtimeDislikedStats.average += $scope.dislikedMovies[k].runtime;
     		$scope.runtimeDislikedStats.runtimes.push($scope.dislikedMovies[k].runtime);
+    		//Year stats
+    		$scope.yearDislikedStats.average += parseInt($scope.dislikedMovies[k].release_date);
+    		$scope.yearDislikedStats.years.push(parseInt($scope.dislikedMovies[k].release_date));
+    		//vote stats
+    		$scope.voteDislikedStats.average += $scope.dislikedMovies[k].vote_average;
+    		$scope.voteDislikedStats.votes.push($scope.dislikedMovies[k].vote_average);
+    		//Iterate through genres of a movie
     		for (var l = 0; l < $scope.dislikedMovies[k].genres.length; l++) {
     			var temp2 = $scope.genresStatsDisliked.get($scope.dislikedMovies[k].genres[l].id)+1;
     			$scope.genresStatsDisliked.set($scope.dislikedMovies[k].genres[l].id, temp2);	
@@ -258,12 +302,25 @@ angular.module('frontMoviesDeepLearningApp')
 
     	$scope.dataBarGraph.push(likedGenreData, dislikedGenreData);
 
-    	$scope.runtimeLikedStats.average = $scope.runtimeLikedStats.average/$scope.likedMovies.length;
-    	$scope.runtimeDislikedStats.average = $scope.runtimeDislikedStats.average/$scope.dislikedMovies.length;
+    	//compute average and median runtime for both liked and disliked movies
+    	$scope.runtimeLikedStats.average = $scope.runtimeLikedStats.average/$scope.runtimeLikedStats.runtimes.length;
+    	$scope.runtimeDislikedStats.average = $scope.runtimeDislikedStats.average/$scope.runtimeDislikedStats.runtimes.length;
     	$scope.runtimeLikedStats.median = median($scope.runtimeLikedStats.runtimes);
     	$scope.runtimeDislikedStats.median = median($scope.runtimeDislikedStats.runtimes);
+    	//compute average and median year for both liked and disliked movies
+    	$scope.yearLikedStats.average = $scope.yearLikedStats.average/$scope.yearLikedStats.years.length;
+    	$scope.yearDislikedStats.average = $scope.yearDislikedStats.average/$scope.yearDislikedStats.years.length;
+    	$scope.yearLikedStats.median = median($scope.yearLikedStats.years);
+    	$scope.yearDislikedStats.median = median($scope.yearDislikedStats.years);
+    	//compute average and median vote for both liked and disliked movies
+    	$scope.voteLikedStats.average = $scope.voteLikedStats.average/$scope.voteLikedStats.votes.length;
+    	$scope.voteDislikedStats.average = $scope.voteDislikedStats.average/$scope.voteDislikedStats.votes.length;
+    	$scope.voteLikedStats.median = median($scope.voteLikedStats.votes);
+    	$scope.voteDislikedStats.median = median($scope.voteDislikedStats.votes);
     	console.log($scope.runtimeLikedStats);
 			console.log($scope.runtimeDislikedStats);
+			console.log($scope.yearLikedStats);
+			console.log($scope.yearDislikedStats);
 			$scope.statsAvailable = true;
     }
 
