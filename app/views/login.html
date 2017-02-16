@@ -1,0 +1,38 @@
+<div layout-fill layout="column" ng-cloak>
+  
+  <!-- Content -->
+  <div layout="column" layout-fill layout-align="center center">
+
+    <md-card class="slideBottomToTop" ng-show="!authenticated">
+      <img ng-src="images/deep_movies_logo.png" class="md-card-image logoLogin" alt="logo deepMovies">
+      <form ng-submit="loginFunction(username,password)" name="loginForm" layout="column">
+        <md-card-content>
+          <md-input-container class="md-block">
+            <label>Nom d'utilisateur</label>
+            <input required type="text" id="username" name="username" ng-model="username" md-autofocus>
+            <div ng-messages="loginForm.username.$error">
+              <div ng-message="required">Ce champ est requis</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Mot de passe</label>
+            <input required type="password" id="password" name="password" ng-model="password">
+            <div ng-messages="loginForm.password.$error">
+              <div ng-message="required">Ce champ est requis</div>
+            </div>
+          </md-input-container>
+          <!-- <md-input-container class="md-block">
+            <md-checkbox ng-model="rememberme" aria-label="Checkbox">
+              Rester connecté
+            </md-checkbox>
+          </md-input-container> -->
+          <md-progress-circular id="loadingLogin" ng-show="loading" md-mode="indeterminate"></md-progress-circular>
+        </md-card-content>
+        <md-card-actions layout="column" layout-align="center">
+          <md-button type="submit" ng-click="loginFunction(username,password)" ng-disabled="loginForm.$invalid" class="md-raised md-cornered md-primary">Se connecter</md-button>
+        </md-card-actions>
+      </form>
+    </md-card>
+
+  </div>
+</div>

@@ -13,6 +13,8 @@ angular.module('frontMoviesDeepLearningApp')
 
     var self = this;
 
+    var tmdbRequest = ["movies", "search", "discover"];
+
     var webservicesList = {
         movies: {
 					getDetails:'/movie/:id',
@@ -28,12 +30,6 @@ angular.module('frontMoviesDeepLearningApp')
         },
         discover: {
           movies:'/discover/movie'
-        },
-        levelTechnos: {
-          add:'/levelTechnos'
-        },
-        technos: {
-            get:'/technos'
         },
         login: {
             login:'/login',
@@ -61,11 +57,16 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
     this.getWebserviceGroup = function() {
-        var globalE = Environments.getEnvironment();
+        var globalTMDBEnv = Environments.getTMDBEnvironment();
+        var globalEnv = Environments.getBackEndEnvironment();
         var webs = angular.copy(webservicesList);
         for(var i in webs) {
             for(var key in webs[i]) {
-                webs[i][key] = globalE + webs[i][key];
+                if (tmdbRequest.includes(i)) {
+                    webs[i][key] = globalTMDBEnv + webs[i][key];
+                } else {
+                    webs[i][key] = globalEnv + webs[i][key];
+                }
             }
         }
         return webs;

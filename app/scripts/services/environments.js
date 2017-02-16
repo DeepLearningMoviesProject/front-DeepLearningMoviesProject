@@ -10,12 +10,18 @@
 angular.module('frontMoviesDeepLearningApp')
   .service('Environments', function Environments() {
   	// AngularJS will instantiate a singleton by calling "new" on this function
-    var env = 'https://api.themoviedb.org/3';
+    var envTMDB = 'https://api.themoviedb.org/3';
+
+    var env = 'http://localhost:8000';
 
     /**
      * @returns {string} the environment url
      */
-    this.getEnvironment = function() {
+    this.getTMDBEnvironment = function() {
+        return envTMDB;
+    };
+
+    this.getBackEndEnvironment = function() {
         return env;
     };
 });

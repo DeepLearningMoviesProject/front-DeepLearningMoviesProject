@@ -239,6 +239,11 @@ div#preloaded-images {
   text-align: center;
 }
 
+.logoLogin {
+  max-width: 400px;
+  /*background-color: deepskyblue;*/
+}
+
 
 
 /* fade animation */

@@ -50,6 +50,11 @@ angular
         controller: 'StatsCtrl',
         controllerAs: 'stats'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
       .otherwise({
         redirectTo: '/'
       });
