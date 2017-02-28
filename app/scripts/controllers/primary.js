@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', function ($scope, $rootScope, $mdSidenav, $location) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', function ($scope, $rootScope, $mdSidenav, $location, $auth) {
 
     $rootScope.moviesEvaluation = new Map();
 
@@ -89,5 +89,15 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.toggleSidenav = function(menuId) {
 	    $mdSidenav(menuId).toggle();
 	  };
+
+
+    $scope.logoutFunction = function() {
+      if (!$auth.isAuthenticated()) { return; }
+      $auth.logout()
+        .then(function() {
+          console.log('You have been logged out');
+          $location.path('/');
+        });
+      };
 
   }]);

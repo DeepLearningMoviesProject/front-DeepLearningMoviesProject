@@ -33,7 +33,8 @@ angular.module('frontMoviesDeepLearningApp')
         },
         login: {
             login:'/login',
-            logout:'/logout'
+            logout:'/logout',
+            signup:'/signup'
         },
         assignments: {
             staffing:'/assignments/details',

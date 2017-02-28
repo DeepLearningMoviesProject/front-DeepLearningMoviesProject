@@ -28,7 +28,7 @@
       <md-toolbar id="sidenav-toolbar" class="md-hue-2 md-tall">
         <span flex></span>
         <div layout="row" layout-align="start center">
-          <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
+          <!-- <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon> -->
           <span flex></span>
         </div>
         <span flex></span>
@@ -46,7 +46,7 @@
           <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
           <p class="md-body-2">{{item.title}}</p>
         </md-list-item>
-        <md-list-item role="link" md-ink-ripple ng-click=" toggleSidenav('left'); logOut()">
+        <md-list-item role="link" md-ink-ripple ng-click=" toggleSidenav('left'); logoutFunction()">
           <md-icon md-svg-icon="action:ic_exit_to_app_24px" aria-label="Déconnexion"></md-icon>
           <p class="md-body-2">Déconnexion</p>
         </md-list-item>
@@ -57,7 +57,7 @@
     <div layout="row" class="relative" layout-fill role="main">
       <md-progress-linear class="loadingBar md-warn" md-mode="indeterminate" ng-show="loadingBar"></md-progress-linear>
 
-      <div layout="row" layout-fill ng-view></div>
+      <div layout="column" layout-fill ng-view></div>
 
     </div>
 
@@ -88,6 +88,7 @@
     <script src="bower_components/chart.js/dist/Chart.js"></script>
     <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/satellizer/dist/satellizer.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -105,6 +106,7 @@
         <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/recommendations.js"></script>
+        <script src="scripts/controllers/signup.js"></script>
         <!-- endbuild -->
 </body>
 </html>

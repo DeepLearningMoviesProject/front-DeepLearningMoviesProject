@@ -1,0 +1,54 @@
+<div layout-fill layout="column" ng-cloak layout-align="center center">
+  
+  <!-- Content -->
+  <div style="width: 50%" layout-fill>
+
+    <md-card class="slideBottomToTop" ng-show="!authenticated">
+      <img ng-src="images/deep_movies_logo.png" class="md-card-image logoLogin" alt="logo deepMovies">
+      <form ng-submit="signupFunction()" name="signupForm" layout="column">
+        <md-card-content>
+          <md-input-container class="md-block">
+            <label>Nom complet</label>
+            <input required type="text" id="name" name="name" ng-model="user.name" md-autofocus>
+            <div ng-messages="signupForm.name.$error">
+              <div ng-message="required">Ce champ est obligatoire</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Adresse email</label>
+            <input required type="email" id="email" name="email" ng-model="user.email" ng-pattern="/^.+@.+\..+$/">
+            <div ng-messages="signupForm.email.$error">
+              <div ng-message="required">Ce champ est obligatoire</div>
+              <div ng-message="pattern">Vous devez saisir une adresse email valide ! (exemple: john@smith.com)</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Mot de passe</label>
+            <input required type="password" id="password" name="password" ng-model="user.password">
+            <div ng-messages="signupForm.password.$error">
+              <div ng-message="required">Ce champ est obligatoire</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Confirmer votre mot de passe</label>
+            <input required type="password" id="confirmPassword" name="confirmPassword" ng-model="confirmPassword">
+            <div ng-messages="signupForm.password.$error">
+              <div ng-message="required">Ce champ est obligatoire</div>
+            </div>
+          </md-input-container>
+          <!-- <md-input-container class="md-block">
+            <md-checkbox ng-model="rememberme" aria-label="Checkbox">
+              Rester connecté
+            </md-checkbox>
+          </md-input-container> -->
+          <md-progress-circular id="loadingSignup" ng-show="loading" md-mode="indeterminate"></md-progress-circular>
+        </md-card-content>
+        <p class="md-padding">En cliquant sur Inscription, vous acceptez nos conditions et indiquez que vous avez lu notre Politique d’utilisation des données.</p>
+        <md-card-actions layout="column" layout-align="center">
+          <md-button type="submit" ng-click="signupFunction()" ng-disabled="signupForm.$invalid" class="md-raised md-cornered md-primary">Inscription</md-button>
+        </md-card-actions>
+      </form>
+    </md-card>
+
+  </div>
+</div>

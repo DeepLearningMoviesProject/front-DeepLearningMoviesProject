@@ -20,10 +20,37 @@ angular
     'imagesLoaded',
     'cl.paging',
     'chart.js',
-    'ngStorage'
+    'ngStorage',
+    'ngMessages',
+    'satellizer'
   ])
 
+
   .config(function ($routeProvider) {
+
+    /**
+     * Helper auth functions
+     */
+    var skipIfLoggedIn = ['$q', '$auth', function($q, $auth) {
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated()) {
+        deferred.reject();
+      } else {
+        deferred.resolve();
+      }
+      return deferred.promise;
+    }];
+
+    var loginRequired = ['$q', '$location', '$auth', function($q, $location, $auth) {
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated()) {
+        deferred.resolve();
+      } else {
+        $location.path('/login');
+      }
+      return deferred.promise;
+    }];
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -53,12 +80,26 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
-        controllerAs: 'login'
+        controllerAs: 'login',
+        resolve: {
+          skipIfLoggedIn: skipIfLoggedIn
+        }
       })
       .when('/recommendations', {
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendationsCtrl',
-        controllerAs: 'recommendations'
+        controllerAs: 'recommendations',
+        resolve: {
+          loginRequired: loginRequired
+        }
+      })
+      .when('/signup', {
+        templateUrl: 'views/signup.html',
+        controller: 'SignupCtrl',
+        controllerAs: 'signup',
+        resolve: {
+          skipIfLoggedIn: skipIfLoggedIn
+        }
       })
       .otherwise({
         redirectTo: '/'
@@ -69,6 +110,39 @@ angular
     $localStorageProvider.setKeyPrefix('deepMovies');
   }])
 
+
+  .config(['$authProvider', function ($authProvider) {
+    $authProvider.baseUrl = "http://192.168.43.113:5000";
+    $authProvider.loginUrl = '/auth/login';
+    $authProvider.signupUrl = '/auth/signup';
+  }])
+
+
+  // .run(function($rootScope, $window, $auth) {
+  //   if ($auth.isAuthenticated()) {
+  //     console.log($window.localStorage);
+  //     $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+  //     console.log($rootScope.currentUser);
+  //   }
+  // })
+  
+  
+  // .run(function($rootScope, $http, $location, $localStorage) {
+  //   // keep user logged in after page refresh
+  //   if ($localStorage.currentUser) {
+  //     $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+  //   }
+
+  //   // redirect to login page if not logged in and trying to access a restricted page
+  //   $rootScope.$on('$locationChangeStart', function (event, next, current) {
+  //     console.log(event, next, current);
+  //     var publicPages = ['/login'];
+  //     var restrictedPage = publicPages.indexOf($location.path()) === -1;
+  //     if (restrictedPage && !$localStorage.currentUser) {
+  //       $location.path('/login');
+  //     }
+  //   });
+  // })
 
   .config(function ($httpProvider) {
 
@@ -81,6 +155,11 @@ angular
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+    // $httpProvider.defaults.headers.common = {};
+    // $httpProvider.defaults.headers.post = {};
+    // $httpProvider.defaults.headers.put = {};
+    // $httpProvider.defaults.headers.patch = {};
 
     // $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';

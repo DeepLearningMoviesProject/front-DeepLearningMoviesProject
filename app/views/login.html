@@ -1,22 +1,22 @@
-<div layout-fill layout="column" ng-cloak>
+<div layout-fill layout="column" ng-cloak layout-align="center center">
   
   <!-- Content -->
-  <div layout="column" layout-fill layout-align="center center">
+  <div style="width: 50%" layout-fill>
 
     <md-card class="slideBottomToTop" ng-show="!authenticated">
       <img ng-src="images/deep_movies_logo.png" class="md-card-image logoLogin" alt="logo deepMovies">
-      <form ng-submit="loginFunction(username,password)" name="loginForm" layout="column">
+      <form ng-submit="loginFunction()" name="loginForm" layout="column">
         <md-card-content>
           <md-input-container class="md-block">
             <label>Nom d'utilisateur</label>
-            <input required type="text" id="username" name="username" ng-model="username" md-autofocus>
-            <div ng-messages="loginForm.username.$error">
+            <input required type="text" id="name" name="name" ng-model="user.name" md-autofocus>
+            <div ng-messages="loginForm.name.$error">
               <div ng-message="required">Ce champ est requis</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block">
             <label>Mot de passe</label>
-            <input required type="password" id="password" name="password" ng-model="password">
+            <input required type="password" id="password" name="password" ng-model="user.password">
             <div ng-messages="loginForm.password.$error">
               <div ng-message="required">Ce champ est requis</div>
             </div>
@@ -29,7 +29,7 @@
           <md-progress-circular id="loadingLogin" ng-show="loading" md-mode="indeterminate"></md-progress-circular>
         </md-card-content>
         <md-card-actions layout="column" layout-align="center">
-          <md-button type="submit" ng-click="loginFunction(username,password)" ng-disabled="loginForm.$invalid" class="md-raised md-cornered md-primary">Se connecter</md-button>
+          <md-button type="submit" ng-click="loginFunction()" ng-disabled="loginForm.$invalid" class="md-raised md-cornered md-primary">Se connecter</md-button>
         </md-card-actions>
       </form>
     </md-card>
