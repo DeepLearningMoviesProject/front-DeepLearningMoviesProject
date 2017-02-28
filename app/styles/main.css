@@ -244,6 +244,18 @@ div#preloaded-images {
   /*background-color: deepskyblue;*/
 }
 
+#radarChartCard, #barChartCard {
+  padding: 15px;
+}
+
+
+@media (min-width: 650px) {
+  #radarChartCard {
+    margin: auto;
+    max-width: 70%;
+  }
+}
+
 
 
 /* fade animation */

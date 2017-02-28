@@ -55,6 +55,11 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'login'
       })
+      .when('/recommendations', {
+        templateUrl: 'views/recommendations.html',
+        controller: 'RecommendationsCtrl',
+        controllerAs: 'recommendations'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -212,8 +212,14 @@
       	<md-tab-label href="#allmovies">Tous les films</md-tab-label>
         <md-tab-body class="md-padding">
           <h1 class="md-display-2">Tous mes films</h1>
-          <canvas id="bar" class="chart chart-bar" chart-data="dataBarGraph" chart-labels="labelsBarGraph" chart-series="series"></canvas>
-          <canvas id="radar" class="chart chart-radar" chart-data="dataBarGraph" chart-options="options" chart-labels="labelsBarGraph"> </canvas> 
+          <div>
+	          <md-card id="barChartCard">
+	          	<canvas id="bar" class="chart chart-bar" chart-data="dataBarGraph" chart-labels="labelsBarGraph" chart-series="series"></canvas>
+	          </md-card>
+	          <md-card id="radarChartCard">
+	          	<canvas id="radar" class="chart chart-radar" chart-data="dataBarGraph" chart-options="options" chart-labels="labelsBarGraph"> </canvas> 
+	          </md-card>
+	        </div>
         </md-tab-body>
       </md-tab>
     </md-tabs>

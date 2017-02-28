@@ -59,6 +59,11 @@ angular.module('frontMoviesDeepLearningApp')
         link : '/improveAccuracy',
         title: 'Améliorer mes prédictions',
         icon: 'action:ic_thumbs_up_down_24px'
+      },
+      {
+        link : '/recommendations',
+        title: 'Mes recommandations',
+        icon: 'action:ic_thumb_up_24px'
       }
     ];
 

@@ -142,6 +142,7 @@ angular.module('frontMoviesDeepLearningApp')
             templateUrl: 'views/moviedetailsdialog.html',
             scope: $scope.$new(),
             targetEvent: ev,
+            clickOutsideToClose: true
           })
           .then(function() {
             console.log('Show movie details done !');
