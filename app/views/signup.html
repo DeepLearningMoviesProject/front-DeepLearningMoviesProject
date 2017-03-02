@@ -31,21 +31,64 @@
           </md-input-container>
           <md-input-container class="md-block">
             <label>Confirmer votre mot de passe</label>
-            <input required type="password" id="confirmPassword" name="confirmPassword" ng-model="confirmPassword">
-            <div ng-messages="signupForm.password.$error">
+            <input password-match="user.password" required type="password" id="confirmPassword" name="confirmPassword" ng-model="confirmPassword">
+            <div ng-messages="signupForm.confirmPassword.$error">
               <div ng-message="required">Ce champ est obligatoire</div>
+              <div ng-message="compareTo">Vous n'avez pas saisi deux fois le même mot de passe</div>
             </div>
           </md-input-container>
+			    <md-input-container class="md-block">
+		        <label>Date de naissance</label>
+		        <md-datepicker required ng-model="user.birthday" name="birthday" md-placeholder="Date de naissance" md-current-view="year" md-max-date="maxDate"></md-datepicker>
+		        <div ng-messages="signupForm.birthday.$error">
+		          <div ng-message="valid">La valeur que vous avez saisi n'est pas une date valide !</div>
+		          <div ng-message="required">La date de naissance est obligatoire !</div>
+		          <div ng-message="mindate">Cette date est trop ancienne !</div>
+		          <div ng-message="maxdate">De retour du futur McFly ?</div>
+		        </div>
+		      </md-input-container>
+
+		      
+			    <md-input-container class="md-input-has-value">
+            <label style="margin-bottom: 10px;">Sexe *</label>
+            <md-radio-group ng-model="user.sex" required ng-required="true" name="sexe">
+				      <md-radio-button value="H" class="md-primary">Homme</md-radio-button>
+				      <md-radio-button value="F"> Femme </md-radio-button>
+				    </md-radio-group>
+				    <div ng-messages="signupForm.sexe.$error">
+		          <div ng-message="required">Ce champ est obligatoire !</div>
+		        </div>
+          </md-input-container>
+
+          <md-input-container>
+	          <label>Catégorie socioprofessionnelle \u00c9tats-Unis</label>
+	          <md-select required name="occupation" ng-model="user.occupation">
+	            <md-option ng-repeat="occupation in occupations" ng-value="occupation">
+	              {{occupation | capitalize}}
+	            </md-option>
+	          </md-select>
+	          <div ng-messages="signupForm.occupation.$error">
+		          <div ng-message="required">Ce champ est obligatoire !</div>
+		        </div>
+	        </md-input-container>
+
+          <!-- <div flex-gt-xs>
+			      <h4>Date de naissance</h4>
+			      <md-datepicker ng-model="user.birthday" md-placeholder="Date de naissance" md-current-view="year" md-max-date="maxDate"></md-datepicker>
+			    </div> -->
+
           <!-- <md-input-container class="md-block">
             <md-checkbox ng-model="rememberme" aria-label="Checkbox">
               Rester connecté
             </md-checkbox>
           </md-input-container> -->
           <md-progress-circular id="loadingSignup" ng-show="loading" md-mode="indeterminate"></md-progress-circular>
+        <p>En cliquant sur Inscription, vous acceptez nos conditions et indiquez que vous avez lu notre Politique d’utilisation des données.</p>
         </md-card-content>
-        <p class="md-padding">En cliquant sur Inscription, vous acceptez nos conditions et indiquez que vous avez lu notre Politique d’utilisation des données.</p>
         <md-card-actions layout="column" layout-align="center">
-          <md-button type="submit" ng-click="signupFunction()" ng-disabled="signupForm.$invalid" class="md-raised md-cornered md-primary">Inscription</md-button>
+          <md-button type="submit" ng-disabled="signupForm.$invalid" class="md-raised md-cornered md-primary">Inscription</md-button>
+          <md-button ng-click="log(user)" class="md-raised md-cornered md-primary">Log</md-button>
+
         </md-card-actions>
       </form>
     </md-card>

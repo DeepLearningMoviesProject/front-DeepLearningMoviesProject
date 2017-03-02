@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('RecommendationsCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
+  .controller('RecommendationsCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', 'TestIdFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory, TestIdFactory) {
 
     $scope.showLoadingBar();
     $scope.movieDetails = {};
@@ -22,7 +22,7 @@ angular.module('frontMoviesDeepLearningApp')
      * @return {[type]}        [description]
      */
     $scope.discoverMovies = function(next) {
-      $scope.showLoadingBar();
+      // $scope.showLoadingBar();
       var requestedPage = 1;
       if (next == null) {
         //Pick a random page between the first and the 1000th
@@ -73,6 +73,23 @@ angular.module('frontMoviesDeepLearningApp')
 		}
 
     $scope.discoverMovies(1);
+
+
+
+    $scope.testIdFunction = function() {
+      $scope.showLoadingBar();
+      TestIdFactory.getTestId(function (result){
+        result.$promise.then(function(result) {
+          $scope.result = result;
+
+          console.log($scope.result);
+          return result;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        });
+      });
+    };
+
 
 
   }]);

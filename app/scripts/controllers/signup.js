@@ -10,8 +10,14 @@
 angular.module('frontMoviesDeepLearningApp')
   .controller('SignupCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', function ($scope, $rootScope, $mdSidenav, $location, $auth) {
 
+  	$scope.user = {};
+  	$scope.user.birthday = new Date();
 
-  	$scope.signup = function() {
+  	var today = new Date();
+		$scope.maxDate = new Date();
+
+  	$scope.signupFunction = function() {
+  		console.log("SignUp function");
       $auth.signup($scope.user)
         .then(function(response) {
           $auth.setToken(response);
@@ -22,6 +28,16 @@ angular.module('frontMoviesDeepLearningApp')
           console.log(response.data.message);
         });
     };
+
+    $scope.occupations = ["agriculteurs",
+                   "artisan - commerçant - chef d\'entreprise",
+                   "autres",
+                   "cadre",
+                   "employé",
+                   "étudiant",
+                   "ouvrier",
+                   "profession intermédiaire",
+                   "retraité"];
     
   	// $scope.signUp = function () {
 	  //   $auth

@@ -12,7 +12,7 @@
       <span flex></span>
 
       <!-- Search and menus icons -->
-      <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
+      <md-button class="md-icon-button" aria-label="Search" ng-click="testIdFunction()">
         <md-icon md-svg-icon="action:ic_search_24px" aria-label="Search"></md-icon>
       </md-button>
       <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showListBottomSheet($event)">
@@ -25,18 +25,13 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-    <div ng-show="!loadingBar || firstLoad" layout="row" layout-align="center center" class="slideBottomToTop" layout-wrap> 
-      <!-- <span hide-xs hide-sm flex></span>    -->
-      <!-- <md-card id="searchMovieCard" flex="50" layout="row">
-      </md-card> -->
+    <!-- <div ng-show="!loadingBar || firstLoad" layout="row" layout-align="center center" class="slideBottomToTop" layout-wrap> 
         <form flex="70" ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
           <md-input-container layout-fill class="md-icon-float md-block">
-            <!-- Use floating label instead of placeholder -->
             <label>&nbsp;</label>
             <md-icon md-svg-icon="action:ic_search_24px" aria-label="movie search"></md-icon>
             <input style="font-size:22px; margin-bottom: -15px; margin-top: 5px" ng-model="nameSearchMovie" type="search" placeholder="Rechercher un film">
           </md-input-container>
-          <!-- <md-button ng-show="nameSearchMovie" ng-click="searchMovieByName(nameSearchMovie)" class="md-raised" aria-label="description" md-ripple-size="auto">Rechercher le film</md-button> -->
         </form>
         <div flex="none">
           <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
@@ -49,8 +44,7 @@
             <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
           </md-button>
         </div>
-      <!-- <span hide-xs hide-sm flex></span> -->
-    </div>
+    </div> -->
     <!-- <md-card>
       <h1>Améliorer mes prédictions</h1>
       <p>Ameliorez vos prédictions notant d'autre films !</p>
@@ -92,7 +86,7 @@
     </div> -->
 
 
-    <md-grid-list md-cols="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="5" md-row-height="780:439" md-gutter="8px" md-gutter-gt-sm="4px" >
+    <md-grid-list md-cols="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="5" md-row-height="780:439" md-gutter="8px" md-gutter-gt-sm="4px" data-images-loaded>
 
 	    <md-grid-tile ng-repeat="movieSearched in moviesSearched.results" 
 	    	md-rowspan="{{movieSearched.popularity*2/220}}" md-colspan="{{movieSearched.popularity*2/220}}" 

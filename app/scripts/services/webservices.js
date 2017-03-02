@@ -52,7 +52,8 @@ angular.module('frontMoviesDeepLearningApp')
             add:'/users/add',
             delete:'/users/:id',
             list:'/users',
-            user:'/user'
+            user:'/user',
+            testId:'/testId'
 
         }
     };

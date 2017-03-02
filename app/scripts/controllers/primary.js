@@ -80,6 +80,10 @@ angular.module('frontMoviesDeepLearningApp')
       }
     };
 
+    $scope.log = function(data) {
+      console.log(data);
+    };
+
 
     /**
      * Allow to toggle a sidenav identified by its id

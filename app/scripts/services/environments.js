@@ -12,7 +12,7 @@ angular.module('frontMoviesDeepLearningApp')
   	// AngularJS will instantiate a singleton by calling "new" on this function
     var envTMDB = 'https://api.themoviedb.org/3';
 
-    var env = 'http://localhost:8000';
+    var env = 'http://192.168.43.113:5000';
 
     /**
      * @returns {string} the environment url

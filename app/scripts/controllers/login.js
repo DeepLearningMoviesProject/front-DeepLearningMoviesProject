@@ -17,8 +17,9 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.loginFunction = function() {
       $auth.login({name: $scope.user.name, password: $scope.user.password})
-        .then(function() {
+        .then(function(data) {
           console.log('You have successfully signed in!');
+          console.log(data);
           $location.path('/');
         })
         .catch(function(error) {

@@ -31,11 +31,14 @@ angular
     /**
      * Helper auth functions
      */
-    var skipIfLoggedIn = ['$q', '$auth', function($q, $auth) {
+    var skipIfLoggedIn = ['$q', '$auth', '$location', function($q, $auth, $location) {
       var deferred = $q.defer();
       if ($auth.isAuthenticated()) {
+        console.log("Already authenticated, redirect to main page", deferred);
         deferred.reject();
+        $location.path('/');
       } else {
+        // console.log("Need to be authenticated", deferred);
         deferred.resolve();
       }
       return deferred.promise;
@@ -70,7 +73,10 @@ angular
       .when('/annotatedMovies', {
         templateUrl: 'views/annotatedmovies.html',
         controller: 'AnnotatedmoviesCtrl',
-        controllerAs: 'annotatedMovies'
+        controllerAs: 'annotatedMovies',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/stats', {
         templateUrl: 'views/stats.html',
@@ -88,10 +94,7 @@ angular
       .when('/recommendations', {
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendationsCtrl',
-        controllerAs: 'recommendations',
-        resolve: {
-          loginRequired: loginRequired
-        }
+        controllerAs: 'recommendations'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
@@ -115,6 +118,27 @@ angular
     $authProvider.baseUrl = "http://192.168.43.113:5000";
     $authProvider.loginUrl = '/auth/login';
     $authProvider.signupUrl = '/auth/signup';
+    // $authProvider.httpInterceptor = false;
+
+  }])
+
+
+  .config(['$mdDateLocaleProvider', function ($mdDateLocaleProvider) {
+    // Example of a French localization.
+    $mdDateLocaleProvider.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    $mdDateLocaleProvider.shortMonths = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+    $mdDateLocaleProvider.days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    $mdDateLocaleProvider.shortDays = ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'];
+
+    // Can change week display to start on Monday.
+    $mdDateLocaleProvider.firstDayOfWeek = 1;
+
+     $mdDateLocaleProvider.formatDate = function(date) {
+      var m = moment(date);
+      return m.isValid() ? m.format('DD/MM/YYYY') : '';
+    };
+
+
   }])
 
 
@@ -153,13 +177,27 @@ angular
     // $httpProvider.defaults.headers.common["Accept"] = "application/json";
     // $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
 
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    // $httpProvider.defaults.useXDomain = true;
+    // delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-    // $httpProvider.defaults.headers.common = {};
-    // $httpProvider.defaults.headers.post = {};
-    // $httpProvider.defaults.headers.put = {};
-    // $httpProvider.defaults.headers.patch = {};
+    //http://stackoverflow.com/questions/33660712/angularjs-post-fails-response-for-preflight-has-invalid-http-status-code-404/33662315
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+    $httpProvider.defaults.headers.get = {};
+
+    //Prevent to send headers.authorization to some urls
+    $httpProvider.interceptors.push(function() {
+      return {
+        'request': function(config) {
+          if(config.url.startsWith('https://raw.githubusercontent.com')) {
+            delete config.headers.Authorization;
+          }
+          return config;
+        }
+      };
+    });
 
     // $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     // $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';

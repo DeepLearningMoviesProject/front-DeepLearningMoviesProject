@@ -15,7 +15,7 @@ angular.module('frontMoviesDeepLearningApp')
       {},                    //params
       { getDiscoveredMoviesByName : {                    //actions
         method: 'JSONP',
-        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", sort_by:"popularity.desc", "vote_count.gte":"1", language:"fr-FR", page:'@page'},
+        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", sort_by:"popularity.desc", "vote_count.gte":"1", language:"fr-FR", page:'@page', callback: 'JSON_CALLBACK'},
         headers: {'Content-Type': 'application/json'}
         // ,isArray: true
       }
@@ -29,7 +29,7 @@ angular.module('frontMoviesDeepLearningApp')
       {},                    //params
       { getMoviesByName : {                    //actions
         method: 'JSONP',
-        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", language:"fr-FR", query:'@query'},
+        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", language:"fr-FR", query:'@query', callback: 'JSON_CALLBACK'},
         headers: {'Content-Type': 'application/json'}
         // ,isArray: true
       }
@@ -43,7 +43,21 @@ angular.module('frontMoviesDeepLearningApp')
       {id:'@id'},                    //params
       { getMoviesDetailsById : {                    //actions
         method: 'JSONP',
-        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", language:"fr-FR"},
+        params: {api_key:"ff3f07bf3577a496a2f813488eb29980", language:"fr-FR", callback: 'JSON_CALLBACK'},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
+  }])
+
+
+  .factory('TestIdFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.users.testId, //urls
+      {},                    //params
+      { getTestId : {                    //actions
+        method: 'GET',
         headers: {'Content-Type': 'application/json'}
         // ,isArray: true
       }
