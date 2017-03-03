@@ -8,7 +8,7 @@
       <form ng-submit="signupFunction()" name="signupForm" layout="column">
         <md-card-content>
           <md-input-container class="md-block">
-            <label>Nom complet</label>
+            <label>Pseudonyme</label>
             <input required type="text" id="name" name="name" ng-model="user.name" md-autofocus>
             <div ng-messages="signupForm.name.$error">
               <div ng-message="required">Ce champ est obligatoire</div>
@@ -49,19 +49,19 @@
 		      </md-input-container>
 
 		      
-			    <md-input-container class="md-input-has-value">
+			    <md-input-container class="md-block md-input-has-value">
             <label style="margin-bottom: 10px;">Sexe *</label>
-            <md-radio-group ng-model="user.sex" required ng-required="true" name="sexe">
+            <md-radio-group ng-model="user.sex" required ng-required="true" name="sex">
 				      <md-radio-button value="H" class="md-primary">Homme</md-radio-button>
 				      <md-radio-button value="F"> Femme </md-radio-button>
 				    </md-radio-group>
-				    <div ng-messages="signupForm.sexe.$error">
+				    <div ng-messages="signupForm.sex.$error">
 		          <div ng-message="required">Ce champ est obligatoire !</div>
 		        </div>
           </md-input-container>
 
-          <md-input-container>
-	          <label>Catégorie socioprofessionnelle \u00c9tats-Unis</label>
+          <md-input-container class="md-block">
+	          <label>Catégorie socioprofessionnelle </label>
 	          <md-select required name="occupation" ng-model="user.occupation">
 	            <md-option ng-repeat="occupation in occupations" ng-value="occupation">
 	              {{occupation | capitalize}}
@@ -71,6 +71,18 @@
 		          <div ng-message="required">Ce champ est obligatoire !</div>
 		        </div>
 	        </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Pays</label>
+            <md-select required name="country" ng-model="user.country">
+              <md-option ng-repeat="country in countries | orderByWithAccent" ng-value="country">
+                {{country | capitalize}}
+              </md-option>
+            </md-select>
+            <div ng-messages="signupForm.country.$error">
+              <div ng-message="required">Ce champ est obligatoire !</div>
+            </div>
+          </md-input-container>
 
           <!-- <div flex-gt-xs>
 			      <h4>Date de naissance</h4>
@@ -83,7 +95,7 @@
             </md-checkbox>
           </md-input-container> -->
           <md-progress-circular id="loadingSignup" ng-show="loading" md-mode="indeterminate"></md-progress-circular>
-        <p>En cliquant sur Inscription, vous acceptez nos conditions et indiquez que vous avez lu notre Politique d’utilisation des données.</p>
+          <p>En cliquant sur Inscription, vous acceptez nos conditions d'utilisation et indiquez que vous avez lu notre Politique d’utilisation des données.</p>
         </md-card-content>
         <md-card-actions layout="column" layout-align="center">
           <md-button type="submit" ng-disabled="signupForm.$invalid" class="md-raised md-cornered md-primary">Inscription</md-button>

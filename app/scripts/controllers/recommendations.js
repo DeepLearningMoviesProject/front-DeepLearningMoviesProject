@@ -68,9 +68,9 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.random = function(array) {
 		  return array.sort(function() {
-		    return .5 - Math.random();
+		    return 0.5 - Math.random();
 		  });
-		}
+		};
 
     $scope.discoverMovies(1);
 

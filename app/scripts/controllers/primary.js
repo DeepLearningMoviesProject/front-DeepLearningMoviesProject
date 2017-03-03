@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', function ($scope, $rootScope, $mdSidenav, $location, $auth) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', '$http', function ($scope, $rootScope, $mdSidenav, $location, $auth, $http) {
 
     $rootScope.moviesEvaluation = new Map();
 
@@ -66,6 +66,21 @@ angular.module('frontMoviesDeepLearningApp')
         icon: 'action:ic_thumb_up_24px'
       }
     ];
+
+
+    /**
+     * Retrieve list of all countries with a lot of details
+     * @type {Array}
+     */
+    $scope.completeCountries = [];
+    $http.get('resources/completeCountries.json')
+      .success(function(data) {
+        $scope.completeCountries = data;
+      })
+      .error(function() {
+        console.log('could not find someFile.json');
+      });
+
 
     /**
      * Use this function to change view with ng-click

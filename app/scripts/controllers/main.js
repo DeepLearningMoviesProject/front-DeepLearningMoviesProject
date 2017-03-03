@@ -43,7 +43,7 @@ angular.module('frontMoviesDeepLearningApp')
     function objToStrMap(obj) {
       var strMap = new Map();
 
-   		Object.keys(obj).forEach(function(key,index) {
+   		Object.keys(obj).forEach(function(key) {
     		strMap.set(key, obj[key]);
 			});
 
