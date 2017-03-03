@@ -17,52 +17,7 @@ angular.module('frontMoviesDeepLearningApp')
     ];
 
 
-    /**
-     * Whenever a Map only has strings as keys, you can convert it to JSON by encoding it as an object.
-     * Converting a string Map to and from an object
-     * @param  {[type]} strMap [description]
-     * @return {[type]}        [description]
-     */
-    function strMapToObj(strMap) {
-      var obj = Object.create(null);
-
-      strMap.forEach(function (element, key) {
-			  obj[key] = element;
-			});
-
-			// console.log(obj);
-      return obj;
-    }
-
-
-    /**
-     * Convert a JavaScript object with key as string to a Map
-     * @param  {[type]} obj [description]
-     * @return {[type]}     [description]
-     */
-    function objToStrMap(obj) {
-      var strMap = new Map();
-
-   		Object.keys(obj).forEach(function(key) {
-    		strMap.set(key, obj[key]);
-			});
-
-      return strMap;
-    }
-
-
-    /**
-     * Convert a map into a JSON object
-     * @param  {[type]} strMap [description]
-     * @return {[type]}        [description]
-     */
-    function strMapToJson(strMap) {
-      return JSON.stringify(strMapToObj(strMap));
-    }
-    // function jsonToStrMap(jsonStr) {
-    //   return objToStrMap(JSON.parse(jsonStr));
-    // }
-
+    
 
     /**
      * Upload a JSON file to import annotated movies
@@ -79,7 +34,7 @@ angular.module('frontMoviesDeepLearningApp')
       
       fr.onload = function(e) { 
         var result = JSON.parse(e.target.result);
-        $rootScope.moviesEvaluation = objToStrMap(result);
+        $rootScope.moviesEvaluation = $scope.objToStrMap(result);
         console.log($rootScope.moviesEvaluation);
       };
       
@@ -108,7 +63,7 @@ angular.module('frontMoviesDeepLearningApp')
       //   data = JSON.stringify(data, undefined, 2);
       // }
 
-      data = strMapToJson(data);
+      data = $scope.strMapToJson(data);
 
       var blob = new Blob([data], {type: 'text/json'});
 

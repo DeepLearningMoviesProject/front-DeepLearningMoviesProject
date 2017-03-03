@@ -46,6 +46,10 @@
           <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
           <p class="md-body-2">{{item.title}}</p>
         </md-list-item>
+        <md-list-item role="link" md-ink-ripple ng-click="go('/settings'); toggleSidenav('left');">
+          <md-icon md-svg-icon="action:ic_settings_24px" aria-label="Déconnexion"></md-icon>
+          <p class="md-body-2">Paramètres</p>
+        </md-list-item>
         <md-list-item role="link" md-ink-ripple ng-click=" toggleSidenav('left'); logoutFunction()">
           <md-icon md-svg-icon="action:ic_exit_to_app_24px" aria-label="Déconnexion"></md-icon>
           <p class="md-body-2">Déconnexion</p>
@@ -112,6 +116,8 @@
         <script src="scripts/filters/capitalize.js"></script>
         <script src="scripts/filters/orderbywithaccent.js"></script>
         <script src="scripts/services/freegeoipfactory.js"></script>
+        <script src="scripts/controllers/settings.js"></script>
+        <script src="scripts/services/deepmoviesapifactories.js"></script>
         <!-- endbuild -->
 </body>
 </html>

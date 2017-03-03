@@ -36,9 +36,11 @@ angular.module('frontMoviesDeepLearningApp')
             logout:'/logout',
             signup:'/signup'
         },
-        assignments: {
-            staffing:'/assignments/details',
-            assigns:'/assignments',
+        deepMovies: {
+            updateMovies:'/api/updateMovies',
+            getLikedMovies:'/api/likedMovies/liked',
+            getDisikedMovies:'/api/likedMovies/disliked',
+            getAllMovies:'/api/likedMovies/all',
             update:'/assignments/:id',
             delete:'/assignments/:id',
             projectDefault: '/assignments/projects/:id',

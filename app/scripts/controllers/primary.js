@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', '$http', function ($scope, $rootScope, $mdSidenav, $location, $auth, $http) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', '$http', 'GetAllMoviesFactory', function ($scope, $rootScope, $mdSidenav, $location, $auth, $http, GetAllMoviesFactory) {
 
     $rootScope.moviesEvaluation = new Map();
 
@@ -68,6 +68,7 @@ angular.module('frontMoviesDeepLearningApp')
     ];
 
 
+
     /**
      * Retrieve list of all countries with a lot of details
      * @type {Array}
@@ -117,6 +118,81 @@ angular.module('frontMoviesDeepLearningApp')
           console.log('You have been logged out');
           $location.path('/');
         });
-      };
+    };
+
+
+
+    /**
+     * Whenever a Map only has strings as keys, you can convert it to JSON by encoding it as an object.
+     * Converting a string Map to and from an object
+     * @param  {[type]} strMap [description]
+     * @return {[type]}        [description]
+     */
+    $scope.strMapToObj = function(strMap) {
+      var obj = Object.create(null);
+
+      strMap.forEach(function (element, key) {
+        obj[key] = element;
+      });
+
+      // console.log(obj);
+      return obj;
+    }
+
+
+    /**
+     * Convert a JavaScript object with key as string to a Map
+     * @param  {[type]} obj [description]
+     * @return {[type]}     [description]
+     */
+    $scope.objToStrMap = function(obj) {
+      var strMap = new Map();
+
+      Object.keys(obj).forEach(function(key) {
+        strMap.set(key, obj[key]);
+      });
+
+      return strMap;
+    }
+
+
+    /**
+     * Convert a map into a JSON object
+     * @param  {[type]} strMap [description]
+     * @return {[type]}        [description]
+     */
+    $scope.strMapToJson= function(strMap) {
+      return JSON.stringify($scope.strMapToObj(strMap));
+    }
+    // function jsonToStrMap(jsonStr) {
+    //   return $scope.objToStrMap(JSON.parse(jsonStr));
+    // }
+
+
+    /**
+     * Retrieve all annotated movies of an user from the DB
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     */
+    $scope.getAllMoviesFromDB = function(name) {
+      $scope.showLoadingBar();
+      GetAllMoviesFactory.getAllMovies(function (movies){
+        movies.$promise.then(function(movies) {
+          $scope.hideLoadingBar();
+          console.log(movies);
+          return movies;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        });
+      });
+    };
+
+
+    //If the user is loged in, we can retrieve all the movie already annotated by him
+    if ($auth.isAuthenticated()) {
+      $scope.getAllMoviesFromDB();
+    };
+
+
 
   }]);
