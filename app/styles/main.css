@@ -75,6 +75,91 @@ body {
   max-width: 450px;
 }
 
+@media (min-width: 520px) {
+
+  .progressContainer{
+    position: absolute;
+
+    width: 100%;   /* desired width */
+    min-width: 250px;
+    max-width: 450px;
+  }
+  .progressContainer:before{
+    content: "";
+    display: block;
+    padding-top: 56.28%;  /* initial ratio of 1:1*/
+  }
+
+  .loadingSearchMoviesCard{
+    background:rgba(0,0,0,.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  /*.loadingSearchMoviesCard {
+      background:rgba(0,0,0,.5);
+      height:100%;
+      position:absolute;
+      display:inline-block;
+      -webkit-box-sizing:border-box;
+      -moz-box-sizing:border-box;
+      box-sizing:border-box;
+      text-align:center;
+      width: 450px;
+      min-width: 250px;
+      max-width: 450px;
+  }
+  */
+  .progressCircularSearchMoviesCard{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+@media (max-width: 520px) {
+
+
+
+  .loadingSearchMoviesCard{
+    background:rgba(0,0,0,0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  /*.loadingSearchMoviesCard {
+      background:rgba(0,0,0,.5);
+      height:100%;
+      position:absolute;
+      display:inline-block;
+      -webkit-box-sizing:border-box;
+      -moz-box-sizing:border-box;
+      box-sizing:border-box;
+      text-align:center;
+      width: 450px;
+      min-width: 250px;
+      max-width: 450px;
+  }
+  */
+  .progressCircularSearchMoviesCard{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
 .searchedMoviesCardContainer {
   /*justify-content: space-around;*/
   align-content: center;

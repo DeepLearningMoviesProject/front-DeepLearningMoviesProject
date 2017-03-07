@@ -75,4 +75,32 @@ angular.module('frontMoviesDeepLearningApp')
         // ,isArray: true
       }
     });
+  }])
+
+  .factory('UpdateMovieFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.updateMovie, //urls
+      {id:'@id', liked:'@liked'},                    //params
+      { updateMovie : {                    //actions
+        method: 'PUT',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
+  }])
+
+  .factory('DeleteMovieFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.deleteMovie, //urls
+      {id:'@id'},                    //params
+      { deleteMovie : {                    //actions
+        method: 'DELETE',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
   }]);

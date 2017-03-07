@@ -63,6 +63,11 @@
       <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
         <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
         <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+        <div ng-show="moviesCurrentlyUpdated.has(movieSearched.id)" class="progressContainer">
+          <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
+            <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
+          </div>
+        </div>
         <md-card-actions layout="row" layout-align="start center">
           <div layout="column" flex="70">
             <span class="headline">{{movieSearched.title}} <span ng-if="movieSearched.release_date">({{movieSearched.release_date | limitTo:4}})</span></span>
