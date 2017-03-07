@@ -8,7 +8,7 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('SettingsCtrl', ['$rootScope','$scope', 'UpdateAnnotatedMoviesFactory', function ($rootScope, $scope, UpdateAnnotatedMoviesFactory) {
+  .controller('SettingsCtrl', ['$rootScope','$scope', 'UpdateAnnotatedMoviesFactory', '$localStorage', function ($rootScope, $scope, UpdateAnnotatedMoviesFactory, $localStorage) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -60,5 +60,14 @@ angular.module('frontMoviesDeepLearningApp')
       );
 
 	  };
+
+		/**
+		* delete $localStorage.allMoviesInfos
+		* @return {[type]} [description]
+		*/
+		$scope.deleteLocalStorage = function() {
+			delete $localStorage.allMoviesInfos;
+			console.log($localStorage.allMoviesInfos);
+		};
 
   }]);

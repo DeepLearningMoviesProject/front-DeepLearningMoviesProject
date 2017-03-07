@@ -75,12 +75,6 @@ angular.module('frontMoviesDeepLearningApp')
 	  	$localStorage.allMoviesInfos = {};
 	  }
 
-	  // delete $localStorage.allMoviesInfos;
-	  // 
-	  $scope.deleteLS = function() {
-	  	delete $localStorage.allMoviesInfos;
-	  	console.log($localStorage.allMoviesInfos);
-	  };
 
 	  /**
 	   * A Javascript object with every genres availaible on TMDB
@@ -169,7 +163,7 @@ angular.module('frontMoviesDeepLearningApp')
     }
     ];
 
-    console.log($scope.genres);
+    // console.log($scope.genres);
 
     /**
      * Compute the median of an array
@@ -254,7 +248,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     	//Liked movies loop
     	for (var i = 0; i < $scope.likedMovies.length; i++) {
-    		console.log("extractStats: ", i/($scope.allMovies.length-1)*100 + "%");
+    		// console.log("extractStats: ", i/($scope.allMovies.length-1)*100 + "%");
     		$scope.loadingProcessing = i/($scope.allMovies.length-1)*100;
     		//runtime stats
     		$scope.runtimeLikedStats.average += $scope.likedMovies[i].runtime;
@@ -274,7 +268,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     	//Disliked movies loop
     	for (var k = 0; k < $scope.dislikedMovies.length; k++) {
-    		console.log("extractStats: ", (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
+    		// console.log("extractStats: ", (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100 + "%");
     		$scope.loadingProcessing = (k+$scope.likedMovies.length)/($scope.allMovies.length-1)*100;
     		//runtime stats
     		$scope.runtimeDislikedStats.average += $scope.dislikedMovies[k].runtime;
@@ -317,10 +311,10 @@ angular.module('frontMoviesDeepLearningApp')
     	$scope.voteDislikedStats.average = $scope.voteDislikedStats.average/$scope.voteDislikedStats.votes.length;
     	$scope.voteLikedStats.median = median($scope.voteLikedStats.votes);
     	$scope.voteDislikedStats.median = median($scope.voteDislikedStats.votes);
-    	console.log($scope.runtimeLikedStats);
-			console.log($scope.runtimeDislikedStats);
-			console.log($scope.yearLikedStats);
-			console.log($scope.yearDislikedStats);
+      // console.log($scope.runtimeLikedStats);
+			// console.log($scope.runtimeDislikedStats);
+			// console.log($scope.yearLikedStats);
+			// console.log($scope.yearDislikedStats);
 			$scope.statsAvailable = true;
     }
 
@@ -372,6 +366,11 @@ angular.module('frontMoviesDeepLearningApp')
 		};
 
 
+    /**
+     * Recover all informations of all annotated movies (recursive function)
+     * @param  {[type]} firstIndex [description]
+     * @return {[type]}            [description]
+     */
 		$scope.getAllMovies = function() {
 			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 
@@ -421,6 +420,11 @@ angular.module('frontMoviesDeepLearningApp')
 		// }, 3000);
 		// 
 		
-		$scope.getAllMovies();
+		
+    $scope.$watch('moviesEvaluation',function(){
+      if($scope.moviesEvaluation){
+        $scope.getAllMovies(); 
+      }
+    });
 
   }]);

@@ -37,7 +37,7 @@
         <input type="file" id="preferences"> -->
         <!--  <input class="ng-hide" id="input-file-id" multiple type="file" />
         <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
-        <div><b>Uploader vos films déjà annotés</b></div>
+        <div><b>Uploadez vos films déjà annotés</b></div>
         <input id="preferences" type="file">
         <!-- <md-input-container>
           <label>&nbsp;</label>
@@ -63,13 +63,35 @@
         <input type="file" id="preferences"> -->
         <!--  <input class="ng-hide" id="input-file-id" multiple type="file" />
         <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
-        <div><b>Uploader vos anciennes préférences</b></div>
+        <div><b>Uploadez vos anciennes préférences</b></div>
         <input id="preferencesToDB" type="file">
         <!-- <md-input-container>
           <label>&nbsp;</label>
           <input id="preferences" type="file">
         </md-input-container> -->
         <md-button ng-click="uploadPreferencesToDB()" class="md-raised" aria-label="description" md-ripple-size="auto">Importez vos préférences</md-button>
+      </md-card-content>
+
+      
+    </md-card>
+
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline"><b>Supprimer le cache de l'application</b></span>
+          <span class="md-subhead">Si vous remarquez des incohérences dans l'affichage de certaines informations, supprimer le cache de l'application afin de le mettre à jour en le reconstruisant</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <!-- <label for="preferences" class="md-button md-raised md-primary">Uploader vos films déja annotés</label>
+        <input type="file" id="preferences"> -->
+        <!--  <input class="ng-hide" id="input-file-id" multiple type="file" />
+        <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <md-button ng-click="deleteLocalStorage()" class="md-raised" aria-label="supprimer le cache" md-ripple-size="auto">Supprimer le cache</md-button>
+        <!-- <md-input-container>
+          <label>&nbsp;</label>
+          <input id="preferences" type="file">
+        </md-input-container> -->
       </md-card-content>
 
       

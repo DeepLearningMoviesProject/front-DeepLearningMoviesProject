@@ -61,4 +61,18 @@ angular.module('frontMoviesDeepLearningApp')
         // ,isArray: true
       }
     });
+  }])
+
+  .factory('AddMovieFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.createMovie, //urls
+      {id:'@id', liked:'@liked'},                    //params
+      { addMovie : {                    //actions
+        method: 'POST',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
   }]);

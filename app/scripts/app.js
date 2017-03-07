@@ -109,6 +109,11 @@ angular
         controller: 'SettingsCtrl',
         controllerAs: 'settings'
       })
+      .when('/credits', {
+        templateUrl: 'views/credits.html',
+        controller: 'CreditsCtrl',
+        controllerAs: 'credits'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -120,7 +125,7 @@ angular
 
 
   .config(['$authProvider', function ($authProvider) {
-    $authProvider.baseUrl = "http://192.168.43.113:5000";
+    $authProvider.baseUrl = "http://ec2-52-42-51-249.us-west-2.compute.amazonaws.com:80";
     $authProvider.loginUrl = '/auth/login';
     $authProvider.signupUrl = '/auth/signup';
     // $authProvider.httpInterceptor = false;

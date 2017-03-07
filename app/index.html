@@ -42,13 +42,17 @@
         </md-list-item>
         <md-divider></md-divider>
         <md-subheader class="md-no-sticky">Management</md-subheader>
-        <md-list-item ng-repeat="item in admin" role="link" md-ink-ripple>
+        <!-- <md-list-item ng-repeat="item in admin" role="link" md-ink-ripple>
           <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
           <p class="md-body-2">{{item.title}}</p>
-        </md-list-item>
+        </md-list-item> -->
         <md-list-item role="link" md-ink-ripple ng-click="go('/settings'); toggleSidenav('left');">
           <md-icon md-svg-icon="action:ic_settings_24px" aria-label="Déconnexion"></md-icon>
           <p class="md-body-2">Paramètres</p>
+        </md-list-item>
+        <md-list-item role="link" md-ink-ripple ng-click="go('/credits'); toggleSidenav('left');">
+          <md-icon md-svg-icon="social:ic_people_24px" aria-label="Déconnexion"></md-icon>
+          <p class="md-body-2">Crédits</p>
         </md-list-item>
         <md-list-item role="link" md-ink-ripple ng-click=" toggleSidenav('left'); logoutFunction()">
           <md-icon md-svg-icon="action:ic_exit_to_app_24px" aria-label="Déconnexion"></md-icon>
@@ -118,6 +122,7 @@
         <script src="scripts/services/freegeoipfactory.js"></script>
         <script src="scripts/controllers/settings.js"></script>
         <script src="scripts/services/deepmoviesapifactories.js"></script>
+        <script src="scripts/controllers/credits.js"></script>
         <!-- endbuild -->
 </body>
 </html>

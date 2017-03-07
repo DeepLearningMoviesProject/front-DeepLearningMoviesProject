@@ -409,6 +409,21 @@ div#preloaded-images {
   transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
 }
 
+.creditsPersonalPhotos {
+  margin-top: 20px !important;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  -webkit-transition: -webkit-transform .5s cubic-bezier(0, 0, 0.2, 1);
+  transition: transform .5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.creditsPersonalPhotos:hover {
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
 
 
 /*#movieDetailsDialog md-dialog-content div {

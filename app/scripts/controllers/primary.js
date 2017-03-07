@@ -179,7 +179,8 @@ angular.module('frontMoviesDeepLearningApp')
       GetAllMoviesFactory.getAllMovies(function (movies){
         movies.$promise.then(function(movies) {
           $scope.hideLoadingBar();
-          console.log(movies);
+          $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
+          console.log($rootScope.moviesEvaluation);
           return movies;
           //Hide the loading bar when the data are available
           //$scope.hideLoadingBar();
@@ -188,7 +189,7 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
-    //If the user is loged in, we can retrieve all the movie already annotated by him
+    //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
       $scope.getAllMoviesFromDB();
     };

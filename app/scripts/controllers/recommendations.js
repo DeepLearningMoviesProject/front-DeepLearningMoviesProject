@@ -62,8 +62,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.$on('ALWAYS', function() {
       $scope.hideLoadingBar();
-      $scope.firstLoad = true;
-      console.log('ALL DONE ALWAYS');        
+      $scope.firstLoad = true;  
     });
 
     $scope.random = function(array) {

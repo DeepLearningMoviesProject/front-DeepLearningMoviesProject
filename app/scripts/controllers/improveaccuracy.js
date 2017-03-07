@@ -8,12 +8,33 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
+  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', 'AddMovieFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory, AddMovieFactory) {
 
     $scope.showLoadingBar();
     $scope.movieDetails = {};
     $scope.globalPage = 0;
     $scope.firstLoad = false;
+
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.addMovieToDB = function(movie) {
+      $scope.showLoadingBar();
+      console.log(movies);
+      AddMovieFactory.addMovie(movie,
+        function(movie) {
+          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
+          console.log("Movie imported successfully!", movie);
+          $scope.hideLoadingBar();
+          //Staffing refresh
+        }, function() {
+          console.log('Movie creation failed!');
+          $scope.hideLoadingBar();
+        }
+      );
+
+    };
 
 
     /**
@@ -83,7 +104,8 @@ angular.module('frontMoviesDeepLearningApp')
       if ($rootScope.moviesEvaluation.get(movieId.toString()) === note) {
         $rootScope.moviesEvaluation.delete(movieId.toString());
       } else {
-        $rootScope.moviesEvaluation.set(movieId.toString(),note);
+        $scope.addMovieToDB({id:movieId,liked:note});
+        // $rootScope.moviesEvaluation.set(movieId.toString(),note);
       }
       console.log($rootScope.moviesEvaluation);
     };

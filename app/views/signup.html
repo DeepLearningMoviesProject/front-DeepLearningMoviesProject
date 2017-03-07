@@ -8,7 +8,7 @@
       <form ng-submit="signupFunction()" name="signupForm" layout="column">
         <md-card-content>
           <md-input-container class="md-block">
-            <label>Pseudonyme</label>
+            <label>Nom d'utilisateur</label>
             <input required type="text" id="name" name="name" ng-model="user.name" md-autofocus>
             <div ng-messages="signupForm.name.$error">
               <div ng-message="required">Ce champ est obligatoire</div>

@@ -10,8 +10,6 @@
 angular.module('frontMoviesDeepLearningApp')
   .controller('AnnotatedmoviesCtrl', ['$rootScope', '$scope', '$localStorage', '$timeout', 'MoviesDetailsFactory', function ($rootScope, $scope,$localStorage, $timeout, MoviesDetailsFactory) {
     
-    console.log($scope.moviesEvaluation);
-
     var lastIndexToLoad = 0;
 
     $scope.likedMovies = [];
@@ -20,13 +18,20 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.allMovies = [];
 
     $scope.rangeIndex = 14;
-    $scope.paging = {
-        total: Math.ceil($scope.moviesEvaluation.size/$scope.rangeIndex),
-        current: 1
-    };
+    
+    //Wait $scope.moviesEvaluation to be retrieve before compute the paging system values
+    $scope.$watch('moviesEvaluation',function(){
+	    if($scope.moviesEvaluation){
+	      $scope.paging = {
+		      total: Math.ceil($scope.moviesEvaluation.size/$scope.rangeIndex),
+		      current: 1
+		    };
+	    }
+	  });
+
 
     $scope.$on('SUCCESS', function() {
-      console.log('ALL PICTURES LOADED SUCCESSFULLY');
+    	$scope.hideLoadingBar();
     });
 
     $scope.$on('FAIL', function() {
@@ -34,8 +39,7 @@ angular.module('frontMoviesDeepLearningApp')
     });
 
     $scope.$on('ALWAYS', function() {
-      $scope.hideLoadingBar();
-      console.log('ALL DONE ALWAYS');        
+      $scope.hideLoadingBar();       
     });
 
 
@@ -107,45 +111,47 @@ angular.module('frontMoviesDeepLearningApp')
 		 * @return {[type]}            [description]
 		 */
 		$scope.getNextMovies = function(firstIndex) {
-			if ($scope.moviesEvaluation.size === 0) {
-				return;
-			}
+			//Wait the $scope.moviesEvaluation to be retrieve before display the movies
+			$scope.$watch('moviesEvaluation',function(){
+		    if($scope.moviesEvaluation){
 
-			var cpt = 0;
+					var cpt = 0;
 
-			$scope.showLoadingBar();
-			var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
-			var lastIndex = firstIndex;
-			if (firstIndex + $scope.rangeIndex > iterArray.length) {
-				lastIndex = iterArray.length;
-			} else {
-				lastIndex = firstIndex + $scope.rangeIndex;
-			}
+					$scope.showLoadingBar();
+					var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
+					var lastIndex = firstIndex;
+					if (firstIndex + $scope.rangeIndex > iterArray.length) {
+						lastIndex = iterArray.length;
+					} else {
+						lastIndex = firstIndex + $scope.rangeIndex;
+					}
 
-			//Needed to know how many movies have to be loaded for the current page and display movie cards only when 
-			//all pictures have been loaded
-			lastIndexToLoad = lastIndex;
-			// console.log("getNextMovies lastIndexToLoad: " + lastIndexToLoad);
-			$scope.allMoviesTemp = [];
-			$scope.allMovies = [];
-			for (var i = firstIndex; i < lastIndex; i++) {
-				if ($localStorage.allMoviesInfos[iterArray[i]]) {
-					$scope.getMovieDetailsByIdFromLS(iterArray[i]);
-					// console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
-				} else {
-					// $scope.getMovieDetailsByIdFromLS(iterArray[i]);
+					//Needed to know how many movies have to be loaded for the current page and display movie cards only when 
+					//all pictures have been loaded
+					lastIndexToLoad = lastIndex;
+					// console.log("getNextMovies lastIndexToLoad: " + lastIndexToLoad);
+					$scope.allMoviesTemp = [];
+					$scope.allMovies = [];
+					for (var i = firstIndex; i < lastIndex; i++) {
+						if ($localStorage.allMoviesInfos[iterArray[i]]) {
+							$scope.getMovieDetailsByIdFromLS(iterArray[i]);
+							// console.log("retrieve from LS", $localStorage.allMoviesInfos[iterArray[i]]);
+						} else {
+							// $scope.getMovieDetailsByIdFromLS(iterArray[i]);
 
-					var waitTime = 275*cpt;
-					(function(iterArray, i){  // i will now become available for the someMethod to call
-			      $timeout(function() {
-			        $scope.getMovieDetailsById(iterArray[i]);
-						  // console.log("waitTime",waitTime);
-			      }, waitTime);
-			    })(iterArray, i);
-			  	cpt++;
+							var waitTime = 275*cpt;
+							(function(iterArray, i){  // i will now become available for the someMethod to call
+					      $timeout(function() {
+					        $scope.getMovieDetailsById(iterArray[i]);
+								  // console.log("waitTime",waitTime);
+					      }, waitTime);
+					    })(iterArray, i);
+					  	cpt++;
+						}
+					}
+
 				}
-			}
-
+		  });
 		};
 
 		//$scope.getNextMovies(0);

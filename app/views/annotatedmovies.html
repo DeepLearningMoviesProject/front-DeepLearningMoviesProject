@@ -30,12 +30,12 @@
       	<md-tab-label href="#allmovies">Tous les films</md-tab-label>
         <md-tab-body class="md-padding">
           <h1 class="md-display-2">Tous mes films</h1>
-          <h2 ng-show="!moviesEvaluation.size">
+          <h2 ng-show="!moviesEvaluation.size && !loadingBar">
           	Vous n'avez annoté aucun film, rendez-vous dans la catégorie "Améliorer mes prédictions" :)
           </h2>
-          <cl-paging ng-show="moviesEvaluation.size" flex cl-pages="paging.total" cl-steps="6" cl-page-changed="getNextMovies((paging.current-1)*rangeIndex)" cl-align="center center" cl-current-page="paging.current"></cl-paging>
+          <cl-paging ng-show="moviesEvaluation.size > 0" flex cl-pages="paging.total" cl-steps="6" cl-page-changed="getNextMovies((paging.current-1)*rangeIndex)" cl-align="center center" cl-current-page="paging.current"></cl-paging>
 
-          <div data-images-loaded ng-show="!loadingBar" class="searchedMoviesCardContainer" layout-wrap layout="row" layout-align="space-around center">
+          <div data-images-loaded ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center">
 			      <md-card class="searchedMoviesCard" ng-repeat="movie in allMovies | orderBy:'popularity':true">
 			        <img class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
 			        <img class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
@@ -55,7 +55,7 @@
 			      </md-card>
 			    </div>
 
-			    <cl-paging ng-show="moviesEvaluation.size && !loadingBar" flex cl-pages="paging.total" cl-steps="6" cl-align="center center" cl-current-page="paging.current"></cl-paging>
+			    <cl-paging ng-show="(moviesEvaluation.size > 0) && !loadingBar" flex cl-pages="paging.total" cl-steps="6" cl-align="center center" cl-current-page="paging.current"></cl-paging>
         </md-tab-body>
       </md-tab>
       <md-tab>
