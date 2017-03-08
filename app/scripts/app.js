@@ -40,6 +40,7 @@ angular
       } else {
         // console.log("Need to be authenticated", deferred);
         deferred.resolve();
+        // $location.path('/login');
       }
       return deferred.promise;
     }];
@@ -58,7 +59,10 @@ angular
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'main',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -68,7 +72,10 @@ angular
       .when('/improveAccuracy', {
         templateUrl: 'views/improveaccuracy.html',
         controller: 'ImproveaccuracyCtrl',
-        controllerAs: 'improveAccuracy'
+        controllerAs: 'improveAccuracy',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/annotatedMovies', {
         templateUrl: 'views/annotatedmovies.html',
@@ -81,7 +88,10 @@ angular
       .when('/stats', {
         templateUrl: 'views/stats.html',
         controller: 'StatsCtrl',
-        controllerAs: 'stats'
+        controllerAs: 'stats',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/login', {
         templateUrl: 'views/login.html',
@@ -94,7 +104,10 @@ angular
       .when('/recommendations', {
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendationsCtrl',
-        controllerAs: 'recommendations'
+        controllerAs: 'recommendations',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
@@ -107,7 +120,10 @@ angular
       .when('/settings', {
         templateUrl: 'views/settings.html',
         controller: 'SettingsCtrl',
-        controllerAs: 'settings'
+        controllerAs: 'settings',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .when('/credits', {
         templateUrl: 'views/credits.html',
@@ -152,13 +168,14 @@ angular
   }])
 
 
-  // .run(function($rootScope, $window, $auth) {
-  //   if ($auth.isAuthenticated()) {
-  //     console.log($window.localStorage);
-  //     $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
-  //     console.log($rootScope.currentUser);
-  //   }
-  // })
+  .run(function($rootScope, $window, $auth) {
+    $rootScope.auth = $auth;
+    // if ($auth.isAuthenticated()) {
+    //   console.log($window.localStorage);
+    //   $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+    //   console.log($rootScope.currentUser);
+    // }
+  })
   
   
   // .run(function($rootScope, $http, $location, $localStorage) {
@@ -232,10 +249,12 @@ angular
     //     'hue-1': '50'
     //   })
     $mdThemingProvider.theme('default')
-      .primaryPalette('blue')
+      .primaryPalette('teal')
       .accentPalette('pink');
     $mdThemingProvider.theme('greenTheme')
       .primaryPalette('green');
+    $mdThemingProvider.theme('blueTheme')
+      .primaryPalette('blue');
     $mdThemingProvider.theme('redTheme')
       .primaryPalette('red');
     $mdThemingProvider.theme('input', 'default')

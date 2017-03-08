@@ -51,14 +51,14 @@ angular.module('frontMoviesDeepLearningApp')
      * @param {[type]}
      */
     $scope.updateMovieToDB = function(movie) {
-      $scope.showLoadingBar();
+      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
       console.log(movie);
       UpdateMovieFactory.updateMovie(movie,
         function(movie) {
           // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log("Movie updated successfully!", movie);
           $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          $scope.hideLoadingBar();
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
           //Staffing refresh
         }, function() {
           console.log('Movie update failed!');
@@ -73,14 +73,14 @@ angular.module('frontMoviesDeepLearningApp')
      * @param {[type]}
      */
     $scope.deleteMovieToDB = function(movie) {
-      $scope.showLoadingBar();
+      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
       console.log(movie);
       DeleteMovieFactory.deleteMovie(movie,
         function(movie) {
           // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log("Movie deleted successfully!", movie);
           $rootScope.moviesEvaluation.delete(movie.id.toString());
-          $scope.hideLoadingBar();
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
           //Staffing refresh
         }, function() {
           console.log('Movie deletion failed!');

@@ -22,7 +22,7 @@
 
     <!-- Add your site or application content here -->
     <!-- SideNav -->
-    <md-sidenav id="navigation_drawer" layout="column" class="md-sidenav-left md-whiteframe-z2 md-navigation-drawer" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-cloak>
+    <md-sidenav ng-if="auth.isAuthenticated()" id="navigation_drawer" layout="column" class="md-sidenav-left md-whiteframe-z2 md-navigation-drawer" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-cloak>
 
       <!-- Sidenav toolbar -->
       <md-toolbar id="sidenav-toolbar" class="md-hue-2 md-tall">
