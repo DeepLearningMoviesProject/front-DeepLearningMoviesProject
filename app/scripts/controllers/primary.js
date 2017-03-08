@@ -189,6 +189,19 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
+    $scope.countMovies = function() {
+      var count = {likedMovies: 0, dislikedMovies: 0};
+      $scope.moviesEvaluation.forEach(function (element, key) {
+        if (element === 1) {
+          count.likedMovies++;
+        } else {
+          count.dislikedMovies++;
+        }
+      });
+      return count;
+    };
+
+
     //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
       $scope.getAllMoviesFromDB();

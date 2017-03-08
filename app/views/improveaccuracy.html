@@ -18,6 +18,14 @@
       <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showListBottomSheet($event)">
         <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
       </md-button> -->
+      <span class="countMovies">
+        {{countMovies().likedMovies}}
+        <md-icon md-svg-icon="action:ic_thumb_up_24px" style="margin-right:15px;"></md-icon>
+      </span>
+      <span class="countMovies">
+        {{countMovies().dislikedMovies}}
+        <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+      </span>
     </div>
   </md-toolbar>
 

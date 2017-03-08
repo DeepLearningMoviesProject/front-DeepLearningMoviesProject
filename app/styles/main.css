@@ -160,6 +160,10 @@ body {
   }
 }
 
+.countMovies {
+  font-size: 18px;
+}
+
 .searchedMoviesCardContainer {
   /*justify-content: space-around;*/
   align-content: center;
