@@ -17,8 +17,6 @@ angular.module('frontMoviesDeepLearningApp')
     ];
 
 
-    
-
     /**
      * Upload a JSON file to import annotated movies
      * @return {[type]} [description]

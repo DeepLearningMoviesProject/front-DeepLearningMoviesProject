@@ -18,7 +18,7 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.moviesCurrentlyUpdated = new Map();
 
     $scope.removeItem = function(movieId) {
-      var index =  $scope.moviesCurrentlyUpdated.indexOf(item);
+      var index = $scope.moviesCurrentlyUpdated.indexOf(item);
        $scope.moviesCurrentlyUpdated.splice(index, 1);
     };
 
@@ -34,8 +34,12 @@ angular.module('frontMoviesDeepLearningApp')
         function(movie) {
           // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log("Movie imported successfully!", movie);
-          $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $scope.moviesCurrentlyUpdated.delete(movie.id);
           $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          }, 10);
           //Staffing refresh
         }, function() {
           console.log('Movie creation failed!');
@@ -57,8 +61,12 @@ angular.module('frontMoviesDeepLearningApp')
         function(movie) {
           // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log("Movie updated successfully!", movie);
-          $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $scope.moviesCurrentlyUpdated.delete(movie.id);
           $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          }, 10);
           //Staffing refresh
         }, function() {
           console.log('Movie update failed!');
@@ -79,8 +87,10 @@ angular.module('frontMoviesDeepLearningApp')
         function(movie) {
           // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log("Movie deleted successfully!", movie);
-          $rootScope.moviesEvaluation.delete(movie.id.toString());
           $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.delete(movie.id.toString());
+          }, 10);
           //Staffing refresh
         }, function() {
           console.log('Movie deletion failed!');
