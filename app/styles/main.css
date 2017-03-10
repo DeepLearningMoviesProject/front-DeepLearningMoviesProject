@@ -389,6 +389,10 @@ div#preloaded-images {
   text-align: center;
 }
 
+.homeTitle {
+  justify-content: center;
+}
+
 .pacifico {
   font-family: 'Pacifico', cursive;
 }

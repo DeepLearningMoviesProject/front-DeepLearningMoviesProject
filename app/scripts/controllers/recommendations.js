@@ -62,7 +62,8 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.$on('ALWAYS', function() {
       $scope.hideLoadingBar();
-      $scope.firstLoad = true;  
+      $scope.firstLoad = true;
+      console.log('ALL DONE ALWAYS');        
     });
 
     $scope.random = function(array) {
@@ -71,23 +72,33 @@ angular.module('frontMoviesDeepLearningApp')
 		  });
 		};
 
-    $scope.discoverMovies(1);
+    // $scope.discoverMovies(1);
 
-
-
-    $scope.testIdFunction = function() {
-      $scope.showLoadingBar();
-      TestIdFactory.getTestId(function (result){
-        result.$promise.then(function(result) {
-          $scope.result = result;
-
-          console.log($scope.result);
-          return result;
-          //Hide the loading bar when the data are available
-          //$scope.hideLoadingBar();
-        });
-      });
+    $scope.computeWidth = function(accuracy, minCol, maxCol, minAccuracy, maxAccuracy) {
+      minAccuracy = 0.5;
+      var width = (((maxCol-minCol)/(maxAccuracy - minAccuracy))*accuracy) + (minCol - (0.5*(maxCol-minCol)/(maxAccuracy - minAccuracy)));
+      return width;
     };
+
+    if (!$scope.loadingPredictionsFirstClassifier && !$scope.predictions) {
+      $scope.getPredictionsFromBack();
+    }
+
+
+
+    // $scope.testIdFunction = function() {
+    //   $scope.showLoadingBar();
+    //   TestIdFactory.getTestId(function (result){
+    //     result.$promise.then(function(result) {
+    //       $scope.result = result;
+
+    //       console.log($scope.result);
+    //       return result;
+    //       //Hide the loading bar when the data are available
+    //       //$scope.hideLoadingBar();
+    //     });
+    //   });
+    // };
 
 
 

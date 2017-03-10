@@ -9,12 +9,11 @@
  */
 angular.module('frontMoviesDeepLearningApp')
   .controller('LoginCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', function ($scope, $rootScope, $mdSidenav, $location, $auth) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
+    /**
+     * The login function
+     * @return {[type]} [description]
+     */
     $scope.loginFunction = function() {
       console.log("login function");
       $auth.login({name: $scope.user.name, password: $scope.user.password})
@@ -30,6 +29,11 @@ angular.module('frontMoviesDeepLearningApp')
         });
     };
 
+    /**
+     * Authenticate with a provider (facebook, google, twitter...)
+     * @param  {[type]} provider [description]
+     * @return {[type]}          [description]
+     */
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function() {

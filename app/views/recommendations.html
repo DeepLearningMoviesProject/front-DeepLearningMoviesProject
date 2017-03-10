@@ -25,109 +25,78 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-    <!-- <div ng-show="!loadingBar || firstLoad" layout="row" layout-align="center center" class="slideBottomToTop" layout-wrap> 
-        <form flex="70" ng-submit="searchMovieByName(nameSearchMovie)" name="searchMovieForm" layout="row">
-          <md-input-container layout-fill class="md-icon-float md-block">
-            <label>&nbsp;</label>
-            <md-icon md-svg-icon="action:ic_search_24px" aria-label="movie search"></md-icon>
-            <input style="font-size:22px; margin-bottom: -15px; margin-top: 5px" ng-model="nameSearchMovie" type="search" placeholder="Rechercher un film">
-          </md-input-container>
-        </form>
-        <div flex="none">
-          <md-button ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
-            <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
-          </md-button>
-          <md-button ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-            <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
-          </md-button>
-          <md-button ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-            <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
-          </md-button>
+  	<md-card ng-show="loadingPredictionsFirstClassifier">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline"><b>Vos prédictions sont en cours de chargement</b></span>
+          <span class="md-subhead">Revenez dans quelques instants</span>
+        </md-card-title-text>
+      </md-card-title>
+      <!-- <md-card-content>
+        <p>
+          Rendez-vous dans la <b>page "Améliorer mes prédictions"</b> et annotez des films en cliquant sur les petits pouces.
+          Le <b>"thumb up" bleu indique que vous aimez ce film</b>, le <b>"thumb down" rouge indique lui que vous n'aimez pas celui-ci</b> (ou que vous ne souhaitez pas le voir). 
+        </p>
+        <p>
+          Après avoir annoté vos films, vous pouvez <b>exporter vos résultats</b> en vous rendant sur la <b>page "Accueil"</b> puis en cliquant sur le <b>bouton "Enregistrer mes annotations"</b>.
+        </p>
+        <p>
+          Pour poursuivre votre annotation de films, vous pouvez <b>importer vos précédentes</b> annotations depuis la <b>page "Accueil"</b> en sélectionnant votre fichier puis en <b>cliquant sur "Importez vos préférences"</b>.
+        </p>
+
+        <p><b>ATTENTION: Ne rechargez pas la page !
+        Actuellement, un refresh de celle-ci vous fait perdre toutes vos données que vous n'avez pas sauvegardées !</b>
+        Sauvegardez régulièrement et surtout naviguez à travers les pages grâce aux menus du site <span style="font-size: 20px;">☺</span></p>
+      </md-card-content> -->
+  	</md-card>
+
+  	<div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
+      <md-card class="searchedMoviesCard" ng-repeat="movie in predictions | orderBy:'accuracy':true">
+        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
+        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+        <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
+          <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
+            <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
+          </div>
         </div>
-    </div> -->
-    <!-- <md-card>
-      <h1>Améliorer mes prédictions</h1>
-      <p>Ameliorez vos prédictions notant d'autre films !</p>
-    
-
-
-    </md-card> -->
-
-<!--     <div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
-      <md-card class="searchedMoviesCard" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
-        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}"/>
-        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
         <md-card-actions layout="row" layout-align="start center">
           <div layout="column" flex="70">
-            <span class="headline">{{movieSearched.title}} <span ng-if="movieSearched.release_date">({{movieSearched.release_date | limitTo:4}})</span></span>
-            <span class="subline">{{movieSearched.vote_average}} <span style="font-size: 16px">★</span></span>
+            <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
+            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span></span>
           </div>
           <span flex></span>
-          <md-button flex="none" ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 1 ? 'md-primary' : ''">
+          <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
             <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
           </md-button>
-          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 0 ? 'md-primary' : ''">
+          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
             <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
           </md-button>
         </md-card-actions>
       </md-card>
 
     </div>
-    <div ng-show="!loadingBar" id="bottomImproveAccuracyNavigation" layout="center center">
-      <md-button flex="none" ng-click="discoverMovies()" class="md-raised" aria-label="description" md-ripple-size="auto">
-        <md-icon md-svg-icon="av:ic_shuffle_24px"></md-icon>
-      </md-button>
-      <md-button flex="none" ng-disabled="globalPage <= 1" ng-click="discoverMovies(-1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-        <md-icon md-svg-icon="image:ic_navigate_before_24px"></md-icon>
-      </md-button>
-      <md-button flex="none" ng-disabled="globalPage >= 1000" ng-click="discoverMovies(1)" class="md-raised" aria-label="description" md-ripple-size="auto">
-        <md-icon md-svg-icon="image:ic_navigate_next_24px"></md-icon>
-      </md-button>
-    </div> -->
 
+
+   <!--  <md-subheader class="md-primary">Affichage 2</md-subheader>
 
     <md-grid-list md-cols="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="5" md-row-height="780:439" md-gutter="8px" md-gutter-gt-sm="4px" data-images-loaded>
 
-	    <md-grid-tile ng-repeat="movieSearched in moviesSearched.results" 
-	    	md-rowspan="{{movieSearched.popularity*2/220}}" md-colspan="{{movieSearched.popularity*2/220}}" 
+	    <md-grid-tile ng-repeat="movie in predictions" 
+	    	md-rowspan="{{computeWidth(movie.accuracy, 1, 2, minAccuracy, maxAccuracy)}}" md-colspan="{{computeWidth(movie.accuracy, 1, 2, minAccuracy, maxAccuracy)}}" 
 	    	md-colspan-xs="1" md-colspan-xs="1" 
-	    	md-rowspan-sm="{{movieSearched.popularity*3/220}}" md-colspan-sm="{{movieSearched.popularity*3/220}}"
-	    	md-rowspan-md="{{movieSearched.popularity*4/220}}" md-colspan-md="{{movieSearched.popularity*4/220}}"
-	    	md-rowspan-gt-md="{{movieSearched.popularity*5/220}}" md-colspan-gt-md="{{movieSearched.popularity*5/220}}">
-	      <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="movieSearched.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movieSearched.backdrop_path}}" layout-fill/>
-        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
-	      <md-grid-tile-footer><h3>{{movieSearched.title}}</h3></md-grid-tile-footer>
+	    	md-rowspan-sm="{{computeWidth(movie.accuracy, 1, 3, minAccuracy, maxAccuracy)}}" md-colspan-sm="{{computeWidth(movie.accuracy, 1, 3, minAccuracy, maxAccuracy)}}"
+	    	md-rowspan-md="{{computeWidth(movie.accuracy, 1, 4, minAccuracy, maxAccuracy)}}" md-colspan-md="{{computeWidth(movie.accuracy, 1, 4, minAccuracy, maxAccuracy)}}"
+	    	md-rowspan-gt-md="{{computeWidth(movie.accuracy, 1, 5, minAccuracy, maxAccuracy)}}" md-colspan-gt-md="{{computeWidth(movie.accuracy, 1, 5, minAccuracy, maxAccuracy)}}">
+	      <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}" layout-fill/>
+        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+	      <md-grid-tile-footer><h3>{{movie.title}}</h3></md-grid-tile-footer>
 	    </md-grid-tile>
-	  </md-grid-list>
-
-
-    <!-- <md-card ng-show="moviesSearched && false">
-    	<md-list>
-				<md-list-item class="md-2-line" ng-repeat="movieSearched in moviesSearched.results | orderBy:'popularity':true">
-          <img class="searchMoviesPosterPath" ng-if="movieSearched.poster_path" ng-src="https://image.tmdb.org/t/p/w92/{{movieSearched.poster_path}}"/>
-          <img class="searchMoviesPosterPath" ng-if="!movieSearched.poster_path" ng-src="http://school4schools.com/blog/wp-content/plugins/lightbox/images/No-image-found.jpg"/>
-					<div class="md-list-item-text compact">
-						<h3>{{movieSearched.title}}</h3>
-						<p>{{movieSearched.vote_average}}/10</p>
-					</div>
-          <div layout="column">
-            <md-button ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 1 ? 'md-primary' : ''">
-              <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
-            </md-button>
-            <span flex="grow"></span>
-            <md-button ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="Favorite" flex="none" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 0 ? 'md-primary' : ''">
-              <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
-            </md-button>
-          </div>
-					<md-divider ng-if="!$last"></md-divider>
-				</md-list-item>
-    	</md-list>
-    </md-card> -->
+	  </md-grid-list> -->
 
 
     <!-- Image preloading -->
     <div id="preloaded-images">
-      <img ng-if="movie.poster_path" ng-repeat="movie in moviesSearched.results" ng-src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}" width="1" height="1" alt="" />
+      <img ng-if="movie.poster_path" ng-repeat="movie in predictions" ng-src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}" width="1" height="1" alt="" />
     </div>
 
   </md-content>

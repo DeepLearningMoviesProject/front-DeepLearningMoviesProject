@@ -103,4 +103,32 @@ angular.module('frontMoviesDeepLearningApp')
         // ,isArray: true
       }
     });
+  }])
+
+  .factory('TrainModelFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.trainModel, //urls
+      {},                    //params
+      { trainModel : {                    //actions
+        method: 'POST',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
+  }])
+
+  .factory('GetPredictionsFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.getPredictions, //urls
+      {},                    //params
+      { getPredictions : {                    //actions
+        method: 'GET',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        ,isArray: true
+      }
+    });
   }]);

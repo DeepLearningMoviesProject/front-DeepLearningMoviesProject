@@ -8,11 +8,12 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', '$http', 'GetAllMoviesFactory', function ($scope, $rootScope, $mdSidenav, $location, $auth, $http, GetAllMoviesFactory) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$mdDialog', '$mdToast', '$location', '$auth', '$http', 'GetAllMoviesFactory', 'TrainModelFactory', 'GetPredictionsFactory', 'MoviesDetailsFactory', function ($scope, $rootScope, $mdSidenav, $mdDialog, $mdToast, $location, $auth, $http, GetAllMoviesFactory, TrainModelFactory, GetPredictionsFactory, MoviesDetailsFactory) {
 
     $rootScope.moviesEvaluation = new Map();
 
     $scope.loadingBar = false;
+    $scope.loadingPredictionsFirstClassifier = false;
 
     /**
      * Function to toggle the main loading bar
@@ -184,6 +185,58 @@ angular.module('frontMoviesDeepLearningApp')
           return movies;
           //Hide the loading bar when the data are available
           //$scope.hideLoadingBar();
+        },
+        function(data) {
+          console.log("get movies failed");
+        });
+      });
+    };
+
+
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.getPredictionsFromBack = function() {
+      console.log("Start predicting movies");
+      $scope.showLoadingBar();
+      $scope.loadingPredictionsFirstClassifier = true;
+      GetPredictionsFactory.getPredictions(function(predictions) {
+          // $scope.maxAccuracy = Math.max.apply(Math,predictions.map(function(prediction){return prediction.accuracy;}));
+          // $scope.minAccuracy = Math.min.apply(Math,predictions.map(function(prediction){return prediction.accuracy;}));
+          $scope.loadingPredictionsFirstClassifier = false;
+          $rootScope.predictions = predictions;
+          console.log($rootScope.predictions);
+          $scope.hideLoadingBar();
+          $scope.showActionToast();
+          return predictions;
+          //Staffing refresh
+        }, function() {
+          console.log("Get predictions failed");
+          $scope.loadingPredictionsFirstClassifier = false;
+        }
+      );
+    };
+
+
+
+    /**
+     * Retrieve all annotated movies of an user from the DB
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     */
+    $scope.trainModel = function(name) {
+      $scope.showLoadingBar();
+      TrainModelFactory.trainModel(function (response){
+        response.$promise.then(function(response) {
+          $scope.hideLoadingBar();
+          console.log(response);
+          return response;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        },
+        function(data) {
+          console.log("Model training failed");
         });
       });
     };
@@ -202,11 +255,77 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
-    //If the user is authenticated, we can retrieve all the movie already annotated by him
-    if ($auth.isAuthenticated()) {
-      $scope.getAllMoviesFromDB();
+    /**
+     * Show the dialog to view movie details
+     * @param  {[type]} ev [description]
+     * @return {[type]}    [description]
+     */
+    $scope.showMovieDetailsDialog = function(ev, movie_id) {
+      $scope.movieDetails = {};
+      MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
+        movie.$promise.then(function(movie) {
+          console.log(movie);
+          $mdDialog.show({
+            controller: movieDetailsDialogController,
+            templateUrl: 'views/moviedetailsdialog.html',
+            scope: $scope.$new(),
+            targetEvent: ev,
+            clickOutsideToClose: true
+          })
+          .then(function() {
+            console.log('Show movie details done !');
+          }, function() {
+            console.log('Movie details dialog closed !');
+          });
+          $scope.movieDetails = movie;
+          return movie;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        });
+      });
     };
 
+    $scope.showActionToast = function() {
+      var toast = $mdToast.simple()
+            .textContent('Vos prédictions sont disponibles !')
+            .action('Voir mes prédictions')
+            .highlightAction(true)
+            .hideDelay(10000)
+            .position('top right')
+      $mdToast.show(toast).then(function(response) {
+        if ( response == 'ok' ) {
+          $scope.go('/recommendations');
+          console.log('You clicked \'OK\'.');
+        }
+      });
+    };
+
+
+
+    /**
+     * Controller for the movieDetailsDialog
+     * @param  {[type]}
+     * @param  {[type]}
+     * @return {[type]}
+     */
+    function movieDetailsDialogController($scope, $mdDialog) {
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
+    }
+
+
+    //If the user is authenticated, we can retrieve all the movie already annotated by him
+    if ($auth.isAuthenticated()) {
+      console.log("Logged in, retrieve movies");
+      $scope.getAllMoviesFromDB();
+    };
 
 
   }]);
