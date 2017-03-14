@@ -70,12 +70,6 @@ angular.module('frontMoviesDeepLearningApp')
 	  $scope.labelsBarGraph = [];
 
 
-	  //If localStorage variables aren't already created, create them 
-	  if (!$localStorage.allMoviesInfos) {
-	  	$localStorage.allMoviesInfos = {};
-	  }
-
-
 	  /**
 	   * A Javascript object with every genres availaible on TMDB
 	   * @type {Array}
@@ -231,10 +225,10 @@ angular.module('frontMoviesDeepLearningApp')
     	}
 
     	//When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
-    	if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
-    		$scope.allMovies = $scope.allMoviesTemp.slice();
-    		extractStats();
-    	}
+    	// if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
+    	// 	$scope.allMovies = $scope.allMoviesTemp.slice();
+    	// 	extractStats();
+    	// }
       return movie;
     };
 
@@ -435,7 +429,7 @@ angular.module('frontMoviesDeepLearningApp')
 		
     $scope.$watch('moviesEvaluation.size',function(){
       console.log("moviesEvaluation change detected");
-      if($scope.moviesEvaluation.size > 0 && !$scope.allMoviesTemp.length){
+      if($scope.moviesEvaluation.size > 0 && (!$scope.allMoviesTemp.length || !$scope.allMovies.length)){
         console.log("Getallmovies");
         $scope.getAllMovies(); 
       }

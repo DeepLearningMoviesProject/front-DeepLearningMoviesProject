@@ -49,6 +49,20 @@ angular.module('frontMoviesDeepLearningApp')
     });
   }])
 
+  .factory('GetUserInfoFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.getUserInfo, //urls
+      {},                    //params
+      { getUserInfo : {                    //actions
+        method: 'GET',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
+  }])
+
   .factory('GetAllMoviesFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
     var userWebservices = WebServices.webServicesGroup;
     return $resource(
@@ -143,6 +157,19 @@ angular.module('frontMoviesDeepLearningApp')
         params: {},
         headers: {'Content-Type': 'application/json'},
         isArray: true
+      }
+    });
+  }])
+
+  .factory('GetPredictionsFMFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.getPredictionsFM, //urls
+      {},                    //params
+      { getPredictionsFM : {                    //actions
+        method: 'GET',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
       }
     });
   }]);

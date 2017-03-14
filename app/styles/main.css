@@ -590,6 +590,21 @@ div#preloaded-images {
   top: 5%;
 }
 
+#sidenav-toolbar {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url(../images/upper_picture.jpg);
+}
+
+@-moz-document url-prefix() { 
+  #sidenav-toolbar {
+    min-height: 150px;
+  }
+
+  #sidenav-toolbar > div:nth-of-type(1) {
+    margin-top: -15px;
+  }
+}
 
 
 /*#movieDetailsDialog md-dialog-content div {

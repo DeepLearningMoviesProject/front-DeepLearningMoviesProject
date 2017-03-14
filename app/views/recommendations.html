@@ -25,64 +25,115 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
-  	<md-card ng-show="loadingPredictionsFirstClassifier">
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline"><b>Vos prédictions sont en cours de chargement</b></span>
-          <span class="md-subhead">Revenez dans quelques instants</span>
-        </md-card-title-text>
-      </md-card-title>
-      <!-- <md-card-content>
-        <p>
-          Rendez-vous dans la <b>page "Améliorer mes prédictions"</b> et annotez des films en cliquant sur les petits pouces.
-          Le <b>"thumb up" bleu indique que vous aimez ce film</b>, le <b>"thumb down" rouge indique lui que vous n'aimez pas celui-ci</b> (ou que vous ne souhaitez pas le voir). 
-        </p>
-        <p>
-          Après avoir annoté vos films, vous pouvez <b>exporter vos résultats</b> en vous rendant sur la <b>page "Accueil"</b> puis en cliquant sur le <b>bouton "Enregistrer mes annotations"</b>.
-        </p>
-        <p>
-          Pour poursuivre votre annotation de films, vous pouvez <b>importer vos précédentes</b> annotations depuis la <b>page "Accueil"</b> en sélectionnant votre fichier puis en <b>cliquant sur "Importez vos préférences"</b>.
-        </p>
+  <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Parce que les autres ont aimé...">
+        <md-content class="md-padding">
+        <md-card ng-show="loadingPredictionsFM">
+			      <md-card-title>
+			        <md-card-title-text>
+			          <span class="md-headline"><b>Vos prédictions sont en cours de chargement</b></span>
+			          <span class="md-subhead">Revenez dans quelques instants</span>
+			        </md-card-title-text>
+			      </md-card-title>
+			      <!-- <md-card-content>
+			        <p>
+			          Rendez-vous dans la <b>page "Améliorer mes prédictions"</b> et annotez des films en cliquant sur les petits pouces.
+			          Le <b>"thumb up" bleu indique que vous aimez ce film</b>, le <b>"thumb down" rouge indique lui que vous n'aimez pas celui-ci</b> (ou que vous ne souhaitez pas le voir). 
+			        </p>
+			      </md-card-content> -->
+			  	</md-card>
 
-        <p><b>ATTENTION: Ne rechargez pas la page !
-        Actuellement, un refresh de celle-ci vous fait perdre toutes vos données que vous n'avez pas sauvegardées !</b>
-        Sauvegardez régulièrement et surtout naviguez à travers les pages grâce aux menus du site <span style="font-size: 20px;">☺</span></p>
-      </md-card-content> -->
-  	</md-card>
+			  	<div ng-show="!loadingPredictionsFM" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
+			      <md-card class="searchedMoviesCard" ng-repeat="movie in allMovies | orderBy:'accuracy':true">
+			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
+			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+			        <div class="sentimentAnalysis" layout="row" layout-align="end start">
+			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 100" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
+			          </md-button>
+			          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="liked on twitter">
+			            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
+			          </md-button>
+			        </div>
+			        <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
+			          <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
+			            <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
+			          </div>
+			        </div>
+			        <md-card-actions layout="row" layout-align="start center">
+			          <div layout="column" flex="70">
+			            <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
+			            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span> - {{predictionsFM[movie.id]*100 | number:0}}%</span>
+			          </div>
+			          <span flex></span>
+			          <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+			            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+			          </md-button>
+			          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+			            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+			          </md-button>
+			        </md-card-actions>
+			      </md-card>
 
-  	<div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
-      <md-card class="searchedMoviesCard" ng-repeat="movie in predictions | orderBy:'accuracy':true">
-        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
-        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
-        <div class="sentimentAnalysis" layout="row" layout-align="end start">
-          <md-button ng-if="popularity[movie.id].pop > 50" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="like">
-            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
-          </md-button>
-          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="dislike">
-            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
-          </md-button>
-        </div>
-        <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
-          <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
-            <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
-          </div>
-        </div>
-        <md-card-actions layout="row" layout-align="start center">
-          <div layout="column" flex="70">
-            <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
-            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span> - {{movie.accuracy*100 | number:0}}%</span>
-          </div>
-          <span flex></span>
-          <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
-            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
-          </md-button>
-          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
-            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
-          </md-button>
-        </md-card-actions>
-      </md-card>
+			    </div>
+        	
+        </md-content>
+      </md-tab>
+      <md-tab label="Découvertes">
+        <md-content class="md-padding">
+          <md-card ng-show="loadingPredictionsFirstClassifier">
+			      <md-card-title>
+			        <md-card-title-text>
+			          <span class="md-headline"><b>Vos prédictions sont en cours de chargement</b></span>
+			          <span class="md-subhead">Revenez dans quelques instants</span>
+			        </md-card-title-text>
+			      </md-card-title>
+			      <!-- <md-card-content>
+			        <p>
+			          Rendez-vous dans la <b>page "Améliorer mes prédictions"</b> et annotez des films en cliquant sur les petits pouces.
+			          Le <b>"thumb up" bleu indique que vous aimez ce film</b>, le <b>"thumb down" rouge indique lui que vous n'aimez pas celui-ci</b> (ou que vous ne souhaitez pas le voir). 
+			        </p>
+			      </md-card-content> -->
+			  	</md-card>
 
-    </div>
+			  	<div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
+			      <md-card class="searchedMoviesCard" ng-repeat="movie in predictions | orderBy:'accuracy':true">
+			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
+			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+			        <div class="sentimentAnalysis" layout="row" layout-align="end start">
+			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 100" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
+			          </md-button>
+			          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="liked on twitter">
+			            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
+			          </md-button>
+			        </div>
+			        <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
+			          <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
+			            <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
+			          </div>
+			        </div>
+			        <md-card-actions layout="row" layout-align="start center">
+			          <div layout="column" flex="70">
+			            <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
+			            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span> - {{movie.accuracy*100 | number:0}}%</span>
+			          </div>
+			          <span flex></span>
+			          <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+			            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+			          </md-button>
+			          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+			            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+			          </md-button>
+			        </md-card-actions>
+			      </md-card>
+
+			    </div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+
+  	
 
 
    <!--  <md-subheader class="md-primary">Affichage 2</md-subheader>

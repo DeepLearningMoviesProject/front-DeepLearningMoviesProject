@@ -258,7 +258,7 @@ angular
     //   })
     $mdThemingProvider.theme('default')
       .primaryPalette('teal')
-      .accentPalette('pink');
+      .accentPalette('amber');
     $mdThemingProvider.theme('greenTheme')
       .primaryPalette('green');
     $mdThemingProvider.theme('blueTheme')

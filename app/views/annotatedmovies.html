@@ -35,7 +35,7 @@
           </h2>
           <cl-paging ng-show="moviesEvaluation.size > 0" flex cl-pages="paging.total" cl-steps="6" cl-page-changed="getNextMovies((paging.current-1)*rangeIndex)" cl-align="center center" cl-current-page="paging.current"></cl-paging>
 
-          <div data-images-loaded ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center">
+          <!-- <div data-images-loaded ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center">
 			      <md-card class="searchedMoviesCard" ng-repeat="movie in allMovies | orderBy:'popularity':true">
 			        <img class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
 			        <img class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
@@ -53,7 +53,33 @@
 			          </md-button>
 			        </md-card-actions>
 			      </md-card>
-			    </div>
+			    </div> -->
+
+          <div ng-show="!loadingBar" class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
+            <md-card class="searchedMoviesCard" ng-repeat="movie in allMovies | orderBy:'popularity':true">
+              <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
+              <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+              <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
+                <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
+                  <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
+                </div>
+              </div>
+              <md-card-actions layout="row" layout-align="start center">
+                <div layout="column" flex="70">
+                  <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
+                  <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span></span>
+                </div>
+                <span flex></span>
+                <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+                  <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
+                </md-button>
+                <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movie.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movie.id.toString()) === 0 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">
+                  <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
+                </md-button>
+              </md-card-actions>
+            </md-card>
+
+          </div>
 
 			    <cl-paging ng-show="(moviesEvaluation.size > 0) && !loadingBar" flex cl-pages="paging.total" cl-steps="6" cl-align="center center" cl-current-page="paging.current"></cl-paging>
         </md-tab-body>

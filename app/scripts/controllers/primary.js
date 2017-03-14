@@ -8,13 +8,18 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$mdDialog', '$mdToast', '$location', '$auth', '$http', 'GetAllMoviesFactory', 'TrainModelFactory', 'GetPredictionsFactory', 'MoviesDetailsFactory', 'SentimentAnalysisFactory', 'AddMovieFactory', 'UpdateMovieFactory', 'DeleteMovieFactory', function ($scope, $rootScope, $timeout, $mdSidenav, $mdDialog, $mdToast, $location, $auth, $http, GetAllMoviesFactory, TrainModelFactory, GetPredictionsFactory, MoviesDetailsFactory, SentimentAnalysisFactory, AddMovieFactory, UpdateMovieFactory, DeleteMovieFactory) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$mdDialog', '$mdToast', '$location', '$auth', '$http', '$localStorage', 'GetAllMoviesFactory', 'TrainModelFactory', 'GetPredictionsFactory', 'MoviesDetailsFactory', 'SentimentAnalysisFactory', 'AddMovieFactory', 'UpdateMovieFactory', 'DeleteMovieFactory', 'GetUserInfoFactory', 'GetPredictionsFMFactory', function ($scope, $rootScope, $timeout, $mdSidenav, $mdDialog, $mdToast, $location, $auth, $http, $localStorage, GetAllMoviesFactory, TrainModelFactory, GetPredictionsFactory, MoviesDetailsFactory, SentimentAnalysisFactory, AddMovieFactory, UpdateMovieFactory, DeleteMovieFactory, GetUserInfoFactory, GetPredictionsFMFactory) {
 
     $rootScope.moviesEvaluation = new Map();
     $scope.moviesCurrentlyUpdated = new Map();
 
     $scope.loadingBar = false;
     $scope.loadingPredictionsFirstClassifier = false;
+
+    //If localStorage variables aren't already created, create them 
+    if (!$localStorage.allMoviesInfos) {
+      $localStorage.allMoviesInfos = {};
+    }
 
     /**
      * Function to toggle the main loading bar
@@ -194,6 +199,27 @@ angular.module('frontMoviesDeepLearningApp')
       );
     };
 
+    /**
+     * Retrieve user info from DB (email, username...)
+     * @return {[type]}      [description]
+     */
+    $scope.getUserInfoFromDB = function() {
+      GetUserInfoFactory.getUserInfo(function (userInfo){
+          $rootScope.userInfo = {};
+          $rootScope.userInfo.name = userInfo.name;
+          $rootScope.userInfo.email = userInfo.email;
+          console.log($rootScope.userInfo);
+          return userInfo;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        },
+        function(data) {
+          $scope.showErrorToast();
+          console.log("Get userInfo failed", data);
+        }
+      );
+    };
+
 
     /**
      * Send the new movie annotated to the server
@@ -222,6 +248,37 @@ angular.module('frontMoviesDeepLearningApp')
         }
       );
     };
+
+
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.getPredictionsFMFromBack = function() {
+      console.log("Start predicting FM movies");
+      $scope.showLoadingBar();
+      $scope.loadingPredictionsFM = true;
+      GetPredictionsFMFactory.getPredictionsFM(function(predictionsFM) {
+          $rootScope.predictionsFM = predictionsFM;
+          delete $rootScope.predictionsFM.$promise;
+          delete $rootScope.predictionsFM.$resolved;
+          console.log($rootScope.predictionsFM);
+          // if (predictionsFM.length > 0) {
+          //   var predictionsIds = predictionsFM.map(function(prediction) {return prediction.id.toString();});
+          //   console.log(predictionsIds);
+          //   $scope.sentimentAnalysis(predictionsIds);
+          // }
+          $scope.hideLoadingBar();
+          
+          return predictionsFM;
+          //Staffing refresh
+        }, function() {
+          console.log("Get predictions FM failed");
+        }
+      );
+    };
+
+
 
 
     /**
@@ -461,7 +518,8 @@ angular.module('frontMoviesDeepLearningApp')
 
     //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
-      console.log("Logged in, retrieve movies");
+      console.log("Logged in, retrieve userInfo & movies");
+      $scope.getUserInfoFromDB();
       $scope.getAllMoviesFromDB();
     }
 

@@ -20,6 +20,9 @@ angular.module('frontMoviesDeepLearningApp')
         .then(function(data) {
           console.log('You have successfully signed in!');
           console.log(data);
+          $rootScope.userInfo = {};
+          $rootScope.userInfo.name = data.data.name;
+          $rootScope.userInfo.email = data.data.email;
           $rootScope.moviesEvaluation = $scope.objToStrMap(data.data.movies);
           console.log("Movies imported successfully!", $rootScope.moviesEvaluation);
           $location.path('/');
