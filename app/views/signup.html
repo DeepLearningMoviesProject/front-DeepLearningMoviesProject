@@ -1,9 +1,9 @@
-<div layout-fill layout="column" ng-cloak layout-align="center center">
+<md-content layout-fill layout="row" ng-cloak layout-align="center center">
   
   <!-- Content -->
-  <div style="width: 50%" layout-fill>
+  <div flex-gt-sm="50">
 
-    <md-card class="slideBottomToTop" ng-show="!authenticated">
+    <md-card class="slideBottomToTop">
       <img ng-src="images/deep_movies_logo.png" class="md-card-image logoLogin" alt="logo deepMovies">
       <form ng-submit="signupFunction()" name="signupForm" layout="column">
         <md-card-content>
@@ -106,4 +106,4 @@
     </md-card>
 
   </div>
-</div>
+</md-content>

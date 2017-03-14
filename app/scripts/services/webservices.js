@@ -46,6 +46,7 @@ angular.module('frontMoviesDeepLearningApp')
             deleteMovie:'/api/likedMovie/:id',
             trainModel:'/api/train',
             getPredictions:'/api/prediction',
+            sentimentAnalysis:'/api/popularity',
             delete:'/assignments/:id',
             projectDefault: '/assignments/projects/:id',
             projectFromWeek: '/assignments/projects/:id/:week,:year',

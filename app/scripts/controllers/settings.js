@@ -25,7 +25,7 @@ angular.module('frontMoviesDeepLearningApp')
       console.log(files);
       if (files.length <= 0) {
         return false;
-      };
+      }
       
       var fr = new FileReader();
       

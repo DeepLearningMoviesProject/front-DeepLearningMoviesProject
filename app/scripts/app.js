@@ -36,7 +36,7 @@ angular
       if ($auth.isAuthenticated()) {
         console.log("Already authenticated, redirect to main page", deferred);
         deferred.reject();
-        $location.path('/');
+        $location.path('/home');
       } else {
         // console.log("Need to be authenticated", deferred);
         deferred.resolve();
@@ -56,7 +56,7 @@ angular
     }];
 
     $routeProvider
-      .when('/', {
+      .when('/home', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main',
@@ -130,10 +130,13 @@ angular
         controller: 'CreditsCtrl',
         controllerAs: 'credits'
       })
-      .when('/home', {
+      .when('/', {
         templateUrl: 'views/home.html',
         controller: 'HomeCtrl',
-        controllerAs: 'home'
+        controllerAs: 'home',
+        resolve: {
+          skipIfLoggedIn: skipIfLoggedIn
+        }
       })
       .otherwise({
         redirectTo: '/'

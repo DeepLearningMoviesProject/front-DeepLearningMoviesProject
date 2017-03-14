@@ -73,6 +73,7 @@ body {
   width: 450px;
   min-width: 250px;
   max-width: 450px;
+  position: relative;
 }
 
 @media (min-width: 520px) {
@@ -369,6 +370,7 @@ div#preloaded-images {
 .logoLogin {
   max-width: 375px;
   margin: auto;
+  padding-top: 20px;
   /*background-color: deepskyblue;*/
 }
 
@@ -578,6 +580,14 @@ div#preloaded-images {
 .creditsPersonalPhotos:hover {
   -webkit-transform: rotate(360deg);
   transform: rotate(360deg);
+}
+
+.sentimentAnalysis {
+  display: block;
+  z-index: 3;
+  position: absolute;
+  left: 84%;
+  top: 5%;
 }
 
 

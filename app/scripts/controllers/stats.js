@@ -81,86 +81,86 @@ angular.module('frontMoviesDeepLearningApp')
 	   * @type {Array}
 	   */
     $scope.genres = [
-    {
-    	id: 28,
-    	name: "Action"
-    },
-    {
-    	id: 12,
-    	name: "Aventure"
-    },
-    {
-    	id: 16,
-    	name: "Animation"
-    },
-    {
-    	id: 35,
-    	name: "Comédie"
-    },
-    {
-    	id: 80,
-    	name: "Crime"
-    },
-    {
-    	id: 99,
-    	name: "Documentaire"
-    },
-    {
-    	id: 18,
-    	name: "Drame"
-    },
-    {
-    	id: 10751,
-    	name: "Familial"
-    },
-    {
-    	id: 14,
-    	name: "Fantastique"
-    },
-    {
-    	id: 36,
-    	name: "Histoire"
-    },
-    {
-    	id: 27,
-    	name: "Horreur"
-    },
-    {
-    	id: 10402,
-    	name: "Musique"
-    },
-    {
-    	id: 9648,
-    	name: "Mystère"
-    },
-    {
-    	id: 10749,
-    	name: "Romance"
-    },
-    {
-    	id: 878,
-    	name: "Science-Fiction"
-    },
-    {
-    	id: 10770,
-    	name: "Téléfilm"
-    },
-    {
-    	id: 53,
-    	name: "Thriller"
-    },
-    {
-    	id: 10752,
-    	name: "Guerre"
-    },
-    {
-    	id: 37,
-    	name: "Western"
-    },
-    {
-    	id: 10769,
-    	name: "Étranger"
-    }
+      {
+      	id: 28,
+      	name: "Action"
+      },
+      {
+      	id: 12,
+      	name: "Aventure"
+      },
+      {
+      	id: 16,
+      	name: "Animation"
+      },
+      {
+      	id: 35,
+      	name: "Comédie"
+      },
+      {
+      	id: 80,
+      	name: "Crime"
+      },
+      {
+      	id: 99,
+      	name: "Documentaire"
+      },
+      {
+      	id: 18,
+      	name: "Drame"
+      },
+      {
+      	id: 10751,
+      	name: "Familial"
+      },
+      {
+      	id: 14,
+      	name: "Fantastique"
+      },
+      {
+      	id: 36,
+      	name: "Histoire"
+      },
+      {
+      	id: 27,
+      	name: "Horreur"
+      },
+      {
+      	id: 10402,
+      	name: "Musique"
+      },
+      {
+      	id: 9648,
+      	name: "Mystère"
+      },
+      {
+      	id: 10749,
+      	name: "Romance"
+      },
+      {
+      	id: 878,
+      	name: "Science-Fiction"
+      },
+      {
+      	id: 10770,
+      	name: "Téléfilm"
+      },
+      {
+      	id: 53,
+      	name: "Thriller"
+      },
+      {
+      	id: 10752,
+      	name: "Guerre"
+      },
+      {
+      	id: 37,
+      	name: "Western"
+      },
+      {
+      	id: 10769,
+      	name: "Étranger"
+      }
     ];
 
     // console.log($scope.genres);
@@ -184,31 +184,43 @@ angular.module('frontMoviesDeepLearningApp')
 
     /**
      * Get details of a movie identified by its id
-     */	
+     * @param  {[type]} movie_id [description]
+     * @return {[type]}          [description]
+     */
     $scope.getMovieDetailsById = function(movie_id) {
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
-        movie.$promise.then(function(movie) {
-        	// console.log(movie);
-        	$localStorage.allMoviesInfos[movie_id] = movie;
-        	$scope.allMoviesTemp.push(movie);
-        	if ($scope.moviesEvaluation.get(movie_id) === 0) {
-        		$scope.dislikedMovies.push(movie);
-        	} else if ($scope.moviesEvaluation.get(movie_id) === 1) {
-        		$scope.likedMovies.push(movie);
-        	}
+        // console.log(movie);
+        $localStorage.allMoviesInfos[movie_id] = movie;
+        $scope.allMoviesTemp.push(movie);
+        if ($scope.moviesEvaluation.get(movie_id) === 0) {
+          $scope.dislikedMovies.push(movie);
+        } else if ($scope.moviesEvaluation.get(movie_id) === 1) {
+          $scope.likedMovies.push(movie);
+        }
 
-        	//When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
-        	if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
-        		$scope.allMovies = $scope.allMoviesTemp.slice();
-        		extractStats();
-        	}
-          return movie;
-          //Hide the loading bar when the data are available
-          //$scope.hideLoadingBar();
-        });
+        //When all movies have been added to allMoviesTemp, slice it to allMovie to start statistiques extraction
+        if ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size) {
+          $scope.allMovies = $scope.allMoviesTemp.slice();
+          extractStats();
+        }
+        return movie;
+        //Hide the loading bar when the data are available
+        //$scope.hideLoadingBar();
+      },
+      function(data) {
+        console.log(movie_id);
+        // $scope.showErrorToast();
+        $scope.deleteMovieToDB({id:movie_id});
+        console.log("Get movie details by id failed", data);
       });
     };
 
+
+    /**
+     * Get details of a movie identified by it's id from the local storage (no tmdb calls)
+     * @param  {[type]} movie_id [description]
+     * @return {[type]}          [description]
+     */
     $scope.getMovieDetailsByIdFromLS = function(movie_id) {
     	var movie = $localStorage.allMoviesInfos[movie_id];
 			$scope.allMoviesTemp.push(movie);
@@ -356,7 +368,7 @@ angular.module('frontMoviesDeepLearningApp')
 			// $interval(function() {
 			// 		cpt++;
 			// 		$scope.loadingTMDB = cpt/($scope.moviesEvaluation.size-1)*100;
-   //  	}, 11000/$scope.rangeIndex, lastIndex-firstIndex, true);
+      //  	}, 11000/$scope.rangeIndex, lastIndex-firstIndex, true);
 
 			if (lastIndex < iterArray.length) {
 				$timeout(function(){
@@ -421,10 +433,18 @@ angular.module('frontMoviesDeepLearningApp')
 		// 
 		
 		
-    $scope.$watch('moviesEvaluation',function(){
-      if($scope.moviesEvaluation){
+    $scope.$watch('moviesEvaluation.size',function(){
+      console.log("moviesEvaluation change detected");
+      if($scope.moviesEvaluation.size > 0 && !$scope.allMoviesTemp.length){
+        console.log("Getallmovies");
         $scope.getAllMovies(); 
       }
+      if ($scope.allMoviesTemp.length > 0 && ($scope.allMoviesTemp.length === $scope.moviesEvaluation.size)) {
+        console.log("All informations retrieved !");
+        $scope.allMovies = $scope.allMoviesTemp.slice();
+        extractStats();
+      }
     });
+
 
   }]);

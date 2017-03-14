@@ -54,6 +54,14 @@
       <md-card class="searchedMoviesCard" ng-repeat="movie in predictions | orderBy:'accuracy':true">
         <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
         <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
+        <div class="sentimentAnalysis" layout="row" layout-align="end start">
+          <md-button ng-if="popularity[movie.id].pop > 50" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="like">
+            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
+          </md-button>
+          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="dislike">
+            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
+          </md-button>
+        </div>
         <div ng-show="moviesCurrentlyUpdated.has(movie.id)" class="progressContainer">
           <div class="searchMoviesBackdropPath loadingSearchMoviesCard">
             <md-progress-circular class="progressCircularSearchMoviesCard" md-mode="indeterminate"></md-progress-circular>
@@ -62,7 +70,7 @@
         <md-card-actions layout="row" layout-align="start center">
           <div layout="column" flex="70">
             <span class="headline">{{movie.title}} <span ng-if="movie.release_date">({{movie.release_date | limitTo:4}})</span></span>
-            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span></span>
+            <span class="subline">{{movie.vote_average}} <span style="font-size: 16px">★</span> - {{movie.accuracy*100 | number:0}}%</span>
           </div>
           <span flex></span>
           <md-button md-theme="blueTheme" flex="none" ng-click="evaluateMovies(movie.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movie.id.toString()) === 1 ? 'md-primary' : ''" ng-disabled="moviesCurrentlyUpdated.has(movie.id)">

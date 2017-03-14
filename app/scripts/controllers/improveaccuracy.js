@@ -8,98 +8,14 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', 'AddMovieFactory', 'UpdateMovieFactory', 'DeleteMovieFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory, AddMovieFactory, UpdateMovieFactory, DeleteMovieFactory) {
+  .controller('ImproveaccuracyCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
 
     $scope.showLoadingBar();
     $scope.movieDetails = {};
     $scope.globalPage = 0;
     $scope.firstLoad = false;
 
-    $scope.moviesCurrentlyUpdated = new Map();
-
-    $scope.removeItem = function(movieId) {
-      var index = $scope.moviesCurrentlyUpdated.indexOf(item);
-       $scope.moviesCurrentlyUpdated.splice(index, 1);
-    };
-
-
-    /**
-     * Send the new movie annotated to the server
-     * @param {[type]}
-     */
-    $scope.addMovieToDB = function(movie) {
-      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
-      console.log(movie);
-      AddMovieFactory.addMovie(movie,
-        function(movie) {
-          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
-          console.log("Movie imported successfully!", movie);
-          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          // $scope.moviesCurrentlyUpdated.delete(movie.id);
-          $scope.moviesCurrentlyUpdated.delete(movie.id);
-          $timeout(function(){
-            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          }, 10);
-          //Staffing refresh
-        }, function() {
-          console.log('Movie creation failed!');
-          $scope.moviesCurrentlyUpdated.delete(movie.id);
-          console.log($scope.moviesCurrentlyUpdated);
-        }
-      );
-    };
-
-
-    /**
-     * Send the new movie annotated to the server
-     * @param {[type]}
-     */
-    $scope.updateMovieToDB = function(movie) {
-      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
-      console.log(movie);
-      UpdateMovieFactory.updateMovie(movie,
-        function(movie) {
-          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
-          console.log("Movie updated successfully!", movie);
-          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          // $scope.moviesCurrentlyUpdated.delete(movie.id);
-          $scope.moviesCurrentlyUpdated.delete(movie.id);
-          $timeout(function(){
-            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          }, 10);
-          //Staffing refresh
-        }, function() {
-          console.log('Movie update failed!');
-          $scope.hideLoadingBar();
-        }
-      );
-    };
-
-
-    /**
-     * Send the new movie annotated to the server
-     * @param {[type]}
-     */
-    $scope.deleteMovieToDB = function(movie) {
-      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
-      console.log(movie);
-      DeleteMovieFactory.deleteMovie(movie,
-        function(movie) {
-          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
-          console.log("Movie deleted successfully!", movie);
-          $scope.moviesCurrentlyUpdated.delete(movie.id);
-          $timeout(function(){
-            $rootScope.moviesEvaluation.delete(movie.id.toString());
-          }, 10);
-          //Staffing refresh
-        }, function() {
-          console.log('Movie deletion failed!');
-          $scope.hideLoadingBar();
-        }
-      );
-    };
-
-
+    
     /**
      * Search a movie by its name
      * @param  {[type]} name [description]
@@ -157,24 +73,7 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
-    /**
-     * Evaluate/annote a movie identified by its id (note == 1 : movie liked, note == 0 : movie disliked)
-     * @param  {[type]} movieId [description]
-     * @param  {[type]} note    [description]
-     * @return {[type]}         [description]
-     */
-    $scope.evaluateMovies = function(movieId, note){
-      if ($rootScope.moviesEvaluation.get(movieId.toString()) === note) {
-        $scope.deleteMovieToDB({id:movieId});
-      } else if ($rootScope.moviesEvaluation.has(movieId.toString())){
-        $scope.updateMovieToDB({id:movieId,liked:note});
-        // $rootScope.moviesEvaluation.set(movieId.toString(),note);
-      } else {
-        $scope.addMovieToDB({id:movieId,liked:note});
-      }
-      // console.log($rootScope.moviesEvaluation);
-    };
-
+    
 
     $scope.discoverMovies(1);
 

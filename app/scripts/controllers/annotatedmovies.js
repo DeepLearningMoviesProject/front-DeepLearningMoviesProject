@@ -50,8 +50,7 @@ angular.module('frontMoviesDeepLearningApp')
      */
     $scope.getMovieDetailsById = function(movie_id) {
       MoviesDetailsFactory.getMoviesDetailsById({id: movie_id}, function (movie){
-        movie.$promise.then(function(movie) {
-        	// console.log(movie);
+        // console.log(movie);
         	$localStorage.allMoviesInfos[movie_id] = movie;
         	$scope.allMoviesTemp.push(movie);
         	if ($scope.moviesEvaluation.get(movie_id) === 0) {
@@ -69,9 +68,14 @@ angular.module('frontMoviesDeepLearningApp')
         		$scope.allMovies = $scope.allMoviesTemp.slice();
         	}
           return movie;
-          //Hide the loading bar when the data are available
-          //$scope.hideLoadingBar();
-        });
+        //Hide the loading bar when the data are available
+        //$scope.hideLoadingBar();
+      },
+      function(data) {
+        console.log(movie_id);
+        // $scope.showErrorToast();
+        $scope.deleteMovieToDB({id:movie_id});
+        console.log("Get movie details by id failed", data);
       });
     };
 
@@ -183,5 +187,20 @@ angular.module('frontMoviesDeepLearningApp')
 
 		//$scope.getAllMovies(0);
 		// console.log($scope.moviesEvaluation.entries[0]);
+
+
+		$scope.$watch('moviesEvaluation.size',function(){
+      console.log("moviesEvaluation change detected");
+      // if($scope.moviesEvaluation.size > 0 && !$scope.allMoviesTemp.length){
+      //   console.log("Getallmovies");
+      //   $scope.getAllMovies(); 
+      // }
+      if ($scope.allMoviesTemp.length > 0 && ($scope.allMoviesTemp.length === lastIndexToLoad-1 - (($scope.paging.current-1)*$scope.rangeIndex))) {
+        $scope.getNextMovies(($scope.paging.current-1)*$scope.rangeIndex);
+      }
+
+      // $scope.getNextMovies(($scope.paging.current-1)*$scope.rangeIndex);
+
+    });
 
   }]);

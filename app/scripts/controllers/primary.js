@@ -8,9 +8,10 @@
  * Controller of the frontMoviesDeepLearningApp
  */
 angular.module('frontMoviesDeepLearningApp')
-  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$mdSidenav', '$mdDialog', '$mdToast', '$location', '$auth', '$http', 'GetAllMoviesFactory', 'TrainModelFactory', 'GetPredictionsFactory', 'MoviesDetailsFactory', function ($scope, $rootScope, $mdSidenav, $mdDialog, $mdToast, $location, $auth, $http, GetAllMoviesFactory, TrainModelFactory, GetPredictionsFactory, MoviesDetailsFactory) {
+  .controller('PrimaryCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$mdDialog', '$mdToast', '$location', '$auth', '$http', 'GetAllMoviesFactory', 'TrainModelFactory', 'GetPredictionsFactory', 'MoviesDetailsFactory', 'SentimentAnalysisFactory', 'AddMovieFactory', 'UpdateMovieFactory', 'DeleteMovieFactory', function ($scope, $rootScope, $timeout, $mdSidenav, $mdDialog, $mdToast, $location, $auth, $http, GetAllMoviesFactory, TrainModelFactory, GetPredictionsFactory, MoviesDetailsFactory, SentimentAnalysisFactory, AddMovieFactory, UpdateMovieFactory, DeleteMovieFactory) {
 
     $rootScope.moviesEvaluation = new Map();
+    $scope.moviesCurrentlyUpdated = new Map();
 
     $scope.loadingBar = false;
     $scope.loadingPredictionsFirstClassifier = false;
@@ -42,7 +43,7 @@ angular.module('frontMoviesDeepLearningApp')
     // Menu items
     $scope.menu = [
       {
-        link : '/',
+        link : '/home',
         title: 'Accueil',
         icon: 'action:ic_home_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
       },
@@ -138,7 +139,7 @@ angular.module('frontMoviesDeepLearningApp')
 
       // console.log(obj);
       return obj;
-    }
+    };
 
 
     /**
@@ -154,7 +155,7 @@ angular.module('frontMoviesDeepLearningApp')
       });
 
       return strMap;
-    }
+    };
 
 
     /**
@@ -164,7 +165,7 @@ angular.module('frontMoviesDeepLearningApp')
      */
     $scope.strMapToJson= function(strMap) {
       return JSON.stringify($scope.strMapToObj(strMap));
-    }
+    };
     // function jsonToStrMap(jsonStr) {
     //   return $scope.objToStrMap(JSON.parse(jsonStr));
     // }
@@ -175,10 +176,9 @@ angular.module('frontMoviesDeepLearningApp')
      * @param  {[type]} name [description]
      * @return {[type]}      [description]
      */
-    $scope.getAllMoviesFromDB = function(name) {
+    $scope.getAllMoviesFromDB = function() {
       $scope.showLoadingBar();
       GetAllMoviesFactory.getAllMovies(function (movies){
-        movies.$promise.then(function(movies) {
           $scope.hideLoadingBar();
           $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
           console.log($rootScope.moviesEvaluation);
@@ -187,9 +187,11 @@ angular.module('frontMoviesDeepLearningApp')
           //$scope.hideLoadingBar();
         },
         function(data) {
-          console.log("get movies failed");
-        });
-      });
+          $scope.hideLoadingBar();
+          $scope.showErrorToast();
+          console.log("Get movies failed", data);
+        }
+      );
     };
 
 
@@ -202,13 +204,16 @@ angular.module('frontMoviesDeepLearningApp')
       $scope.showLoadingBar();
       $scope.loadingPredictionsFirstClassifier = true;
       GetPredictionsFactory.getPredictions(function(predictions) {
-          // $scope.maxAccuracy = Math.max.apply(Math,predictions.map(function(prediction){return prediction.accuracy;}));
-          // $scope.minAccuracy = Math.min.apply(Math,predictions.map(function(prediction){return prediction.accuracy;}));
-          $scope.loadingPredictionsFirstClassifier = false;
           $rootScope.predictions = predictions;
           console.log($rootScope.predictions);
+          if (predictions.length > 0) {
+            var predictionsIds = predictions.map(function(prediction) {return prediction.id.toString();});
+            console.log(predictionsIds);
+            $scope.sentimentAnalysis(predictionsIds);
+          }
           $scope.hideLoadingBar();
-          $scope.showActionToast();
+          $scope.loadingPredictionsFirstClassifier = false;
+          $scope.showPredictionsToast();
           return predictions;
           //Staffing refresh
         }, function() {
@@ -219,13 +224,32 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
+    /**
+     * Evaluate/annote a movie identified by its id (note == 1 : movie liked, note == 0 : movie disliked)
+     * @param  {[type]} movieId [description]
+     * @param  {[type]} note    [description]
+     * @return {[type]}         [description]
+     */
+    $scope.evaluateMovies = function(movieId, note){
+      if ($rootScope.moviesEvaluation.get(movieId.toString()) === note) {
+        $scope.deleteMovieToDB({id:movieId});
+      } else if ($rootScope.moviesEvaluation.has(movieId.toString())){
+        $scope.updateMovieToDB({id:movieId,liked:note});
+        // $rootScope.moviesEvaluation.set(movieId.toString(),note);
+      } else {
+        $scope.addMovieToDB({id:movieId,liked:note});
+      }
+      // console.log($rootScope.moviesEvaluation);
+    };
+
+
 
     /**
-     * Retrieve all annotated movies of an user from the DB
+     * Train the model of an user
      * @param  {[type]} name [description]
      * @return {[type]}      [description]
      */
-    $scope.trainModel = function(name) {
+    $scope.trainModel = function() {
       $scope.showLoadingBar();
       TrainModelFactory.trainModel(function (response){
         response.$promise.then(function(response) {
@@ -236,7 +260,30 @@ angular.module('frontMoviesDeepLearningApp')
           //$scope.hideLoadingBar();
         },
         function(data) {
-          console.log("Model training failed");
+          console.log("Model training failed", data);
+        });
+      });
+    };
+
+
+    /**
+     * Get the popularity of movies predicted by the system
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     */
+    $scope.sentimentAnalysis = function(movies) {
+      $scope.showLoadingBar();
+      SentimentAnalysisFactory.sentimentAnalysis({"movies": movies}, function (response){
+        response.$promise.then(function(response) {
+          $scope.hideLoadingBar();
+          console.log(response);
+          $scope.popularity = response;
+          return response;
+          //Hide the loading bar when the data are available
+          //$scope.hideLoadingBar();
+        },
+        function(data) {
+          console.log("Sentiment Analysis failed", data);
         });
       });
     };
@@ -244,7 +291,7 @@ angular.module('frontMoviesDeepLearningApp')
 
     $scope.countMovies = function() {
       var count = {likedMovies: 0, dislikedMovies: 0};
-      $scope.moviesEvaluation.forEach(function (element, key) {
+      $scope.moviesEvaluation.forEach(function (element) {
         if (element === 1) {
           count.likedMovies++;
         } else {
@@ -285,16 +332,29 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
-    $scope.showActionToast = function() {
+    $scope.showPredictionsToast = function() {
       var toast = $mdToast.simple()
             .textContent('Vos prédictions sont disponibles !')
             .action('Voir mes prédictions')
             .highlightAction(true)
             .hideDelay(10000)
-            .position('top right')
+            .position('top right');
       $mdToast.show(toast).then(function(response) {
-        if ( response == 'ok' ) {
+        if ( response === 'ok' ) {
           $scope.go('/recommendations');
+        }
+      });
+    };
+
+    $scope.showErrorToast = function() {
+      var toast = $mdToast.simple()
+            .textContent('Un problème est survenu, réessayer plus tard')
+            .action('Ok')
+            .highlightAction(true)
+            .hideDelay(5000)
+            .position('top right');
+      $mdToast.show(toast).then(function(response) {
+        if ( response === 'ok' ) {
           console.log('You clicked \'OK\'.');
         }
       });
@@ -321,11 +381,89 @@ angular.module('frontMoviesDeepLearningApp')
     }
 
 
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.addMovieToDB = function(movie) {
+      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
+      console.log(movie);
+      AddMovieFactory.addMovie(movie,
+        function(movie) {
+          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
+          console.log("Movie imported successfully!", movie);
+          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          }, 10);
+          //Staffing refresh
+        }, function() {
+          console.log('Movie creation failed!');
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
+          console.log($scope.moviesCurrentlyUpdated);
+        }
+      );
+    };
+
+
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.updateMovieToDB = function(movie) {
+      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
+      console.log(movie);
+      UpdateMovieFactory.updateMovie(movie,
+        function(movie) {
+          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
+          console.log("Movie updated successfully!", movie);
+          // $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          // $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
+          }, 10);
+          //Staffing refresh
+        }, function() {
+          console.log('Movie update failed!');
+          $scope.hideLoadingBar();
+        }
+      );
+    };
+
+
+    /**
+     * Send the new movie annotated to the server
+     * @param {[type]}
+     */
+    $scope.deleteMovieToDB = function(movie) {
+      $scope.moviesCurrentlyUpdated.set(movie.id, movie.liked);
+      console.log(movie);
+      DeleteMovieFactory.deleteMovie(movie,
+        function(movie) {
+          // $rootScope.moviesEvaluation = $scope.objToStrMap(movies.movies);
+          console.log("Movie deleted successfully!", movie);
+          $scope.moviesCurrentlyUpdated.delete(movie.id);
+          $timeout(function(){
+            $rootScope.moviesEvaluation.delete(movie.id.toString());
+          }, 10);
+          //Staffing refresh
+        }, function() {
+          console.log('Movie deletion failed!');
+          $scope.hideLoadingBar();
+        }
+      );
+    };
+
+
+
     //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
       console.log("Logged in, retrieve movies");
       $scope.getAllMoviesFromDB();
-    };
+    }
 
 
   }]);

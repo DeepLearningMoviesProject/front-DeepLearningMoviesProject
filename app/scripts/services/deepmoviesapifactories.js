@@ -119,6 +119,20 @@ angular.module('frontMoviesDeepLearningApp')
     });
   }])
 
+  .factory('SentimentAnalysisFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
+    var userWebservices = WebServices.webServicesGroup;
+    return $resource(
+      userWebservices.deepMovies.sentimentAnalysis, //urls
+      {},                    //params
+      { sentimentAnalysis : {                    //actions
+        method: 'POST',
+        params: {},
+        headers: {'Content-Type': 'application/json'}
+        // ,isArray: true
+      }
+    });
+  }])
+
   .factory('GetPredictionsFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
     var userWebservices = WebServices.webServicesGroup;
     return $resource(
@@ -127,8 +141,8 @@ angular.module('frontMoviesDeepLearningApp')
       { getPredictions : {                    //actions
         method: 'GET',
         params: {},
-        headers: {'Content-Type': 'application/json'}
-        ,isArray: true
+        headers: {'Content-Type': 'application/json'},
+        isArray: true
       }
     });
   }]);

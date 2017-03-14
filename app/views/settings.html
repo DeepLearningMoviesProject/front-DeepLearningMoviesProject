@@ -97,5 +97,27 @@
       
     </md-card>
 
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline"><b>Mettre à jour le modèle de prédiction</b></span>
+          <span class="md-subhead">Si vous trouvez que le système de prédiction n'est pas très efficace malgré le fait que vous avez annoté de nombreux films, vous pouvez tenter de forcer une mise à jour de votre modèle afin d'obtenir des prédictions plus pertinentes</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <!-- <label for="preferences" class="md-button md-raised md-primary">Uploader vos films déja annotés</label>
+        <input type="file" id="preferences"> -->
+        <!--  <input class="ng-hide" id="input-file-id" multiple type="file" />
+        <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <md-button ng-click="trainModel()" class="md-raised" aria-label="mettre à jour le modèle de prédiction" md-ripple-size="auto">Mettre à jour le modèle de prédiction</md-button>
+        <!-- <md-input-container>
+          <label>&nbsp;</label>
+          <input id="preferences" type="file">
+        </md-input-container> -->
+      </md-card-content>
+
+      
+    </md-card>
+
   </md-content>
 </div>
