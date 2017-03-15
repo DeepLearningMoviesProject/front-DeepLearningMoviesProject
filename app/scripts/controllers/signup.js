@@ -19,8 +19,11 @@ angular.module('frontMoviesDeepLearningApp')
       $auth.signup($scope.user)
         .then(function(response) {
           $auth.setToken(response);
+          $rootScope.userInfo = {};
+          $rootScope.userInfo.name = response.data.name;
+          $rootScope.userInfo.email = response.data.email;
           $location.path('/');
-          console.log('You have successfully created a new account and have been signed-in');
+          console.log('You have successfully created a new account and have been signed-in', response);
         })
         .catch(function(response) {
           console.log(response.data.message);

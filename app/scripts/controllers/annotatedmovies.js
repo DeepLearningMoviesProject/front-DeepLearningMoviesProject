@@ -121,13 +121,16 @@ angular.module('frontMoviesDeepLearningApp')
 
 					var cpt = 0;
 
-					$scope.showLoadingBar();
 					var iterArray = Array.from($scope.moviesEvaluation.keys());	//Array containing the key of the moviesEvaluation map
 					var lastIndex = firstIndex;
 					if (firstIndex + $scope.rangeIndex > iterArray.length) {
 						lastIndex = iterArray.length;
 					} else {
 						lastIndex = firstIndex + $scope.rangeIndex;
+					}
+
+					if (lastIndex !== 0) {
+						$scope.showLoadingBar();
 					}
 
 					//Needed to know how many movies have to be loaded for the current page and display movie cards only when 
@@ -146,6 +149,7 @@ angular.module('frontMoviesDeepLearningApp')
 							var waitTime = 275*cpt;
 							(function(iterArray, i){  // i will now become available for the someMethod to call
 					      $timeout(function() {
+					      	console.log("get movie id: " + i);
 					        $scope.getMovieDetailsById(iterArray[i]);
 								  // console.log("waitTime",waitTime);
 					      }, waitTime);

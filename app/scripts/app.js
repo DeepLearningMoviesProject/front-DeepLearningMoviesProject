@@ -31,7 +31,22 @@ angular
     /**
      * Helper auth functions
      */
-    var skipIfLoggedIn = ['$q', '$auth', '$location', function($q, $auth, $location) {
+     var skipIfLoggedIn2 = ['$q', '$auth', '$location', '$scope', 'GetUserInfoFactory', 'GetAllMoviesFactory', function($q, $auth, $location, $scope, GetUserInfoFactory, GetAllMoviesFactory) {
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated()) {
+        console.log("Already authenticated, redirect to main page", deferred);
+        deferred.reject();
+        $location.path('/home');
+      } else {
+        // console.log("Need to be authenticated", deferred);
+        deferred.resolve();
+        // $location.path('/login');
+      }
+      return deferred.promise;
+    }];
+
+
+    var skipIfLoggedIn = ['$q', '$auth', '$location', '$rootScope', function($q, $auth, $location, $rootScope) {
       var deferred = $q.defer();
       if ($auth.isAuthenticated()) {
         console.log("Already authenticated, redirect to main page", deferred);

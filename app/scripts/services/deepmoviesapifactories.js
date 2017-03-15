@@ -51,6 +51,7 @@ angular.module('frontMoviesDeepLearningApp')
 
   .factory('GetUserInfoFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
     var userWebservices = WebServices.webServicesGroup;
+    console.log("GetUserInfoFactory");
     return $resource(
       userWebservices.deepMovies.getUserInfo, //urls
       {},                    //params
@@ -65,6 +66,7 @@ angular.module('frontMoviesDeepLearningApp')
 
   .factory('GetAllMoviesFactory', ['$resource', '$rootScope', 'WebServices', function ($resource, $rootScope, WebServices) {
     var userWebservices = WebServices.webServicesGroup;
+    console.log("GetAllMoviesFactory");
     return $resource(
       userWebservices.deepMovies.getAllMovies, //urls
       {},                    //params

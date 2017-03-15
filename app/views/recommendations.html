@@ -28,6 +28,14 @@
   <md-tabs md-dynamic-height md-border-bottom>
       <md-tab label="Parce que les autres ont aimé...">
         <md-content class="md-padding">
+        <md-card ng-show="!moviesEvaluation.size && !loadingBar">
+		    	<md-card-title>
+		        <md-card-title-text>
+		          <span class="md-headline"><b>Aucune donnée disponible</b></span>
+		          <span class="md-subhead">Vous n'avez annoté aucun film, rendez-vous dans la catégorie "Améliorer mes prédictions" <span style="font-size: 20px;">☺</span></span>
+		        </md-card-title-text>
+		      </md-card-title>
+		    </md-card>
         <md-card ng-show="loadingPredictionsFM">
 			      <md-card-title>
 			        <md-card-title-text>
@@ -48,10 +56,12 @@
 			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
 			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
 			        <div class="sentimentAnalysis" layout="row" layout-align="end start">
-			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 100" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 200" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			            <md-tooltip>On en parle sur Twitter {{popularity[movie.id].pop}} tweets</md-tooltip>
 			            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
 			          </md-button>
 			          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="liked on twitter">
+			          	<md-tooltip>Coup de coeur Twitter !</md-tooltip>
 			            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
 			          </md-button>
 			        </div>
@@ -101,10 +111,12 @@
 			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="movie.backdrop_path" ng-src="https://image.tmdb.org/t/p/w780/{{movie.backdrop_path}}"/>
 			        <img ng-click="showMovieDetailsDialog($event, movie.id)" class="searchMoviesBackdropPath" ng-if="!movie.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
 			        <div class="sentimentAnalysis" layout="row" layout-align="end start">
-			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 100" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			          <md-button ng-if="popularity[movie.id].pop * Math.max(1, movie.popularity) > 200" md-theme="blueTheme" flex="none" class="md-fab md-mini md-primary" aria-label="popular on twitter">
+			          	<md-tooltip>On en parle sur Twitter {{popularity[movie.id].pop}} tweets</md-tooltip>
 			            <md-icon md-svg-icon="toggle:ic_star_24px"></md-icon>
 			          </md-button>
 			          <md-button ng-if="popularity[movie.id].sentiment > 0.5" md-theme="redTheme" flex="none" class="md-fab md-mini md-primary" aria-label="liked on twitter">
+			          	<md-tooltip>Coup de coeur Twitter !</md-tooltip>
 			            <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
 			          </md-button>
 			        </div>

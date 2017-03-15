@@ -16,6 +16,8 @@ angular.module('frontMoviesDeepLearningApp')
     $scope.loadingBar = false;
     $scope.loadingPredictionsFirstClassifier = false;
 
+    $scope.popularity = {};
+
     //If localStorage variables aren't already created, create them 
     if (!$localStorage.allMoviesInfos) {
       $localStorage.allMoviesInfos = {};
@@ -123,6 +125,16 @@ angular.module('frontMoviesDeepLearningApp')
       $auth.logout()
         .then(function() {
           console.log('You have been logged out');
+          $rootScope.moviesEvaluation = new Map();
+          $scope.moviesCurrentlyUpdated = new Map();
+
+          $scope.loadingBar = false;
+          $scope.loadingPredictionsFirstClassifier = false;
+
+          $scope.popularity = {};
+
+          $rootScope.userInfo = {};
+
           $location.path('/login');
         });
     };
@@ -182,6 +194,7 @@ angular.module('frontMoviesDeepLearningApp')
      * @return {[type]}      [description]
      */
     $scope.getAllMoviesFromDB = function() {
+      console.log("getAllMoviesFromDB");
       $scope.showLoadingBar();
       GetAllMoviesFactory.getAllMovies(function (movies){
           $scope.hideLoadingBar();
@@ -204,6 +217,7 @@ angular.module('frontMoviesDeepLearningApp')
      * @return {[type]}      [description]
      */
     $scope.getUserInfoFromDB = function() {
+      console.log("getUserInfoFromDB");
       GetUserInfoFactory.getUserInfo(function (userInfo){
           $rootScope.userInfo = {};
           $rootScope.userInfo.name = userInfo.name;
@@ -334,7 +348,7 @@ angular.module('frontMoviesDeepLearningApp')
         response.$promise.then(function(response) {
           $scope.hideLoadingBar();
           console.log(response);
-          $scope.popularity = response;
+          $scope.popularity = Object.assign($scope.popularity, response);
           return response;
           //Hide the loading bar when the data are available
           //$scope.hideLoadingBar();
@@ -518,6 +532,14 @@ angular.module('frontMoviesDeepLearningApp')
 
     //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
+      // $timeout(function(){
+      //   if (!$scope.userInfo || !$scope.moviesEvaluation.size) {
+      //     $scope.$apply(function(){
+      //       $scope.getUserInfoFromDB();
+      //       $scope.getAllMoviesFromDB();
+      //     });
+      //   }
+      // }, 8000);
       console.log("Logged in, retrieve userInfo & movies");
       $scope.getUserInfoFromDB();
       $scope.getAllMoviesFromDB();

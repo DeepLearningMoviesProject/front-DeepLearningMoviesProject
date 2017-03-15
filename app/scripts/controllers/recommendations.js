@@ -10,7 +10,9 @@
 angular.module('frontMoviesDeepLearningApp')
   .controller('RecommendationsCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', '$localStorage', 'SearchMoviesFactory', 'DiscoverMoviesFactory', 'MoviesDetailsFactory', function ($rootScope, $scope, $mdDialog, $timeout, $localStorage, SearchMoviesFactory, DiscoverMoviesFactory, MoviesDetailsFactory) {
 
-    $scope.showLoadingBar();
+    if (!$scope.predictionsFM && $scope.moviesEvaluation.size) {
+      $scope.showLoadingBar();
+    }
     $scope.movieDetails = {};
     $scope.globalPage = 0;
     $scope.firstLoad = false;
@@ -57,8 +59,8 @@ angular.module('frontMoviesDeepLearningApp')
       },
       function(data) {
         console.log(movie_id);
-        // $scope.showErrorToast();
-        // $scope.deleteMovieToDB({id:movie_id});
+        $scope.showErrorToast();
+        $scope.deleteMovieToDB({id:movie_id});
         delete $rootScope.predictionsFM[movie_id];
         console.log("Get movie details by id failed", data);
       });
@@ -122,13 +124,19 @@ angular.module('frontMoviesDeepLearningApp')
       if($scope.moviesEvaluation){
         if (!$scope.loadingPredictionsFirstClassifier && !$scope.predictions && $scope.predictionsFM) {
           console.log("PredictionsFM retrieved, preditions of first classifier can start !");
-          $scope.getPredictionsFromBack();
+          //$scope.getPredictionsFromBack();
+        }
+         if(!$scope.predictionsFM && $scope.moviesEvaluation.size){
+          console.log("Start FM predictions");
+          $scope.getPredictionsFMFromBack();
         }
         // $scope.sentimentAnalysis(["12444", "140607", "44214", "3082", "550"]);
       }
     });
 
-    $scope.getPredictionsFMFromBack();
+    
+
+   
 
     $scope.$watch('predictionsFM',function(){
       console.log("predictionFM changed");
@@ -137,6 +145,14 @@ angular.module('frontMoviesDeepLearningApp')
         $scope.getMoviesInfosFromPredictionsIds();
         // $scope.sentimentAnalysis(["12444", "140607", "44214", "3082", "550"]);
       }
+      if (!$scope.loadingPredictionsFirstClassifier && !$scope.predictions && $scope.predictionsFM) {
+        console.log("PredictionsFM retrieved, preditions of first classifier can start !");
+        $scope.getPredictionsFromBack();
+      }
+      if ($scope.predictionsFM && angular.equals($scope.popularity,{})) {
+        $scope.sentimentAnalysis(Object.keys($scope.predictionsFM));
+      }
+
     });
 
     $scope.$watch('allMoviesTemp.length',function(){
