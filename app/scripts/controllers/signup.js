@@ -15,6 +15,10 @@ angular.module('frontMoviesDeepLearningApp')
 
 		$scope.maxDate = new Date();
 
+		/**
+		 * Account creation function
+		 * @return {[type]} [description]
+		 */
   	$scope.signupFunction = function() {
       $auth.signup($scope.user)
         .then(function(response) {
@@ -30,6 +34,10 @@ angular.module('frontMoviesDeepLearningApp')
         });
     };
 
+    /**
+     * Find the geolocation of a user with its IP address
+     * @return {[type]} [description]
+     */
     $scope.getGeolocation = function() {
       FreeGeoIpFactory.getGeolocation(function (geolocation){
         geolocation.$promise.then(function(geolocation) {
@@ -305,43 +313,5 @@ angular.module('frontMoviesDeepLearningApp')
 												"Îles Vierges des États-Unis",
 												"Îles du Cap-Vert",
 												"Îles mineures éloignées des États-Unis"];
-
-  	// $scope.signUp = function () {
-	  //   $auth
-	  //     .signup({email: $scope.email, password: $scope.password})
-	  //     .then(function (response) {
-	  //       $auth.setToken(response);
-	  //       $state.go('secret');
-	  //     })
-	  //     .catch(function (response) {
-	  //       console.log("error ", response);
-	  //     });
-	  // };
-
-	  // $scope.login = function () {
-	  //   $auth
-	  //     .login({email: $scope.email, password: $scope.password})
-	  //     .then(function (response) {
-	  //       $auth.setToken(response);
-	  //       $state.go('secret');
-	  //     })
-	  //     .catch(function (response) {
-	  //       toastr.error(
-	  //         'Email or password not correct!',
-	  //         {closeButton: true}
-	  //       );
-	  //     });
-	  // };
-
-	  // $scope.auth = function (provider) {
-	  //   $auth.authenticate(provider)
-	  //     .then(function (response) {
-	  //       console.debug("success", response);
-	  //       $state.go('secret');
-	  //     })
-	  //     .catch(function (response) {
-	  //       console.debug("catch", response);
-	  //     });
-	  // };
 
   }]);

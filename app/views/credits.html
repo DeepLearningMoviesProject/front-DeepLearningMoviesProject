@@ -25,37 +25,42 @@
   <!-- Content -->
   <md-content layout-padding ng-cloak>
 
+  	<md-card style="margin:auto;" flex="90">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline"><b>À propos du projet</b></span>
+          <!-- <span class="md-subhead">Annotez des films pour permettre au système de déterminer vos goûts !</span> -->
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+      	<p>Ce site a été réalisé dans le cadre d’un projet de fin d’études à l’École polytechnique de l'université Grenoble-Alpes (Polytech’Grenoble) par 5 étudiants de la filière Réseaux Informatiques et Communication Multimédia.</p>
+
+				<p>Nous tenons à remercier en particulier Monsieur Massih-Reza Amini pour sa gentillesse et sa disponibilité ainsi que ses conseils précieux au sujet du machine learning qui ont grandement contribué à l’avancée du projet. Nous tenons aussi à remercier Monsieur Didier Donsez pour nous avoir aidé à définir le cadre du projet et à nous suivre durant toute la durée de celui-ci.</p>
+
+				<p>Pour en savoir plus à propos du projet, des technologies employées et des possibles évolutions du projet, <a href="http://air.imag.fr/index.php/Suggestion_intelligente_de_films_bas%C3%A9e_sur_TensorFlow" target="_blank">cliquez ici</a></p>
+
+				<p>Les données utilisées pour les films sont exploitées à partir de <a href="https://developers.themoviedb.org/3/getting-started" target="_blank">l’API TMDB</a></p>
+
+
+       
+      </md-card-content>
+    </md-card>
+
     <div class="searchedMoviesCardContainer animate-show-in" layout-wrap layout="row" layout-align="space-around center" data-images-loaded>
-      <!-- <md-card>
-        <img ng-click="showMovieDetailsDialog($event, movieSearched.id)" class="searchMoviesBackdropPath" ng-if="!movieSearched.backdrop_path" ng-src="https://www.youmagine.com/assets/placeholder-4232c9c79bc795997e7c7d4457b3725ee5f0fb55197114169a60a534105902fb.png"/>
-        <md-card-content layout="row" layout-align="start center">
-          <div layout="column" flex="70">
-            <span class="headline"> Quentin Dunand</span>
-            <span class="subline">{{movieSearched.vote_average}} <span style="font-size: 16px">★</span></span>
-          </div>
-          <span flex></span>
-          <md-button flex="none" ng-click="evaluateMovies(movieSearched.id, 1)" class="md-icon-button" aria-label="like" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 1 ? 'md-primary' : ''">
-            <md-icon md-svg-icon="action:ic_thumb_up_24px"></md-icon>
-          </md-button>
-          <md-button md-theme="redTheme" flex="none" ng-click="evaluateMovies(movieSearched.id, 0)" class="md-icon-button" aria-label="dislike" ng-class="moviesEvaluation.get(movieSearched.id.toString()) === 0 ? 'md-primary' : ''">
-            <md-icon md-svg-icon="action:ic_thumb_down_24px"></md-icon>
-          </md-button>
-        </md-card-content>
-      </md-card> -->
       <md-card class="searchedMoviesCard">
         <img class="creditsPersonalPhotos md-whiteframe-6dp" ng-src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAJpAAAAJGQ1ZmIwOTIyLWNmMjQtNGU0Ny05YTRiLWI3MmM4YzBhMTU2YQ.jpg" class="md-card-image" alt="Profile photo">
         <md-card-title>
           <md-card-title-text layout="column" layout-align="center center">
             <span class="md-headline">Quentin Dunand</span>
-            <span class="subline">Front-end developer </span>
+            <span class="subline">Front-end - Machine learning</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+       <!--  <md-card-content>
           <p>
             The titles of Washed Out's breakthrough song and the first single from Paracosm share the
             two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
           </p>
-        </md-card-content>
+        </md-card-content> -->
       </md-card>
 
       <md-card class="searchedMoviesCard">
@@ -63,15 +68,15 @@
         <md-card-title>
           <md-card-title-text layout="column" layout-align="center center">
             <span class="md-headline">Elsa Navarro</span>
-            <span class="subline">Front-end developer </span>
+            <span class="subline">Machine Learning - API - Tests</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+        <!-- <md-card-content>
           <p>
             The titles of Washed Out's breakthrough song and the first single from Paracosm share the
             two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
           </p>
-        </md-card-content>
+        </md-card-content> -->
       </md-card>
 
       <md-card class="searchedMoviesCard">
@@ -79,15 +84,15 @@
         <md-card-title>
           <md-card-title-text layout="column" layout-align="center center">
             <span class="md-headline">Julian Hattinguais</span>
-            <span class="subline">Front-end developer </span>
+            <span class="subline">Preprocessing - API - Tests - BD</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+        <!-- <md-card-content>
           <p>
             The titles of Washed Out's breakthrough song and the first single from Paracosm share the
             two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
           </p>
-        </md-card-content>
+        </md-card-content> -->
       </md-card>
 
       <md-card class="searchedMoviesCard">
@@ -95,15 +100,15 @@
         <md-card-title>
           <md-card-title-text layout="column" layout-align="center center">
             <span class="md-headline">Coralie Rachex</span>
-            <span class="subline">Front-end developer </span>
+            <span class="subline">Architecte système - Analyse de sentiment sur Twitter - Tests</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+        <!-- <md-card-content>
           <p>
             The titles of Washed Out's breakthrough song and the first single from Paracosm share the
             two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
           </p>
-        </md-card-content>
+        </md-card-content> -->
       </md-card>
 
       <md-card class="searchedMoviesCard">
@@ -111,15 +116,15 @@
         <md-card-title>
           <md-card-title-text layout="column" layout-align="center center">
             <span class="md-headline">Edwin Niogret</span>
-            <span class="subline">Front-end developer </span>
+            <span class="subline">Preprocessing - Tests - Architecte système</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+        <!-- <md-card-content>
           <p>
             The titles of Washed Out's breakthrough song and the first single from Paracosm share the
             two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
           </p>
-        </md-card-content>
+        </md-card-content> -->
       </md-card>
 
     </div>

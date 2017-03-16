@@ -120,6 +120,10 @@ angular.module('frontMoviesDeepLearningApp')
 	  };
 
 
+    /**
+     * The logout function
+     * @return {[type]} [description]
+     */
     $scope.logoutFunction = function() {
       if (!$auth.isAuthenticated()) { return; }
       $auth.logout()
@@ -132,6 +136,8 @@ angular.module('frontMoviesDeepLearningApp')
           $scope.loadingPredictionsFirstClassifier = false;
 
           $scope.popularity = {};
+          $rootScope.predictionsFM = null;
+          $rootScope.predictions = null;
 
           $rootScope.userInfo = {};
 
@@ -360,6 +366,10 @@ angular.module('frontMoviesDeepLearningApp')
     };
 
 
+    /**
+     * [countMovies description]
+     * @return {[type]} [description]
+     */
     $scope.countMovies = function() {
       var count = {likedMovies: 0, dislikedMovies: 0};
       $scope.moviesEvaluation.forEach(function (element) {
@@ -403,6 +413,11 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
+
+    /**
+     * Display a toast message to prevent the user that the predictions are ready
+     * @return {[type]} [description]
+     */
     $scope.showPredictionsToast = function() {
       var toast = $mdToast.simple()
             .textContent('Vos prédictions sont disponibles !')
@@ -417,6 +432,10 @@ angular.module('frontMoviesDeepLearningApp')
       });
     };
 
+    /**
+     * Show a toast message to prevent the user that an error occured
+     * @return {[type]} [description]
+     */
     $scope.showErrorToast = function() {
       var toast = $mdToast.simple()
             .textContent('Un problème est survenu, réessayer plus tard')
@@ -468,7 +487,7 @@ angular.module('frontMoviesDeepLearningApp')
           $scope.moviesCurrentlyUpdated.delete(movie.id);
           $timeout(function(){
             $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          }, 10);
+          }, 20);
           //Staffing refresh
         }, function() {
           console.log('Movie creation failed!');
@@ -495,7 +514,7 @@ angular.module('frontMoviesDeepLearningApp')
           $scope.moviesCurrentlyUpdated.delete(movie.id);
           $timeout(function(){
             $rootScope.moviesEvaluation.set(movie.id.toString(),movie.liked);
-          }, 10);
+          }, 20);
           //Staffing refresh
         }, function() {
           console.log('Movie update failed!');
@@ -519,7 +538,7 @@ angular.module('frontMoviesDeepLearningApp')
           $scope.moviesCurrentlyUpdated.delete(movie.id);
           $timeout(function(){
             $rootScope.moviesEvaluation.delete(movie.id.toString());
-          }, 10);
+          }, 20);
           //Staffing refresh
         }, function() {
           console.log('Movie deletion failed!');
@@ -532,14 +551,6 @@ angular.module('frontMoviesDeepLearningApp')
 
     //If the user is authenticated, we can retrieve all the movie already annotated by him
     if ($auth.isAuthenticated()) {
-      // $timeout(function(){
-      //   if (!$scope.userInfo || !$scope.moviesEvaluation.size) {
-      //     $scope.$apply(function(){
-      //       $scope.getUserInfoFromDB();
-      //       $scope.getAllMoviesFromDB();
-      //     });
-      //   }
-      // }, 8000);
       console.log("Logged in, retrieve userInfo & movies");
       $scope.getUserInfoFromDB();
       $scope.getAllMoviesFromDB();

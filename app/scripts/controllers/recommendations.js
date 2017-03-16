@@ -166,22 +166,4 @@ angular.module('frontMoviesDeepLearningApp')
       }
     });
 
-    
-
-    // $scope.testIdFunction = function() {
-    //   $scope.showLoadingBar();
-    //   TestIdFactory.getTestId(function (result){
-    //     result.$promise.then(function(result) {
-    //       $scope.result = result;
-
-    //       console.log($scope.result);
-    //       return result;
-    //       //Hide the loading bar when the data are available
-    //       //$scope.hideLoadingBar();
-    //     });
-    //   });
-    // };
-
-
-
   }]);
