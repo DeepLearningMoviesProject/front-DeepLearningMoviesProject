@@ -83,13 +83,15 @@ angular.module('frontMoviesDeepLearningApp')
      * @type {Array}
      */
     $scope.completeCountries = [];
-    $http.get('resources/completeCountries.json')
-      .success(function(data) {
-        $scope.completeCountries = data;
-      })
-      .error(function() {
-        console.log('could not find someFile.json');
-      });
+    $timeout(function(){
+      $http.get('resources/completeCountries.json')
+        .success(function(data) {
+          $scope.completeCountries = data;
+        })
+        .error(function() {
+          console.log('could not find completeCountries.json');
+        });
+    }, 5000);
 
 
     /**
@@ -259,7 +261,7 @@ angular.module('frontMoviesDeepLearningApp')
           }
           $scope.hideLoadingBar();
           $scope.loadingPredictionsFirstClassifier = false;
-          $scope.showPredictionsToast();
+          $scope.showPredictionsToast("Vos recommandations personnalisées sont disponibles !");
           return predictions;
           //Staffing refresh
         }, function() {
@@ -288,7 +290,7 @@ angular.module('frontMoviesDeepLearningApp')
           //   console.log(predictionsIds);
           //   $scope.sentimentAnalysis(predictionsIds);
           // }
-          $scope.hideLoadingBar();
+          // $scope.hideLoadingBar();
           
           return predictionsFM;
           //Staffing refresh
@@ -416,11 +418,13 @@ angular.module('frontMoviesDeepLearningApp')
 
     /**
      * Display a toast message to prevent the user that the predictions are ready
-     * @return {[type]} [description]
+     * @param  {[type]} message [description]
+     * @return {[type]}         [description]
      */
-    $scope.showPredictionsToast = function() {
+    $scope.showPredictionsToast = function(message) {
+      var finalMessage = message || 'Vos prédictions sont disponibles !';
       var toast = $mdToast.simple()
-            .textContent('Vos prédictions sont disponibles !')
+            .textContent(finalMessage)
             .action('Voir mes prédictions')
             .highlightAction(true)
             .hideDelay(10000)

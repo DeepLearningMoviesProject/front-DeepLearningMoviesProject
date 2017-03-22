@@ -1,14 +1,14 @@
-<div ng-show="randomPopularMovie" class="presentationBackground animate-show" ng-style="{'background-image': randomPopularMovie ? 'url(https://image.tmdb.org/t/p/w1280/'+randomPopularMovie.backdrop_path+')' : 'none'}"></div>
+<div ng-show="randomPopularMovie" class="presentationBackground animate-show" ng-style="{'background-image': randomPopularMovie ? 'url(https://image.tmdb.org/t/p/w1280/'+randomPopularMovie.backdrop_path+')' : 'none', 'opacity': randomPopularMovieOpacity ? '1' : '0'}" data-images-loaded></div>
 <div class="shade"></div>
 <div class="homeContent" layout-fill layout="column" ng-cloak layout-align="center center">
   
   <!-- Content -->
-  <div style="width: 50%; z-index: 5;" layout-fill layout="column" layout-align="center center">
+  <div id="homeText" layout-fill layout="column" layout-align="center center">
 
-  <div class="homeTitle" layout="row">
-  	<img ng-src="images/deep_movies_logo_no_name.png" class="md-card-image logoHome" alt="logo deepMovies">
-	  <h1 id="appNameHome"><span class="robotoLight">Deep</span><span class="pacifico">Movies</span></h1>
-  </div>
+	  <div class="homeTitle" layout="row">
+	  	<img ng-src="images/deep_movies_logo_no_name.png" class="md-card-image logoHome" alt="logo deepMovies">
+		  <h1 id="appNameHome"><span class="robotoLight">Deep</span><span class="pacifico">Movies</span></h1>
+	  </div>
 	  <h2>Enfin un système de suggestion de films intelligent basé sur <b>vos</b> goûts !</h2>
 	  <h3>En s'appuyant sur l'intelligence artificielle, notre système est capable de comprendre vos goûts afin de vous recommander des films qui vous conviennent</h3>
 
@@ -17,4 +17,9 @@
   </div>
 
 
+</div>
+
+<!-- Image preloading -->
+<div id="preloaded-images" data-images-loaded>
+  <img ng-if="randomPopularMovie" ng-src="https://image.tmdb.org/t/p/w1280/{{randomPopularMovie.backdrop_path}}" width="1" height="1" alt="" />
 </div>

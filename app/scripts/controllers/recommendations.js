@@ -134,8 +134,6 @@ angular.module('frontMoviesDeepLearningApp')
       }
     });
 
-    
-
    
 
     $scope.$watch('predictionsFM',function(){
@@ -161,7 +159,7 @@ angular.module('frontMoviesDeepLearningApp')
         if ($scope.allMoviesTemp.length === Object.keys($scope.predictionsFM).length) {
           $scope.allMovies = $scope.allMoviesTemp.slice();
           $scope.loadingPredictionsFM = false;
-          $scope.showPredictionsToast();
+          $scope.showPredictionsToast("Vous avez des goûts similaire à d'autres utilisateurs, regardez les films que le système vous recommande !");
         }
       }
     });

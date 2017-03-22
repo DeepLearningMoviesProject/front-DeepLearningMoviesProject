@@ -11,6 +11,21 @@ angular.module('frontMoviesDeepLearningApp')
   .controller('HomeCtrl', ['$rootScope','$scope', '$mdDialog', '$timeout', 'SearchMoviesFactory', 'DiscoverMoviesFactory', function ($rootScope, $scope, $mdDialog, $timeout, SearchMoviesFactory, DiscoverMoviesFactory) {
     
 
+    $scope.$on('SUCCESS', function() {
+      console.log('ALL PICTURES LOADED SUCCESSFULLY');
+      $scope.randomPopularMovieOpacity = 1;
+    });
+
+    $scope.$on('FAIL', function() {
+      console.log('ALL PICTURES LOADED WITH ATLEAST ONE FAILED');
+    });
+
+    $scope.$on('ALWAYS', function() {
+      console.log('ALL DONE ALWAYS');
+      $scope.randomPopularMovieOpacity = 1;        
+    });
+
+
     /**
      * Discover random movies
      * @param  {Function} next [description]
@@ -21,6 +36,9 @@ angular.module('frontMoviesDeepLearningApp')
         movies.$promise.then(function(movies) {
           $scope.popularMovies = movies;
           $scope.randomPopularMovie = movies.results[Math.floor(Math.random() * 20)];
+          // $timeout(function(){
+          // }, 3000);
+          
 
           console.log($scope.popularMovies, $scope.randomPopularMovie);
           return movies;
