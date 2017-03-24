@@ -10,12 +10,15 @@
 angular.module('frontMoviesDeepLearningApp')
   .controller('LoginCtrl', ['$scope', '$rootScope', '$mdSidenav', '$location', '$auth', function ($scope, $rootScope, $mdSidenav, $location, $auth) {
 
+    $scope.loginFailed = false;
+
     /**
      * The login function
      * @return {[type]} [description]
      */
     $scope.loginFunction = function() {
       console.log("login function");
+      $scope.loginFailed = false;
       $auth.login({name: $scope.user.name, password: $scope.user.password})
         .then(function(data) {
           console.log('You have successfully signed in!');
@@ -28,6 +31,7 @@ angular.module('frontMoviesDeepLearningApp')
           $location.path('/');
         })
         .catch(function(error) {
+          $scope.loginFailed = true;
           console.log(error.data.message, error.status);
         });
     };
