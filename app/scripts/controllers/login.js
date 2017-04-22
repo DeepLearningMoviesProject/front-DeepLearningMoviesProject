@@ -18,6 +18,7 @@ angular.module('frontMoviesDeepLearningApp')
      */
     $scope.loginFunction = function() {
       console.log("login function");
+      $scope.showLoadingBar();
       $scope.loginFailed = false;
       $auth.login({name: $scope.user.name, password: $scope.user.password})
         .then(function(data) {
@@ -28,9 +29,11 @@ angular.module('frontMoviesDeepLearningApp')
           $rootScope.userInfo.email = data.data.email;
           $rootScope.moviesEvaluation = $scope.objToStrMap(data.data.movies);
           console.log("Movies imported successfully!", $rootScope.moviesEvaluation);
+          $scope.hideLoadingBar();
           $location.path('/');
         })
         .catch(function(error) {
+          $scope.hideLoadingBar();
           $scope.loginFailed = true;
           console.log(error.data.message, error.status);
         });
